@@ -25,7 +25,7 @@ import Sam from 'sam';
 const sam = new Sam();
 
 async function main() {
-  const accountRetrieveResponse = await sam.customers.accounts.retrieve('REPLACE_MEEEEEE', 'REPLACE_ME', {
+  const accountRetrieveResponse = await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', {
     userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5',
   });
 
@@ -48,7 +48,7 @@ const sam = new Sam();
 async function main() {
   const params: Sam.Customers.AccountRetrieveParams = { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' };
   const accountRetrieveResponse: Sam.Customers.AccountRetrieveResponse =
-    await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_MEeeeee', params);
+    await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', params);
 }
 
 main();
@@ -66,7 +66,7 @@ a subclass of `APIError` will be thrown:
 ```ts
 async function main() {
   const accountRetrieveResponse = await sam.customers.accounts
-    .retrieve('REPLACE_ME', 'REPLACE_MEeeeee', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
+    .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
     .catch((err) => {
       if (err instanceof Sam.APIError) {
         console.log(err.status); // 400
@@ -110,7 +110,7 @@ const sam = new Sam({
 });
 
 // Or, configure per-request:
-await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_MEeeeee', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
+await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
   maxRetries: 5,
 });
 ```
@@ -127,7 +127,7 @@ const sam = new Sam({
 });
 
 // Override per-request:
-await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_MEeeeee', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
+await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -149,13 +149,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 const sam = new Sam();
 
 const response = await sam.customers.accounts
-  .retrieve('REPLACE_ME', 'REPLACE_MEeeeee', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
+  .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: accountRetrieveResponse, response: raw } = await sam.customers.accounts
-  .retrieve('REPLACE_ME', 'REPLACE_MEeeeee', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
+  .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(accountRetrieveResponse.account);
@@ -216,7 +216,7 @@ const sam = new Sam({
 });
 
 // Override per-request:
-await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_MEeeeee', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
+await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
   baseURL: 'http://localhost:8080/test-api',
   httpAgent: new http.Agent({ keepAlive: false }),
 })
