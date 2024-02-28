@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import Sam from 'auie';
-import { APIUserAbortError } from 'auie';
-import { Headers } from 'auie/core';
+import Sam from 'sam-node';
+import { APIUserAbortError } from 'sam-node';
+import { Headers } from 'sam-node/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
 
 describe('instantiate client', () => {

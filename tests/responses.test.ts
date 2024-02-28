@@ -1,5 +1,5 @@
-import { createResponseHeaders } from 'auie/core';
-import { Headers } from 'auie/_shims/index';
+import { createResponseHeaders } from 'sam-node/core';
+import { Headers } from 'sam-node/_shims/index';
 
 describe('response parsing', () => {
   // TODO: test unicode characters

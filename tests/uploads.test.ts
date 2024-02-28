@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { toFile, type ResponseLike } from 'auie/uploads';
-import { File } from 'auie/_shims/index';
+import { toFile, type ResponseLike } from 'sam-node/uploads';
+import { File } from 'sam-node/_shims/index';
 
 class MyClass {
   name: string = 'foo';

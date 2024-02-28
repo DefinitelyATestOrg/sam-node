@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless.
 
-import * as Core from 'auie/core';
-import { APIResource } from 'auie/resource';
-import { isRequestOptions } from 'auie/core';
-import * as AccountsAPI from 'auie/resources/customers/accounts';
+import * as Core from 'sam-node/core';
+import { APIResource } from 'sam-node/resource';
+import { isRequestOptions } from 'sam-node/core';
+import * as AccountsAPI from 'sam-node/resources/customers/accounts';
 
 export class Accounts extends APIResource {
   /**

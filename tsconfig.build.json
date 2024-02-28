@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "auie/*": ["dist/src/*"],
-      "auie": ["dist/src/index.ts"],
+      "sam-node/*": ["dist/src/*"],
+      "sam-node": ["dist/src/index.ts"],
       "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": false,

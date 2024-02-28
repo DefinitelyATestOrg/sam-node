@@ -1,4 +1,4 @@
-import { APIClient } from 'auie/core';
+import { APIClient } from 'sam-node/core';
 
 const { stringifyQuery } = APIClient.prototype as any;
 

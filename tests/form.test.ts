@@ -1,6 +1,6 @@
-import { multipartFormRequestOptions, createForm } from 'auie/core';
-import { Blob } from 'auie/_shims/index';
-import { toFile } from 'auie';
+import { multipartFormRequestOptions, createForm } from 'sam-node/core';
+import { Blob } from 'sam-node/_shims/index';
+import { toFile } from 'sam-node';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {
