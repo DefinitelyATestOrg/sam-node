@@ -6,9 +6,9 @@
     "rootDir": "./deno",
     "lib": ["es2020", "DOM"],
     "paths": {
-      "sam/_shims/auto/*": ["deno/_shims/auto/*-deno"],
-      "sam/*": ["deno/*"],
-      "sam": ["deno/index.ts"],
+      "auie/_shims/auto/*": ["deno/_shims/auto/*-deno"],
+      "auie/*": ["deno/*"],
+      "auie": ["deno/index.ts"],
       "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": true,

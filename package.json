@@ -1,12 +1,12 @@
 {
-  "name": "sam",
+  "name": "auie",
   "version": "0.0.1-alpha.0",
   "description": "The official TypeScript library for the Sam API",
   "author": "Sam <hello@elborai.software>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
-  "repository": "github:DefinitelyATestOrg/sam-node",
+  "repository": "github:DefinitelyATestOrg/plop",
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.21",
   "files": [
@@ -62,8 +62,8 @@
     "./shims/web.mjs"
   ],
   "imports": {
-    "sam": ".",
-    "sam/*": "./src/*"
+    "auie": ".",
+    "auie/*": "./src/*"
   },
   "exports": {
     "./_shims/auto/*": {

@@ -4,8 +4,8 @@
 /**
  * Types will get added to this namespace when you import one of the following:
  *
- *   import 'sam/shims/node'
- *   import 'sam/shims/web'
+ *   import 'auie/shims/node'
+ *   import 'auie/shims/web'
  *
  * Importing more than one will cause type and runtime errors.
  */
