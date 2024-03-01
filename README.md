@@ -9,6 +9,7 @@ The REST API documentation can be found [on docs.elborai.software](https://docs.
 ## Installation
 
 ```sh
+# install from NPM
 npm install --save sam-node
 # or
 yarn add sam-node
@@ -177,7 +178,7 @@ import Sam from 'sam-node';
 ```
 
 To do the inverse, add `import "sam-node/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` - more details [here](https://github.com/DefinitelyATestOrg/sam-node/tree/main/src/_shims#readme).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/DefinitelyATestOrg/sam-node/tree/main/src/_shims#readme)).
 
 You may also provide a custom `fetch` function when instantiating the client,
 which can be used to inspect or alter the `Request` or `Response` before/after each request:
@@ -187,7 +188,7 @@ import { fetch } from 'undici'; // as one example
 import Sam from 'sam-node';
 
 const client = new Sam({
-  fetch: async (url: RequestInfo, init?: RequestInfo): Promise<Response> => {
+  fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     console.log('About to make a request', url, init);
     const response = await fetch(url, init);
     console.log('Got response', response);
