@@ -55,12 +55,12 @@ cd sam-node
 # With yarn
 yarn link
 cd ../my-package
-yarn link sam-node
+yarn link sam
 
 # With pnpm
 pnpm link --global
 cd ../my-package
-pnpm link -—global sam-node
+pnpm link -—global sam
 ```
 
 ## Running tests

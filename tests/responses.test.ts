@@ -1,5 +1,5 @@
-import { createResponseHeaders } from 'sam-node/core';
-import { Headers } from 'sam-node/_shims/index';
+import { createResponseHeaders } from 'sam/core';
+import { Headers } from 'sam/_shims/index';
 
 describe('response parsing', () => {
   // TODO: test unicode characters
