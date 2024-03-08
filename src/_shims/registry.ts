@@ -41,14 +41,10 @@ export let isFsReadStream: Shims['isFsReadStream'] | undefined = undefined;
 
 export function setShims(shims: Shims, options: { auto: boolean } = { auto: false }) {
   if (auto) {
-    throw new Error(
-      `you must \`import 'sam-node/shims/${shims.kind}'\` before importing anything else from sam-node`,
-    );
+    throw new Error(`you must \`import 'sam/shims/${shims.kind}'\` before importing anything else from sam`);
   }
   if (kind) {
-    throw new Error(
-      `can't \`import 'sam-node/shims/${shims.kind}'\` after \`import 'sam-node/shims/${kind}'\``,
-    );
+    throw new Error(`can't \`import 'sam/shims/${shims.kind}'\` after \`import 'sam/shims/${kind}'\``);
   }
   auto = options.auto;
   kind = shims.kind;

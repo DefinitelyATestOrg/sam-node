@@ -1,5 +1,5 @@
 {
-  "name": "sam-node",
+  "name": "sam",
   "version": "0.0.1-alpha.0",
   "description": "The official TypeScript library for the Sam API",
   "author": "Sam <hello@elborai.software>",
@@ -62,8 +62,8 @@
     "./shims/web.mjs"
   ],
   "imports": {
-    "sam-node": ".",
-    "sam-node/*": "./src/*"
+    "sam": ".",
+    "sam/*": "./src/*"
   },
   "exports": {
     "./_shims/auto/*": {
