@@ -3,7 +3,7 @@
 <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/sam-go"><img src="https://pkg.go.dev/badge/github.com/DefinitelyATestOrg/sam-go.svg" alt="Go Reference"></a>
 
 The Sam Go library provides convenient access to [the Sam REST
-API](https://docs.sam.com) from applications written in Go. The full API of this library can be found in [api.md](https://www.github.com/DefinitelyATestOrg/sam-go/blob/main/api.md).
+API](https://docs.elborai.software) from applications written in Go. The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -25,7 +25,7 @@ This library requires Go 1.18+.
 
 ## Usage
 
-The full API of this library can be found in [api.md](https://www.github.com/DefinitelyATestOrg/sam-go/blob/main/api.md).
+The full API of this library can be found in [api.md](api.md).
 
 ```go
 package main
@@ -33,6 +33,7 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/DefinitelyATestOrg/sam-go"
 )
 
@@ -146,7 +147,7 @@ client.Customers.Accounts.Get(context.TODO(), ...,
 )
 ```
 
-The full list of request options is [here](https://pkg.go.dev/github.com/DefinitelyATestOrg/sam-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/DefinitelyATestOrg/sam-go/option).
 
 ### Pagination
 

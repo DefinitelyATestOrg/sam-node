@@ -77,6 +77,10 @@ func (r *CustomerAccountGetResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerAccountGetResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerAccountGetResponseAccount struct {
 	// ISO 4217 Alpha 3 currency code.
 	Currency   string `json:"currency,required"`
@@ -153,6 +157,10 @@ func (r *CustomerAccountGetResponseAccount) UnmarshalJSON(data []byte) (err erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerAccountGetResponseAccountJSON) RawJSON() string {
+	return r.raw
+}
+
 // Account status. The value is one of the following:
 //
 // - "enabled": account is available
@@ -211,6 +219,10 @@ func (r *CustomerAccountGetResponseAccountBalance) UnmarshalJSON(data []byte) (e
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerAccountGetResponseAccountBalanceJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerAccountGetResponseAccountBalancesBalanceAmount struct {
 	// The amount given with fractional digits, where fractions must be compliant to
 	// the currency definition. Up to 14 significant figures. Negative amounts are
@@ -239,6 +251,10 @@ type customerAccountGetResponseAccountBalancesBalanceAmountJSON struct {
 
 func (r *CustomerAccountGetResponseAccountBalancesBalanceAmount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerAccountGetResponseAccountBalancesBalanceAmountJSON) RawJSON() string {
+	return r.raw
 }
 
 // The following balance types are defined:
@@ -323,6 +339,10 @@ func (r *CustomerAccountGetResponseAccountOwnerName) UnmarshalJSON(data []byte) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerAccountGetResponseAccountOwnerNameJSON) RawJSON() string {
+	return r.raw
+}
+
 // Specifies the usage of the account:
 //
 // - PRIV: private personal account
@@ -349,6 +369,10 @@ type customerAccountListResponseJSON struct {
 
 func (r *CustomerAccountListResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerAccountListResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerAccountListResponseAccount struct {
@@ -427,6 +451,10 @@ func (r *CustomerAccountListResponseAccount) UnmarshalJSON(data []byte) (err err
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerAccountListResponseAccountJSON) RawJSON() string {
+	return r.raw
+}
+
 // Account status. The value is one of the following:
 //
 // - "enabled": account is available
@@ -485,6 +513,10 @@ func (r *CustomerAccountListResponseAccountsBalance) UnmarshalJSON(data []byte) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerAccountListResponseAccountsBalanceJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerAccountListResponseAccountsBalancesBalanceAmount struct {
 	// The amount given with fractional digits, where fractions must be compliant to
 	// the currency definition. Up to 14 significant figures. Negative amounts are
@@ -514,6 +546,10 @@ type customerAccountListResponseAccountsBalancesBalanceAmountJSON struct {
 
 func (r *CustomerAccountListResponseAccountsBalancesBalanceAmount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerAccountListResponseAccountsBalancesBalanceAmountJSON) RawJSON() string {
+	return r.raw
 }
 
 // The following balance types are defined:
@@ -596,6 +632,10 @@ type customerAccountListResponseAccountsOwnerNameJSON struct {
 
 func (r *CustomerAccountListResponseAccountsOwnerName) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerAccountListResponseAccountsOwnerNameJSON) RawJSON() string {
+	return r.raw
 }
 
 // Specifies the usage of the account:
