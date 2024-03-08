@@ -9,10 +9,7 @@ The REST API documentation can be found [on docs.elborai.software](https://docs.
 ## Installation
 
 ```sh
-# install from NPM
-npm install --save sam-node
-# or
-yarn add sam-node
+npm install sam-node
 ```
 
 ## Usage
