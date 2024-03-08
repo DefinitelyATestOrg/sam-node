@@ -9,9 +9,7 @@ The REST API documentation can be found [on docs.elborai.software](https://docs.
 ## Installation
 
 ```sh
-npm install --save sam-node
-# or
-yarn add sam-node
+npm install sam-node
 ```
 
 ## Usage
@@ -67,7 +65,7 @@ a subclass of `APIError` will be thrown:
 async function main() {
   const accountRetrieveResponse = await sam.customers.accounts
     .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
-    .catch((err) => {
+    .catch(async (err) => {
       if (err instanceof Sam.APIError) {
         console.log(err.status); // 400
         console.log(err.name); // BadRequestError
@@ -177,7 +175,7 @@ import Sam from 'sam-node';
 ```
 
 To do the inverse, add `import "sam-node/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` - more details [here](https://github.com/DefinitelyATestOrg/sam-node/tree/main/src/_shims#readme).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/DefinitelyATestOrg/sam-node/tree/main/src/_shims#readme)).
 
 You may also provide a custom `fetch` function when instantiating the client,
 which can be used to inspect or alter the `Request` or `Response` before/after each request:
@@ -187,7 +185,7 @@ import { fetch } from 'undici'; // as one example
 import Sam from 'sam-node';
 
 const client = new Sam({
-  fetch: async (url: RequestInfo, init?: RequestInfo): Promise<Response> => {
+  fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     console.log('About to make a request', url, init);
     const response = await fetch(url, init);
     console.log('Got response', response);
@@ -208,7 +206,7 @@ If you would like to disable or customize this behavior, for example to use the 
 <!-- prettier-ignore -->
 ```ts
 import http from 'http';
-import HttpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
 const sam = new Sam({
@@ -216,10 +214,14 @@ const sam = new Sam({
 });
 
 // Override per-request:
-await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
-  baseURL: 'http://localhost:8080/test-api',
-  httpAgent: new http.Agent({ keepAlive: false }),
-})
+await sam.customers.accounts.retrieve(
+  'REPLACE_ME',
+  'REPLACE_ME',
+  { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
 ## Semantic Versioning
