@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DefinitelyATestOrg/sam-go/v2"
-	"github.com/DefinitelyATestOrg/sam-go/v2/option"
+	"github.com/DefinitelyATestOrg/sam-go/v3"
+	"github.com/DefinitelyATestOrg/sam-go/v3/option"
 )
 
 type closureTransport struct {
