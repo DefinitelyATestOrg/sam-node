@@ -97,9 +97,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'sam-node'`:
-   * - `import 'sam-node/shims/node'` (if you're running on Node)
-   * - `import 'sam-node/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from 'sam'`:
+   * - `import 'sam/shims/node'` (if you're running on Node)
+   * - `import 'sam/shims/web'` (otherwise)
    */
   asResponse(): Promise<Response> {
     return this.responsePromise.then((p) => p.response);
@@ -113,9 +113,9 @@ export class APIPromise<T> extends Promise<T> {
    *
    * 👋 Getting the wrong TypeScript type for `Response`?
    * Try setting `"moduleResolution": "NodeNext"` if you can,
-   * or add one of these imports before your first `import … from 'sam-node'`:
-   * - `import 'sam-node/shims/node'` (if you're running on Node)
-   * - `import 'sam-node/shims/web'` (otherwise)
+   * or add one of these imports before your first `import … from 'sam'`:
+   * - `import 'sam/shims/node'` (if you're running on Node)
+   * - `import 'sam/shims/web'` (otherwise)
    */
   async withResponse(): Promise<{ data: T; response: Response }> {
     const [data, response] = await Promise.all([this.parse(), this.asResponse()]);
@@ -802,7 +802,8 @@ const getPlatformProperties = (): PlatformProperties => {
       'X-Stainless-OS': normalizePlatform(Deno.build.os),
       'X-Stainless-Arch': normalizeArch(Deno.build.arch),
       'X-Stainless-Runtime': 'deno',
-      'X-Stainless-Runtime-Version': Deno.version,
+      'X-Stainless-Runtime-Version':
+        typeof Deno.version === 'string' ? Deno.version : Deno.version?.deno ?? 'unknown',
     };
   }
   if (typeof EdgeRuntime !== 'undefined') {
@@ -1059,7 +1060,7 @@ function applyHeadersMut(targetHeaders: Headers, newHeaders: Headers): void {
 }
 
 export function debug(action: string, ...args: any[]) {
-  if (typeof process !== 'undefined' && process.env['DEBUG'] === 'true') {
+  if (typeof process !== 'undefined' && process?.env?.['DEBUG'] === 'true') {
     console.log(`Sam:DEBUG:${action}`, ...args);
   }
 }

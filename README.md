@@ -1,17 +1,17 @@
 # Sam Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/sam-node.svg)](https://npmjs.org/package/sam-node)
+[![NPM version](https://img.shields.io/npm/v/sam.svg)](https://npmjs.org/package/sam)
 
 This library provides convenient access to the Sam REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found [on docs.elborai.software](https://docs.elborai.software). The full API of this library can be found in [api.md](api.md).
 
+It is generated with [Stainless](https://www.stainlessapi.com/).
+
 ## Installation
 
 ```sh
-npm install --save sam-node
-# or
-yarn add sam-node
+npm install sam
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Sam from 'sam-node';
+import Sam from 'sam';
 
 const sam = new Sam();
 
@@ -41,7 +41,7 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Sam from 'sam-node';
+import Sam from 'sam';
 
 const sam = new Sam();
 
@@ -67,7 +67,7 @@ a subclass of `APIError` will be thrown:
 async function main() {
   const accountRetrieveResponse = await sam.customers.accounts
     .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
-    .catch((err) => {
+    .catch(async (err) => {
       if (err instanceof Sam.APIError) {
         console.log(err.status); // 400
         console.log(err.name); // BadRequestError
@@ -161,7 +161,51 @@ console.log(raw.headers.get('X-My-Header'));
 console.log(accountRetrieveResponse.account);
 ```
 
-## Customizing the fetch client
+### Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API. If you need to access undocumented
+endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.
+Options on the client, such as retries, will be respected when making these requests.
+
+```ts
+await client.post('/some/path', {
+  body: { some_prop: 'foo' },
+  query: { some_query_arg: 'bar' },
+});
+```
+
+#### Undocumented params
+
+To make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented
+parameter. This library doesn't validate at runtime that the request matches the type, so any extra values you
+send will be sent as-is.
+
+```ts
+client.foo.create({
+  foo: 'my_param',
+  bar: 12,
+  // @ts-expect-error baz is not yet public
+  baz: 'undocumented option',
+});
+```
+
+For requests with the `GET` verb, any extra params will be in the query, all other requests will send the
+extra param in the body.
+
+If you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request
+options.
+
+#### Undocumented properties
+
+To access undocumented response properties, you may access the response object with `// @ts-expect-error` on
+the response object, or cast the response object to the requisite type. Like the request params, we do not
+validate or strip extra properties from the response from the API.
+
+### Customizing the fetch client
 
 By default, this library uses `node-fetch` in Node, and expects a global `fetch` function in other environments.
 
@@ -172,22 +216,24 @@ add the following import before your first import `from "Sam"`:
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
-import 'sam-node/shims/web';
-import Sam from 'sam-node';
+import 'sam/shims/web';
+import Sam from 'sam';
 ```
 
-To do the inverse, add `import "sam-node/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` - more details [here](https://github.com/DefinitelyATestOrg/sam-node/tree/main/src/_shims#readme).
+To do the inverse, add `import "sam/shims/node"` (which does import polyfills).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/DefinitelyATestOrg/sam-node/tree/main/src/_shims#readme)).
+
+### Logging and middleware
 
 You may also provide a custom `fetch` function when instantiating the client,
 which can be used to inspect or alter the `Request` or `Response` before/after each request:
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import Sam from 'sam-node';
+import Sam from 'sam';
 
 const client = new Sam({
-  fetch: async (url: RequestInfo, init?: RequestInfo): Promise<Response> => {
+  fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     console.log('About to make a request', url, init);
     const response = await fetch(url, init);
     console.log('Got response', response);
@@ -199,7 +245,7 @@ const client = new Sam({
 Note that if given a `DEBUG=true` environment variable, this library will log all requests and responses automatically.
 This is intended for debugging purposes only and may change in the future without notice.
 
-## Configuring an HTTP(S) Agent (e.g., for proxies)
+### Configuring an HTTP(S) Agent (e.g., for proxies)
 
 By default, this library uses a stable agent for all http/https requests to reuse TCP connections, eliminating many TCP & TLS handshakes and shaving around 100ms off most requests.
 
@@ -208,7 +254,7 @@ If you would like to disable or customize this behavior, for example to use the 
 <!-- prettier-ignore -->
 ```ts
 import http from 'http';
-import HttpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
 const sam = new Sam({
@@ -216,13 +262,17 @@ const sam = new Sam({
 });
 
 // Override per-request:
-await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
-  baseURL: 'http://localhost:8080/test-api',
-  httpAgent: new http.Agent({ keepAlive: false }),
-})
+await sam.customers.accounts.retrieve(
+  'REPLACE_ME',
+  'REPLACE_ME',
+  { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
-## Semantic Versioning
+## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
@@ -241,7 +291,7 @@ TypeScript >= 4.5 is supported.
 The following runtimes are supported:
 
 - Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import Sam from "npm:sam-node"`.
+- Deno v1.28.0 or higher, using `import Sam from "npm:sam"`.
 - Bun 1.0 or later.
 - Cloudflare Workers.
 - Vercel Edge Runtime.

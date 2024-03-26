@@ -1,7 +1,7 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from 'sam-node/resource';
-import * as AccountsAPI from 'sam-node/resources/customers/accounts';
+import { APIResource } from 'sam/resource';
+import * as AccountsAPI from 'sam/resources/customers/accounts';
 
 export class Customers extends APIResource {
   accounts: AccountsAPI.Accounts = new AccountsAPI.Accounts(this._client);

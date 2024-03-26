@@ -9,9 +9,9 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "sam-node/_shims/auto/*": ["src/_shims/auto/*-node"],
-      "sam-node/*": ["src/*"],
-      "sam-node": ["src/index.ts"],
+      "sam/_shims/auto/*": ["src/_shims/auto/*-node"],
+      "sam/*": ["src/*"],
+      "sam": ["src/index.ts"],
       "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": true,

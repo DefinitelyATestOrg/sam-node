@@ -1,6 +1,6 @@
-import { multipartFormRequestOptions, createForm } from 'sam-node/core';
-import { Blob } from 'sam-node/_shims/index';
-import { toFile } from 'sam-node';
+import { multipartFormRequestOptions, createForm } from 'sam/core';
+import { Blob } from 'sam/_shims/index';
+import { toFile } from 'sam';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {
