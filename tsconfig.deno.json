@@ -9,7 +9,6 @@
       "sam/_shims/auto/*": ["deno/_shims/auto/*-deno"],
       "sam/*": ["deno/*"],
       "sam": ["deno/index.ts"],
-      "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": true,
     "declaration": true,
