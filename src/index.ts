@@ -9,6 +9,11 @@ import * as API from 'sam/resources/index';
 
 export interface ClientOptions {
   /**
+   * Defaults to process.env['PLOP'].
+   */
+  plop?: string | undefined;
+
+  /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
    * Defaults to process.env['SAM_BASE_URL'].
@@ -67,11 +72,14 @@ export interface ClientOptions {
 
 /** API Client for interfacing with the Sam API. */
 export class Sam extends Core.APIClient {
+  plop: string;
+
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Sam API.
    *
+   * @param {string | undefined} [opts.plop=process.env['PLOP'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['SAM_BASE_URL'] ?? http://localhost:8085/] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -80,8 +88,19 @@ export class Sam extends Core.APIClient {
    * @param {Core.Headers} opts.defaultHeaders - Default headers to include with every request to the API.
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
-  constructor({ baseURL = Core.readEnv('SAM_BASE_URL'), ...opts }: ClientOptions = {}) {
+  constructor({
+    baseURL = Core.readEnv('SAM_BASE_URL'),
+    plop = Core.readEnv('PLOP'),
+    ...opts
+  }: ClientOptions = {}) {
+    if (plop === undefined) {
+      throw new Errors.SamError(
+        "The PLOP environment variable is missing or empty; either provide it, or instantiate the Sam client with an plop option, like new Sam({ plop: 'you plop plop' }).",
+      );
+    }
+
     const options: ClientOptions = {
+      plop,
       ...opts,
       baseURL: baseURL || `http://localhost:8085/`,
     };
@@ -94,6 +113,8 @@ export class Sam extends Core.APIClient {
       fetch: options.fetch,
     });
     this._options = options;
+
+    this.plop = plop;
   }
 
   customers: API.Customers = new API.Customers(this);
