@@ -3,7 +3,10 @@
 import Sam from 'sam';
 import { Response } from 'node-fetch';
 
-const sam = new Sam({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
+const sam = new Sam({
+  plop: 'you plop plop',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource accounts', () => {
   test('retrieve: only required params', async () => {
