@@ -23,6 +23,7 @@ describe('instantiate client', () => {
     const client = new Sam({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
+      plop: 'you plop plop',
     });
 
     test('they are used in the request', () => {
@@ -51,7 +52,11 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new Sam({ baseURL: 'http://localhost:5000/', defaultQuery: { apiVersion: 'foo' } });
+      const client = new Sam({
+        baseURL: 'http://localhost:5000/',
+        defaultQuery: { apiVersion: 'foo' },
+        plop: 'you plop plop',
+      });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
 
@@ -59,12 +64,17 @@ describe('instantiate client', () => {
       const client = new Sam({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
+        plop: 'you plop plop',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
 
     test('overriding with `undefined`', () => {
-      const client = new Sam({ baseURL: 'http://localhost:5000/', defaultQuery: { hello: 'world' } });
+      const client = new Sam({
+        baseURL: 'http://localhost:5000/',
+        defaultQuery: { hello: 'world' },
+        plop: 'you plop plop',
+      });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
     });
   });
@@ -72,6 +82,7 @@ describe('instantiate client', () => {
   test('custom fetch', async () => {
     const client = new Sam({
       baseURL: 'http://localhost:5000/',
+      plop: 'you plop plop',
       fetch: (url) => {
         return Promise.resolve(
           new Response(JSON.stringify({ url, custom: true }), {
@@ -88,6 +99,7 @@ describe('instantiate client', () => {
   test('custom signal', async () => {
     const client = new Sam({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+      plop: 'you plop plop',
       fetch: (...args) => {
         return new Promise((resolve, reject) =>
           setTimeout(
@@ -112,12 +124,12 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new Sam({ baseURL: 'http://localhost:5000/custom/path/' });
+      const client = new Sam({ baseURL: 'http://localhost:5000/custom/path/', plop: 'you plop plop' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new Sam({ baseURL: 'http://localhost:5000/custom/path' });
+      const client = new Sam({ baseURL: 'http://localhost:5000/custom/path', plop: 'you plop plop' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
@@ -126,41 +138,55 @@ describe('instantiate client', () => {
     });
 
     test('explicit option', () => {
-      const client = new Sam({ baseURL: 'https://example.com' });
+      const client = new Sam({ baseURL: 'https://example.com', plop: 'you plop plop' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
       process.env['SAM_BASE_URL'] = 'https://example.com/from_env';
-      const client = new Sam({});
+      const client = new Sam({ plop: 'you plop plop' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
       process.env['SAM_BASE_URL'] = ''; // empty
-      const client = new Sam({});
+      const client = new Sam({ plop: 'you plop plop' });
       expect(client.baseURL).toEqual('http://localhost:8085/');
     });
 
     test('blank env variable', () => {
       process.env['SAM_BASE_URL'] = '  '; // blank
-      const client = new Sam({});
+      const client = new Sam({ plop: 'you plop plop' });
       expect(client.baseURL).toEqual('http://localhost:8085/');
     });
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Sam({ maxRetries: 4 });
+    const client = new Sam({ maxRetries: 4, plop: 'you plop plop' });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new Sam({});
+    const client2 = new Sam({ plop: 'you plop plop' });
     expect(client2.maxRetries).toEqual(2);
+  });
+
+  test('with environment variable arguments', () => {
+    // set options via env var
+    process.env['PLOP'] = 'you plop plop';
+    const client = new Sam();
+    expect(client.plop).toBe('you plop plop');
+  });
+
+  test('with overriden environment variable arguments', () => {
+    // set options via env var
+    process.env['PLOP'] = 'another you plop plop';
+    const client = new Sam({ plop: 'you plop plop' });
+    expect(client.plop).toBe('you plop plop');
   });
 });
 
 describe('request building', () => {
-  const client = new Sam({});
+  const client = new Sam({ plop: 'you plop plop' });
 
   describe('Content-Length', () => {
     test('handles multi-byte characters', () => {
@@ -202,7 +228,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Sam({ timeout: 10, fetch: testFetch });
+    const client = new Sam({ plop: 'you plop plop', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -229,7 +255,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Sam({ fetch: testFetch });
+    const client = new Sam({ plop: 'you plop plop', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -256,7 +282,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Sam({ fetch: testFetch });
+    const client = new Sam({ plop: 'you plop plop', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
