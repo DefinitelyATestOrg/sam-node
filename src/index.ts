@@ -4,14 +4,13 @@ import * as Core from './core';
 import * as Errors from './error';
 import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
-import * as qs from 'qs';
 import * as API from 'sam/resources/index';
 
 export interface ClientOptions {
   /**
-   * Defaults to process.env['PLOP'].
+   * Defaults to process.env['MAVENAGI_AUTH_TOKEN'].
    */
-  plop?: string | undefined;
+  authToken?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -72,14 +71,14 @@ export interface ClientOptions {
 
 /** API Client for interfacing with the Sam API. */
 export class Sam extends Core.APIClient {
-  plop: string;
+  authToken: string | null;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Sam API.
    *
-   * @param {string | undefined} [opts.plop=process.env['PLOP'] ?? undefined]
+   * @param {string | null | undefined} [opts.authToken=process.env['MAVENAGI_AUTH_TOKEN'] ?? null]
    * @param {string} [opts.baseURL=process.env['SAM_BASE_URL'] ?? http://localhost:8085/] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -90,17 +89,11 @@ export class Sam extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('SAM_BASE_URL'),
-    plop = Core.readEnv('PLOP'),
+    authToken = Core.readEnv('MAVENAGI_AUTH_TOKEN') ?? null,
     ...opts
   }: ClientOptions = {}) {
-    if (plop === undefined) {
-      throw new Errors.SamError(
-        "The PLOP environment variable is missing or empty; either provide it, or instantiate the Sam client with an plop option, like new Sam({ plop: 'you plop plop' }).",
-      );
-    }
-
     const options: ClientOptions = {
-      plop,
+      authToken,
       ...opts,
       baseURL: baseURL || `http://localhost:8085/`,
     };
@@ -114,10 +107,19 @@ export class Sam extends Core.APIClient {
     });
     this._options = options;
 
-    this.plop = plop;
+    this.authToken = authToken;
   }
 
-  customers: API.Customers = new API.Customers(this);
+  referenceSets: API.ReferenceSets = new API.ReferenceSets(this);
+  referenceSessions: API.ReferenceSessions = new API.ReferenceSessions(this);
+  organizations: API.Organizations = new API.Organizations(this);
+  members: API.Members = new API.Members(this);
+  feedbacks: API.Feedbacks = new API.Feedbacks(this);
+  documents: API.Documents = new API.Documents(this);
+  corpora: API.Corpora = new API.Corpora(this);
+  agents: API.Agents = new API.Agents(this);
+  actionSets: API.ActionSets = new API.ActionSets(this);
+  actions: API.Actions = new API.Actions(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -130,8 +132,24 @@ export class Sam extends Core.APIClient {
     };
   }
 
-  protected override stringifyQuery(query: Record<string, unknown>): string {
-    return qs.stringify(query, { arrayFormat: 'comma' });
+  protected override validateHeaders(headers: Core.Headers, customHeaders: Core.Headers) {
+    if (this.authToken && headers['authorization']) {
+      return;
+    }
+    if (customHeaders['authorization'] === null) {
+      return;
+    }
+
+    throw new Error(
+      'Could not resolve authentication method. Expected the authToken to be set. Or for the "Authorization" headers to be explicitly omitted',
+    );
+  }
+
+  protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
+    if (this.authToken == null) {
+      return {};
+    }
+    return { Authorization: `Bearer ${this.authToken}` };
   }
 
   static Sam = this;
@@ -177,7 +195,34 @@ export namespace Sam {
 
   export import RequestOptions = Core.RequestOptions;
 
-  export import Customers = API.Customers;
+  export import ReferenceSets = API.ReferenceSets;
+  export import ReferenceSetUpdateParams = API.ReferenceSetUpdateParams;
+
+  export import ReferenceSessions = API.ReferenceSessions;
+  export import ReferenceSessionUpdateParams = API.ReferenceSessionUpdateParams;
+
+  export import Organizations = API.Organizations;
+  export import OrganizationUpdateParams = API.OrganizationUpdateParams;
+
+  export import Members = API.Members;
+  export import MemberUpdateParams = API.MemberUpdateParams;
+
+  export import Feedbacks = API.Feedbacks;
+  export import FeedbackUpdateParams = API.FeedbackUpdateParams;
+
+  export import Documents = API.Documents;
+
+  export import Corpora = API.Corpora;
+  export import CorporaUpdateParams = API.CorporaUpdateParams;
+
+  export import Agents = API.Agents;
+  export import AgentUpdateParams = API.AgentUpdateParams;
+
+  export import ActionSets = API.ActionSets;
+  export import ActionSetUpdateParams = API.ActionSetUpdateParams;
+
+  export import Actions = API.Actions;
+  export import ActionUpdateParams = API.ActionUpdateParams;
 }
 
 export default Sam;

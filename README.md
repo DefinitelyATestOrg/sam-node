@@ -22,14 +22,12 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Sam from 'sam';
 
-const sam = new Sam();
+const sam = new Sam({
+  authToken: process.env['MAVENAGI_AUTH_TOKEN'], // This is the default and can be omitted
+});
 
 async function main() {
-  const accountRetrieveResponse = await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', {
-    userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5',
-  });
-
-  console.log(accountRetrieveResponse.account);
+  const actionSet = await sam.actionSets.retrieve('abc123');
 }
 
 main();
@@ -43,12 +41,12 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Sam from 'sam';
 
-const sam = new Sam();
+const sam = new Sam({
+  authToken: process.env['MAVENAGI_AUTH_TOKEN'], // This is the default and can be omitted
+});
 
 async function main() {
-  const params: Sam.Customers.AccountRetrieveParams = { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' };
-  const accountRetrieveResponse: Sam.Customers.AccountRetrieveResponse =
-    await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', params);
+  const agent: Response = await sam.agents.retrieve('abc123');
 }
 
 main();
@@ -65,17 +63,15 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const accountRetrieveResponse = await sam.customers.accounts
-    .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
-    .catch(async (err) => {
-      if (err instanceof Sam.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
+  const agent = await sam.agents.retrieve('abc123').catch(async (err) => {
+    if (err instanceof Sam.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
 
 main();
@@ -107,11 +103,10 @@ You can use the `maxRetries` option to configure or disable this:
 // Configure the default for all requests:
 const sam = new Sam({
   maxRetries: 0, // default is 2
-  plop: 'you plop plop',
 });
 
 // Or, configure per-request:
-await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
+await sam.agents.retrieve('abc123', {
   maxRetries: 5,
 });
 ```
@@ -125,11 +120,10 @@ Requests time out after 1 minute by default. You can configure this with a `time
 // Configure the default for all requests:
 const sam = new Sam({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
-  plop: 'you plop plop',
 });
 
 // Override per-request:
-await sam.customers.accounts.retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' }, {
+await sam.agents.retrieve('abc123', {
   timeout: 5 * 1000,
 });
 ```
@@ -150,17 +144,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const sam = new Sam();
 
-const response = await sam.customers.accounts
-  .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
-  .asResponse();
+const response = await sam.agents.retrieve('abc123').asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: accountRetrieveResponse, response: raw } = await sam.customers.accounts
-  .retrieve('REPLACE_ME', 'REPLACE_ME', { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' })
-  .withResponse();
+const { data: agent, response: raw } = await sam.agents.retrieve('abc123').withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(accountRetrieveResponse.account);
+console.log(agent);
 ```
 
 ### Making custom/undocumented requests
@@ -261,18 +251,12 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 // Configure the default for all requests:
 const sam = new Sam({
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
-  plop: 'you plop plop',
 });
 
 // Override per-request:
-await sam.customers.accounts.retrieve(
-  'REPLACE_ME',
-  'REPLACE_ME',
-  { userId: '36a22460-ebc8-4ffe-a213-1683c5a420c5' },
-  {
-    httpAgent: new http.Agent({ keepAlive: false }),
-  },
-);
+await sam.agents.retrieve('abc123', {
+  httpAgent: new http.Agent({ keepAlive: false }),
+});
 ```
 
 ## Semantic versioning
