@@ -2,4 +2,4 @@
 
 export { AgentUpdateParams, Agents } from './agents';
 export { ConfigUpdateParams, Configs } from './configs/index';
-export { HiddenTags } from './hidden-tags';
+export { HiddenTagUpdateParams, HiddenTags } from './hidden-tags';

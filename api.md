@@ -35,6 +35,12 @@ Methods:
 
 # Documents
 
+Methods:
+
+- <code title="get /api/v1/document/{doc_id}">client.documents.<a href="./src/resources/documents.ts">retrieve</a>(docId, { ...params }) -> Response</code>
+- <code title="put /api/v1/document/{doc_id}">client.documents.<a href="./src/resources/documents.ts">update</a>(docId, { ...params }) -> Response</code>
+- <code title="delete /api/v1/document/{doc_id}">client.documents.<a href="./src/resources/documents.ts">delete</a>(docId) -> void</code>
+
 # Corpora
 
 Methods:
@@ -52,6 +58,10 @@ Methods:
 - <code title="delete /api/v1/agents/{id}">client.agents.<a href="./src/resources/agents/agents.ts">delete</a>(id) -> void</code>
 
 ## HiddenTags
+
+Methods:
+
+- <code title="put /api/v1/agents/{id}/hiddenTags">client.agents.hiddenTags.<a href="./src/resources/agents/hidden-tags.ts">update</a>(id, [ ...body ]) -> Response</code>
 
 ## Configs
 
