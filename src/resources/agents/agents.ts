@@ -95,6 +95,7 @@ export namespace AgentUpdateParams {
 export namespace Agents {
   export import AgentUpdateParams = AgentsAPI.AgentUpdateParams;
   export import HiddenTags = HiddenTagsAPI.HiddenTags;
+  export import HiddenTagUpdateParams = HiddenTagsAPI.HiddenTagUpdateParams;
   export import Configs = ConfigsAPI.Configs;
   export import ConfigUpdateParams = ConfigsAPI.ConfigUpdateParams;
 }

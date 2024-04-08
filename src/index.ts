@@ -211,6 +211,8 @@ export namespace Sam {
   export import FeedbackUpdateParams = API.FeedbackUpdateParams;
 
   export import Documents = API.Documents;
+  export import DocumentRetrieveParams = API.DocumentRetrieveParams;
+  export import DocumentUpdateParams = API.DocumentUpdateParams;
 
   export import Corpora = API.Corpora;
   export import CorporaUpdateParams = API.CorporaUpdateParams;
