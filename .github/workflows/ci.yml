@@ -2,10 +2,10 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - stainless
   pull_request:
     branches:
-      - main
+      - stainless
 
 jobs:
   lint:
@@ -28,3 +28,24 @@ jobs:
       - name: Check types
         run: |
           yarn build
+
+  examples:
+    name: examples
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - env: 
+          MY_ENV_VAR_1: value 1
+          MY_SECRET_1: ${{ secrets.MY_SECRET_1 }}
+        run: |
+            echo "hello world $MY_ENV_VAR_1"
