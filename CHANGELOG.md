@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2024-04-17)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/DefinitelyATestOrg/sam-node/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** update via SDK Studio ([#19](https://github.com/DefinitelyATestOrg/sam-node/issues/19)) ([ef235a3](https://github.com/DefinitelyATestOrg/sam-node/commit/ef235a3e135d0b43141bd6bdbeb6f436ddd737b6))
+
+
+### Build System
+
+* configure UTF-8 locale in devcontainer ([#21](https://github.com/DefinitelyATestOrg/sam-node/issues/21)) ([84f3b79](https://github.com/DefinitelyATestOrg/sam-node/commit/84f3b79f0100b5f0e544d123bc77f9fa43418517))
+
 ## 0.1.0-alpha.1 (2024-04-08)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/DefinitelyATestOrg/sam-node/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
