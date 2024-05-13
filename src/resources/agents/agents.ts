@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'sam/core';
-import { APIResource } from 'sam/resource';
-import { type Response } from 'sam/_shims/index';
-import * as AgentsAPI from 'sam/resources/agents/agents';
-import * as HiddenTagsAPI from 'sam/resources/agents/hidden-tags';
-import * as ConfigsAPI from 'sam/resources/agents/configs/configs';
-import { type Uploadable } from 'sam/core';
+import * as Core from '../../core';
+import { APIResource } from '../../resource';
+import { type Response } from '../../_shims/index';
+import * as AgentsAPI from './agents';
+import * as HiddenTagsAPI from './hidden-tags';
+import * as ConfigsAPI from './configs/configs';
+import { type Uploadable } from '../../core';
 
 export class Agents extends APIResource {
   hiddenTags: HiddenTagsAPI.HiddenTags = new HiddenTagsAPI.HiddenTags(this._client);

@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'sam/core';
-import { APIResource } from 'sam/resource';
-import { isRequestOptions } from 'sam/core';
-import { type Response } from 'sam/_shims/index';
-import * as DocumentsAPI from 'sam/resources/documents';
+import * as Core from '../core';
+import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
+import { type Response } from '../_shims/index';
+import * as DocumentsAPI from './documents';
 
 export class Documents extends APIResource {
   retrieve(

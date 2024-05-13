@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'sam/core';
-import { APIResource } from 'sam/resource';
-import { type Response } from 'sam/_shims/index';
-import * as ActionSetsAPI from 'sam/resources/action-sets';
+import * as Core from '../core';
+import { APIResource } from '../resource';
+import { type Response } from '../_shims/index';
+import * as ActionSetsAPI from './action-sets';
 
 export class ActionSets extends APIResource {
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
