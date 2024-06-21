@@ -2,8 +2,8 @@
 
 import * as Core from '../core';
 import { APIResource } from '../resource';
-import { type Response } from '../_shims/index';
 import * as ReferenceSessionsAPI from './reference-sessions';
+import { type Response } from '../_shims/index';
 
 export class ReferenceSessions extends APIResource {
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {

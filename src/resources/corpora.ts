@@ -2,8 +2,8 @@
 
 import * as Core from '../core';
 import { APIResource } from '../resource';
-import { type Response } from '../_shims/index';
 import * as CorporaAPI from './corpora';
+import { type Response } from '../_shims/index';
 
 export class Corpora extends APIResource {
   retrieve(corpusId: string, options?: Core.RequestOptions): Core.APIPromise<Response> {

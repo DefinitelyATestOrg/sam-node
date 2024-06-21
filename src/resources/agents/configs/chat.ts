@@ -2,8 +2,8 @@
 
 import * as Core from '../../../core';
 import { APIResource } from '../../../resource';
-import { type Response } from '../../../_shims/index';
 import * as ChatAPI from './chat';
+import { type Response } from '../../../_shims/index';
 
 export class Chat extends APIResource {
   retrieve(agentId: string, options?: Core.RequestOptions): Core.APIPromise<Response> {

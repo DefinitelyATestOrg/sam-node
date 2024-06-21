@@ -2,8 +2,8 @@
 
 import * as Core from '../core';
 import { APIResource } from '../resource';
-import { type Response } from '../_shims/index';
 import * as MembersAPI from './members';
+import { type Response } from '../_shims/index';
 
 export class Members extends APIResource {
   update(

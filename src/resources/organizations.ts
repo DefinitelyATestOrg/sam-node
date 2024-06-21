@@ -2,8 +2,8 @@
 
 import * as Core from '../core';
 import { APIResource } from '../resource';
-import { type Response } from '../_shims/index';
 import * as OrganizationsAPI from './organizations';
+import { type Response } from '../_shims/index';
 
 export class Organizations extends APIResource {
   update(body: OrganizationUpdateParams, options?: Core.RequestOptions): Core.APIPromise<Response> {

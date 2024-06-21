@@ -2,11 +2,11 @@
 
 import * as Core from '../../core';
 import { APIResource } from '../../resource';
-import { type Response } from '../../_shims/index';
 import * as AgentsAPI from './agents';
 import * as HiddenTagsAPI from './hidden-tags';
 import * as ConfigsAPI from './configs/configs';
 import { type Uploadable } from '../../core';
+import { type Response } from '../../_shims/index';
 
 export class Agents extends APIResource {
   hiddenTags: HiddenTagsAPI.HiddenTags = new HiddenTagsAPI.HiddenTags(this._client);
