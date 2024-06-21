@@ -2,8 +2,8 @@
 
 import * as Core from '../core';
 import { APIResource } from '../resource';
-import { type Response } from '../_shims/index';
 import * as ActionsAPI from './actions';
+import { type Response } from '../_shims/index';
 
 export class Actions extends APIResource {
   retrieve(actionId: string, options?: Core.RequestOptions): Core.APIPromise<Response> {
