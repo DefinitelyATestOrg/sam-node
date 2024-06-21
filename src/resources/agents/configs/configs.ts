@@ -2,9 +2,9 @@
 
 import * as Core from '../../../core';
 import { APIResource } from '../../../resource';
-import { type Response } from '../../../_shims/index';
 import * as ConfigsAPI from './configs';
 import * as ChatAPI from './chat';
+import { type Response } from '../../../_shims/index';
 
 export class Configs extends APIResource {
   chat: ChatAPI.Chat = new ChatAPI.Chat(this._client);
