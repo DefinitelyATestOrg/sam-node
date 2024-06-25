@@ -1,11 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from '../../core';
 import { APIResource } from '../../resource';
+import * as Core from '../../core';
 import * as AgentsAPI from './agents';
 import * as HiddenTagsAPI from './hidden-tags';
 import * as ConfigsAPI from './configs/configs';
-import { type Uploadable } from '../../core';
 import { type Response } from '../../_shims/index';
 
 export class Agents extends APIResource {
@@ -31,11 +30,11 @@ export class Agents extends APIResource {
 export interface AgentUpdateParams {
   agent: AgentUpdateParams.Agent;
 
-  chatIcon?: Uploadable;
+  chatIcon?: Core.Uploadable;
 
   chatIconDeleted?: boolean;
 
-  logo?: Uploadable;
+  logo?: Core.Uploadable;
 
   logoDeleted?: boolean;
 }
