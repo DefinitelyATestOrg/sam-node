@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { Sam } from './index';
+import type { Increase } from './index';
 
 export class APIResource {
-  protected _client: Sam;
+  protected _client: Increase;
 
-  constructor(client: Sam) {
+  constructor(client: Increase) {
     this._client = client;
   }
 }

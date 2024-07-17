@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "sam/*": ["dist/src/*"],
-      "sam": ["dist/src/index.ts"],
+      "sam-node/*": ["dist/src/*"],
+      "sam-node": ["dist/src/index.ts"],
     },
     "noEmit": false,
     "declaration": true,
