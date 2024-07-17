@@ -9,11 +9,8 @@ The REST API documentation can be found [on increase.com](https://increase.com/d
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:DefinitelyATestOrg/sam-node.git
+npm install sam-node
 ```
-
-> [!NOTE]
-> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install sam-node`
 
 ## Usage
 
