@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'sam/core';
-import { APIResource } from 'sam/resource';
-import { type Response } from 'sam/_shims/index';
-import * as CorporaAPI from 'sam/resources/corpora';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as CorporaAPI from './corpora';
+import { type Response } from '../_shims/index';
 
 export class Corpora extends APIResource {
   retrieve(corpusId: string, options?: Core.RequestOptions): Core.APIPromise<Response> {

@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from './core';
 import * as Errors from './error';
-import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
-import * as API from 'sam/resources/index';
+import { type Agent } from './_shims/index';
+import * as Core from './core';
+import * as API from './resources/index';
 
 export interface ClientOptions {
   /**
@@ -69,7 +69,9 @@ export interface ClientOptions {
   defaultQuery?: Core.DefaultQuery;
 }
 
-/** API Client for interfacing with the Sam API. */
+/**
+ * API Client for interfacing with the Sam API.
+ */
 export class Sam extends Core.APIClient {
   authToken: string | null;
 
@@ -105,6 +107,7 @@ export class Sam extends Core.APIClient {
       maxRetries: options.maxRetries,
       fetch: options.fetch,
     });
+
     this._options = options;
 
     this.authToken = authToken;
@@ -167,6 +170,9 @@ export class Sam extends Core.APIClient {
   static InternalServerError = Errors.InternalServerError;
   static PermissionDeniedError = Errors.PermissionDeniedError;
   static UnprocessableEntityError = Errors.UnprocessableEntityError;
+
+  static toFile = Uploads.toFile;
+  static fileFromPath = Uploads.fileFromPath;
 }
 
 export const {
@@ -189,10 +195,6 @@ export import toFile = Uploads.toFile;
 export import fileFromPath = Uploads.fileFromPath;
 
 export namespace Sam {
-  // Helper functions
-  export import toFile = Uploads.toFile;
-  export import fileFromPath = Uploads.fileFromPath;
-
   export import RequestOptions = Core.RequestOptions;
 
   export import ReferenceSets = API.ReferenceSets;

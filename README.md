@@ -1,6 +1,6 @@
 # Sam Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/sam.svg)](https://npmjs.org/package/sam)
+[![NPM version](https://img.shields.io/npm/v/sam.svg)](https://npmjs.org/package/sam) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/sam)
 
 This library provides convenient access to the Sam REST API from server-side TypeScript or JavaScript.
 

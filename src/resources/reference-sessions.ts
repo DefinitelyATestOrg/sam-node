@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'sam/core';
-import { APIResource } from 'sam/resource';
-import { type Response } from 'sam/_shims/index';
-import * as ReferenceSessionsAPI from 'sam/resources/reference-sessions';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as ReferenceSessionsAPI from './reference-sessions';
+import { type Response } from '../_shims/index';
 
 export class ReferenceSessions extends APIResource {
   retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Response> {

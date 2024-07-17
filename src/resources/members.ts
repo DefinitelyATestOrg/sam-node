@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'sam/core';
-import { APIResource } from 'sam/resource';
-import { type Response } from 'sam/_shims/index';
-import * as MembersAPI from 'sam/resources/members';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as MembersAPI from './members';
+import { type Response } from '../_shims/index';
 
 export class Members extends APIResource {
   update(
