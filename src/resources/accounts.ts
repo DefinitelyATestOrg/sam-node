@@ -78,8 +78,8 @@ export class Accounts extends APIResource {
 export class AccountsPage extends Page<Account> {}
 
 /**
- * Accounts are your bank accounts with Increase. They store money, receive
- * transfers, and send payments. They earn interest and have depository insurance.
+ * Accounts are your accounts with Increase. They store money, receive transfers,
+ * and send payments. They earn interest and have depository insurance.
  */
 export interface Account {
   /**
