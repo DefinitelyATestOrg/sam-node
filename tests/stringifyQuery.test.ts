@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Increase } from 'sam-node';
+import { Sam } from 'sam-node';
 
-const { stringifyQuery } = Increase.prototype as any;
+const { stringifyQuery } = Sam.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [
