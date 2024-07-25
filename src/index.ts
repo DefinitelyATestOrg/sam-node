@@ -101,7 +101,6 @@ export class Sam extends Core.APIClient {
 
   pets: API.Pets = new API.Pets(this);
   stores: API.Stores = new API.Stores(this);
-  store: API.Store = new API.Store(this);
   users: API.Users = new API.Users(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
@@ -176,8 +175,6 @@ export namespace Sam {
   export import Stores = API.Stores;
   export import StoreInventoryResponse = API.StoreInventoryResponse;
   export import StoreCreateOrderParams = API.StoreCreateOrderParams;
-
-  export import Store = API.Store;
 
   export import Users = API.Users;
   export import User = API.User;
