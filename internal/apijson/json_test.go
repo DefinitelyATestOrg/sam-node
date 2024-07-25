@@ -39,19 +39,41 @@ type DateTime struct {
 }
 
 type AdditionalProperties struct {
-	A      bool                   `json:"a"`
-	Extras map[string]interface{} `json:"-,extras"`
+	A           bool                   `json:"a"`
+	ExtraFields map[string]interface{} `json:"-,extras"`
 }
 
 type TypedAdditionalProperties struct {
-	A      bool           `json:"a"`
-	Extras map[string]int `json:"-,extras"`
+	A           bool           `json:"a"`
+	ExtraFields map[string]int `json:"-,extras"`
+}
+
+type EmbeddedStruct struct {
+	A bool   `json:"a"`
+	B string `json:"b"`
+
+	JSON EmbeddedStructJSON
+}
+
+type EmbeddedStructJSON struct {
+	A           Field
+	B           Field
+	ExtraFields map[string]Field
+	raw         string
 }
 
 type EmbeddedStructs struct {
-	AdditionalProperties
-	A      *int                   `json:"number2"`
-	Extras map[string]interface{} `json:"-,extras"`
+	EmbeddedStruct
+	A           *int                   `json:"a"`
+	ExtraFields map[string]interface{} `json:"-,extras"`
+
+	JSON EmbeddedStructsJSON
+}
+
+type EmbeddedStructsJSON struct {
+	A           Field
+	ExtraFields map[string]Field
+	raw         string
 }
 
 type Recursive struct {
@@ -60,21 +82,21 @@ type Recursive struct {
 }
 
 type JSONFieldStruct struct {
-	A      bool                `json:"a"`
-	B      int64               `json:"b"`
-	C      string              `json:"c"`
-	D      string              `json:"d"`
-	Extras map[string]int64    `json:"-,extras"`
-	JSON   JSONFieldStructJSON `json:"-,metadata"`
+	A           bool                `json:"a"`
+	B           int64               `json:"b"`
+	C           string              `json:"c"`
+	D           string              `json:"d"`
+	ExtraFields map[string]int64    `json:"-,extras"`
+	JSON        JSONFieldStructJSON `json:"-,metadata"`
 }
 
 type JSONFieldStructJSON struct {
-	A      Field
-	B      Field
-	C      Field
-	D      Field
-	Extras map[string]Field
-	raw    string
+	A           Field
+	B           Field
+	C           Field
+	D           Field
+	ExtraFields map[string]Field
+	raw         string
 }
 
 type UnknownStruct struct {
@@ -202,6 +224,16 @@ func (t TypeB) IsKnown() bool {
 	return t == "b"
 }
 
+type UnmarshalStruct struct {
+	Foo  string `json:"foo"`
+	prop bool   `json:"-"`
+}
+
+func (r *UnmarshalStruct) UnmarshalJSON(json []byte) error {
+	r.prop = true
+	return UnmarshalRoot(json, r)
+}
+
 func (ComplexUnionTypeB) complexUnion() {}
 
 func init() {
@@ -269,9 +301,11 @@ var tests = map[string]struct {
 	"date_time":             {`"2007-03-01T13:00:00Z"`, time.Date(2007, time.March, 1, 13, 0, 0, 0, time.UTC)},
 	"date_time_nano_coerce": {`"2007-03-01T13:03:05.123456789Z"`, time.Date(2007, time.March, 1, 13, 3, 5, 123456789, time.UTC)},
 
-	"date_time_missing_t_coerce":              {`"2007-03-01 13:03:05Z"`, time.Date(2007, time.March, 1, 13, 3, 5, 0, time.UTC)},
-	"date_time_missing_timezone_coerce":       {`"2007-03-01T13:03:05"`, time.Date(2007, time.March, 1, 13, 3, 5, 0, time.UTC)},
-	"date_time_missing_timezone_colon_coerce": {`"2007-03-01T13:03:05+0100"`, time.Date(2007, time.March, 1, 13, 3, 5, 0, time.FixedZone("", 60*60))},
+	"date_time_missing_t_coerce":        {`"2007-03-01 13:03:05Z"`, time.Date(2007, time.March, 1, 13, 3, 5, 0, time.UTC)},
+	"date_time_missing_timezone_coerce": {`"2007-03-01T13:03:05"`, time.Date(2007, time.March, 1, 13, 3, 5, 0, time.UTC)},
+	// note: using -1200 to minimize probability of conflicting with the local timezone of the test runner
+	// see https://en.wikipedia.org/wiki/UTC%E2%88%9212:00
+	"date_time_missing_timezone_colon_coerce": {`"2007-03-01T13:03:05-1200"`, time.Date(2007, time.March, 1, 13, 3, 5, 0, time.FixedZone("", -12*60*60))},
 	"date_time_nano_missing_t_coerce":         {`"2007-03-01 13:03:05.123456789Z"`, time.Date(2007, time.March, 1, 13, 3, 5, 123456789, time.UTC)},
 
 	"map_string":    {`{"foo":"bar"}`, map[string]string{"foo": "bar"}},
@@ -313,9 +347,33 @@ var tests = map[string]struct {
 		`{"a":true,"bar":"value","foo":true}`,
 		AdditionalProperties{
 			A: true,
-			Extras: map[string]interface{}{
+			ExtraFields: map[string]interface{}{
 				"bar": "value",
 				"foo": true,
+			},
+		},
+	},
+
+	"embedded_struct": {
+		`{"a":1,"b":"bar"}`,
+		EmbeddedStructs{
+			EmbeddedStruct: EmbeddedStruct{
+				A: true,
+				B: "bar",
+				JSON: EmbeddedStructJSON{
+					A:   Field{raw: `1`, status: valid},
+					B:   Field{raw: `"bar"`, status: valid},
+					raw: `{"a":1,"b":"bar"}`,
+				},
+			},
+			A:           P(1),
+			ExtraFields: map[string]interface{}{"b": "bar"},
+			JSON: EmbeddedStructsJSON{
+				A: Field{raw: `1`, status: valid},
+				ExtraFields: map[string]Field{
+					"b": {raw: `"bar"`, status: valid},
+				},
+				raw: `{"a":1,"b":"bar"}`,
 			},
 		},
 	},
@@ -337,7 +395,7 @@ var tests = map[string]struct {
 				B:   Field{raw: `"12"`, status: valid},
 				C:   Field{raw: "null", status: null},
 				D:   Field{raw: "", status: missing},
-				Extras: map[string]Field{
+				ExtraFields: map[string]Field{
 					"extra_typed": {
 						raw:    "12",
 						status: valid,
@@ -348,7 +406,7 @@ var tests = map[string]struct {
 					},
 				},
 			},
-			Extras: map[string]int64{
+			ExtraFields: map[string]int64{
 				"extra_typed":   12,
 				"extra_untyped": 0,
 			},
@@ -429,6 +487,16 @@ var tests = map[string]struct {
 	"complex_union_type_b": {
 		`{"union":{"baz":12,"type":"b"}}`,
 		ComplexUnionStruct{Union: ComplexUnionTypeB{Baz: 12, Type: TypeB("b")}},
+	},
+
+	"unmarshal": {
+		`{"foo":"hello"}`,
+		&UnmarshalStruct{Foo: "hello", prop: true},
+	},
+
+	"array_of_unmarshal": {
+		`[{"foo":"hello"}]`,
+		[]UnmarshalStruct{{Foo: "hello", prop: true}},
 	},
 
 	"inline_coerce": {

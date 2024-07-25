@@ -3,7 +3,9 @@
 <a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/sam-go/v2"><img src="https://pkg.go.dev/badge/github.com/DefinitelyATestOrg/sam-go/v2.svg" alt="Go Reference"></a>
 
 The Sam Go library provides convenient access to [the Sam REST
-API](https://docs.elborai.software) from applications written in Go. The full API of this library can be found in [api.md](api.md).
+API](https://docs.sam.com) from applications written in Go. The full API of this library can be found in [api.md](api.md).
+
+It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Installation
 
@@ -11,7 +13,7 @@ API](https://docs.elborai.software) from applications written in Go. The full AP
 
 ```go
 import (
-	"github.com/DefinitelyATestOrg/sam-go/v2" // imported as sam
+	"github.com/DefinitelyATestOrg/sam-go/v2" // imported as samgo
 )
 ```
 
@@ -43,27 +45,23 @@ import (
 	"fmt"
 
 	"github.com/DefinitelyATestOrg/sam-go/v2"
+	"github.com/DefinitelyATestOrg/sam-go/v2/shared"
 )
 
 func main() {
-	client := sam.NewClient()
-	customerAccountGetResponse, err := client.Customers.Accounts.Get(
-		context.TODO(),
-		"REPLACE_ME",
-		"REPLACE_ME",
-		sam.CustomerAccountGetParams{
-			UserID: sam.F("36a22460-ebc8-4ffe-a213-1683c5a420c5"),
-		},
-	)
+	client := samgo.NewClient()
+	order, err := client.Stores.NewOrder(context.TODO(), samgo.StoreNewOrderParams{
+		Order: shared.OrderParam{},
+	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", customerAccountGetResponse.Account)
+	fmt.Printf("%+v\n", order.ID)
 }
 
 ```
 
-### Request Fields
+### Request fields
 
 All request parameters are wrapped in a generic `Field` type,
 which we use to distinguish zero values from null or omitted fields.
@@ -77,23 +75,23 @@ To send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](
 
 ```go
 params := FooParams{
-	Name: sam.F("hello"),
+	Name: samgo.F("hello"),
 
 	// Explicitly send `"description": null`
-	Description: sam.Null[string](),
+	Description: samgo.Null[string](),
 
-	Point: sam.F(sam.Point{
-		X: sam.Int(0),
-		Y: sam.Int(1),
+	Point: samgo.F(samgo.Point{
+		X: samgo.Int(0),
+		Y: samgo.Int(1),
 
 		// In cases where the API specifies a given type,
 		// but you want to send something else, use `Raw`:
-		Z: sam.Raw[int64](0.01), // sends a float
+		Z: samgo.Raw[int64](0.01), // sends a float
 	}),
 }
 ```
 
-### Response Objects
+### Response objects
 
 All fields in response structs are value types (not pointers or wrappers).
 
@@ -142,12 +140,12 @@ This library uses the functional options pattern. Functions defined in the
 requests. For example:
 
 ```go
-client := sam.NewClient(
+client := samgo.NewClient(
 	// Adds a header to every request made by the client
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Customers.Accounts.Get(context.TODO(), ...,
+client.Stores.NewOrder(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -163,42 +161,29 @@ This library provides some conveniences for working with paginated list endpoint
 
 You can use `.ListAutoPaging()` methods to iterate through items across all pages:
 
-```go
-// TODO
-```
-
 Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
 with additional helper methods like `.GetNextPage()`, e.g.:
-
-```go
-// TODO
-```
 
 ### Errors
 
 When the API returns a non-success status code, we return an error with type
-`*sam.Error`. This contains the `StatusCode`, `*http.Request`, and
+`*samgo.Error`. This contains the `StatusCode`, `*http.Request`, and
 `*http.Response` values of the request, as well as the JSON of the error body
 (much like other response objects in the SDK).
 
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Customers.Accounts.Get(
-	context.TODO(),
-	"REPLACE_ME",
-	"REPLACE_ME",
-	sam.CustomerAccountGetParams{
-		UserID: sam.F("36a22460-ebc8-4ffe-a213-1683c5a420c5"),
-	},
-)
+_, err := client.Stores.NewOrder(context.TODO(), samgo.StoreNewOrderParams{
+	Order: shared.OrderParam{},
+})
 if err != nil {
-	var apierr *sam.Error
+	var apierr *samgo.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/v1/customers/{customerId}/accounts/{accountId}": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/store/order": 400 Bad Request { ... }
 }
 ```
 
@@ -216,19 +201,30 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Customers.Accounts.Get(
+client.Stores.NewOrder(
 	ctx,
-	"REPLACE_ME",
-	"REPLACE_ME",
-	sam.CustomerAccountGetParams{
-		UserID: sam.F("36a22460-ebc8-4ffe-a213-1683c5a420c5"),
+	samgo.StoreNewOrderParams{
+		Order: shared.OrderParam{},
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
 ```
 
-## Retries
+### File uploads
+
+Request parameters that correspond to file uploads in multipart requests are typed as
+`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form
+part with the file name of "anonymous_file" and content-type of "application/octet-stream".
+
+The file name and content-type can be customized by implementing `Name() string` or `ContentType()
+string` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a
+file returned by `os.Open` will be sent with the file name on disk.
+
+We also provide a helper `samgo.FileParam(reader io.Reader, filename string, contentType string)`
+which can be used to wrap any `io.Reader` with the appropriate file name and content type.
+
+### Retries
 
 Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
 We retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,
@@ -238,21 +234,68 @@ You can use the `WithMaxRetries` option to configure or disable this:
 
 ```go
 // Configure the default for all requests:
-client := sam.NewClient(
+client := samgo.NewClient(
 	option.WithMaxRetries(0), // default is 2
 )
 
 // Override per-request:
-client.Customers.Accounts.Get(
+client.Stores.NewOrder(
 	context.TODO(),
-	"REPLACE_ME",
-	"REPLACE_ME",
-	sam.CustomerAccountGetParams{
-		UserID: sam.F("36a22460-ebc8-4ffe-a213-1683c5a420c5"),
+	samgo.StoreNewOrderParams{
+		Order: shared.OrderParam{},
 	},
 	option.WithMaxRetries(5),
 )
 ```
+
+### Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API. If you need to access undocumented
+endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.
+`RequestOptions` on the client, such as retries, will be respected when making these requests.
+
+```go
+var (
+    // params can be an io.Reader, a []byte, an encoding/json serializable object,
+    // or a "…Params" struct defined in this library.
+    params map[string]interface{}
+
+    // result can be an []byte, *http.Response, a encoding/json deserializable object,
+    // or a model defined in this library.
+    result *http.Response
+)
+err := client.Post(context.Background(), "/unspecified", params, &result)
+if err != nil {
+    …
+}
+```
+
+#### Undocumented request params
+
+To make requests using undocumented parameters, you may use either the `option.WithQuerySet()`
+or the `option.WithJSONSet()` methods.
+
+```go
+params := FooNewParams{
+    ID:   samgo.F("id_xxxx"),
+    Data: samgo.F(FooNewParamsData{
+        FirstName: samgo.F("John"),
+    }),
+}
+client.Foo.New(context.Background(), params, option.WithJSONSet("data.last_name", "Doe"))
+```
+
+#### Undocumented response properties
+
+To access undocumented response properties, you may either access the raw JSON of the response as a string
+with `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with
+`result.JSON.Foo.Raw()`.
+
+Any fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.
 
 ### Middleware
 
@@ -275,7 +318,7 @@ func Logger(req *http.Request, next option.MiddlewareNext) (res *http.Response, 
     return res, err
 }
 
-client := sam.NewClient(
+client := samgo.NewClient(
 	option.WithMiddleware(Logger),
 )
 ```
@@ -291,7 +334,7 @@ You may also replace the default `http.Client` with
 accepted (this overwrites any previous client) and receives requests after any
 middleware has been applied.
 
-## Semantic Versioning
+## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 

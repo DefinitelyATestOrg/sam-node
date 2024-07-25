@@ -1,10 +1,9 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 package apierror
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 	"net/http/httputil"
 
@@ -36,8 +35,8 @@ func (r errorJSON) RawJSON() string {
 }
 
 func (r *Error) Error() string {
-	body, _ := io.ReadAll(r.Response.Body)
-	return fmt.Sprintf("%s \"%s\": %d %s %s", r.Request.Method, r.Request.URL, r.Response.StatusCode, http.StatusText(r.Response.StatusCode), string(body))
+	// Attempt to re-populate the response body
+	return fmt.Sprintf("%s \"%s\": %d %s %s", r.Request.Method, r.Request.URL, r.Response.StatusCode, http.StatusText(r.Response.StatusCode), r.JSON.RawJSON())
 }
 
 func (r *Error) DumpRequest(body bool) []byte {

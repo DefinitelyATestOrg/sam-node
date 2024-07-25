@@ -1,6 +1,6 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package sam_test
+package samgo_test
 
 import (
 	"context"
@@ -10,6 +10,7 @@ import (
 	"github.com/DefinitelyATestOrg/sam-go/v2"
 	"github.com/DefinitelyATestOrg/sam-go/v2/internal/testutil"
 	"github.com/DefinitelyATestOrg/sam-go/v2/option"
+	"github.com/DefinitelyATestOrg/sam-go/v2/shared"
 )
 
 func TestUsage(t *testing.T) {
@@ -20,19 +21,14 @@ func TestUsage(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := sam.NewClient(
+	client := samgo.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	customerAccountGetResponse, err := client.Customers.Accounts.Get(
-		context.TODO(),
-		"REPLACE_ME",
-		"REPLACE_ME",
-		sam.CustomerAccountGetParams{
-			UserID: sam.F("36a22460-ebc8-4ffe-a213-1683c5a420c5"),
-		},
-	)
+	order, err := client.Stores.NewOrder(context.TODO(), samgo.StoreNewOrderParams{
+		Order: shared.OrderParam{},
+	})
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("%+v\n", customerAccountGetResponse.Account)
+	t.Logf("%+v\n", order.ID)
 }

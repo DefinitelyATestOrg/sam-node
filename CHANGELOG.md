@@ -1,12 +1,31 @@
 # Changelog
 
-## 2.0.0-beta.1 (2024-03-08)
+## 3.0.0-beta.2 (2024-03-29)
 
-Full Changelog: [v2.0.0-beta.0...v2.0.0-beta.1](https://github.com/DefinitelyATestOrg/sam-go/compare/v2.0.0-beta.0...v2.0.0-beta.1)
+Full Changelog: [v3.0.0-beta.1...v3.0.0-beta.2](https://github.com/DefinitelyATestOrg/sam-go/compare/v3.0.0-beta.1...v3.0.0-beta.2)
 
 ### Features
 
-* update via SDK Studio ([#6](https://github.com/DefinitelyATestOrg/sam-go/issues/6)) ([7a84c79](https://github.com/DefinitelyATestOrg/sam-go/commit/7a84c7901bf84279b4a9fae2258d6decb90f080e))
+* **api:** update via SDK Studio ([#13](https://github.com/DefinitelyATestOrg/sam-go/issues/13)) ([9c3a5a7](https://github.com/DefinitelyATestOrg/sam-go/commit/9c3a5a7c328cba9187fa1095170ab41d6d4e8757))
+* **api:** update via SDK Studio ([#15](https://github.com/DefinitelyATestOrg/sam-go/issues/15)) ([4eb3718](https://github.com/DefinitelyATestOrg/sam-go/commit/4eb371810bdfe699ede722e3bf4056f5bbc7a915))
+
+## 3.0.0-beta.1 (2024-03-08)
+
+Full Changelog: [v3.0.0-beta.0...v3.0.0-beta.1](https://github.com/DefinitelyATestOrg/sam-go/compare/v3.0.0-beta.0...v3.0.0-beta.1)
+
+### Features
+
+* update via SDK Studio ([#10](https://github.com/DefinitelyATestOrg/sam-go/issues/10)) ([f35afed](https://github.com/DefinitelyATestOrg/sam-go/commit/f35afed83dc2284963707e9326a218005d42950a))
+* update via SDK Studio ([#12](https://github.com/DefinitelyATestOrg/sam-go/issues/12)) ([5d86b49](https://github.com/DefinitelyATestOrg/sam-go/commit/5d86b494c00440c27d2f2494d6ace297076ad16d))
+
+## 3.0.0-beta.0 (2024-03-08)
+
+Full Changelog: [v2.0.0-beta.0...v3.0.0-beta.0](https://github.com/DefinitelyATestOrg/sam-go/compare/v2.0.0-beta.0...v3.0.0-beta.0)
+
+### Features
+
+* update via SDK Studio ([bfb6a57](https://github.com/DefinitelyATestOrg/sam-go/commit/bfb6a57554cfafe4daf966e61b29e31e8e2d62b2))
+* update via SDK Studio ([#8](https://github.com/DefinitelyATestOrg/sam-go/issues/8)) ([ce345ed](https://github.com/DefinitelyATestOrg/sam-go/commit/ce345ed92b7713ed21a20d607010c88555a42e84))
 
 ## 2.0.0-beta.0 (2024-03-08)
 
