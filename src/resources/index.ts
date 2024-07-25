@@ -14,7 +14,6 @@ export {
   PetUploadImageParams,
   Pets,
 } from './pets';
-export { Store } from './store/store';
 export { StoreInventoryResponse, StoreCreateOrderParams, Stores } from './stores/stores';
 export {
   User,
