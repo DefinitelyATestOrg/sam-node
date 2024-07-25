@@ -1,16 +1,21 @@
-# Increase Node API Library
+# Sam Node API Library
 
 [![NPM version](https://img.shields.io/npm/v/sam-node.svg)](https://npmjs.org/package/sam-node) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/sam-node)
 
-This library provides convenient access to the Increase REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Sam REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [increase.com](https://increase.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.sam.com](https://docs.sam.com). The full API of this library can be found in [api.md](api.md).
+
+It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Installation
 
 ```sh
-npm install sam-node
+npm install git+ssh://git@github.com:DefinitelyATestOrg/sam-node.git
 ```
+
+> [!NOTE]
+> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install sam-node`
 
 ## Usage
 
@@ -18,17 +23,14 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Increase from 'sam-node';
+import Sam from 'sam-node';
 
-const client = new Increase({
-  apiKey: process.env['INCREASE_API_KEY'], // This is the default and can be omitted
-  environment: 'sandbox', // defaults to 'production'
-});
+const client = new Sam();
 
 async function main() {
-  const account = await increase.accounts.create({ name: 'My First Increase Account' });
+  const order = await sam.stores.createOrder();
 
-  console.log(account.id);
+  console.log(order.id);
 }
 
 main();
@@ -40,52 +42,18 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Increase from 'sam-node';
+import Sam from 'sam-node';
 
-const client = new Increase({
-  apiKey: process.env['INCREASE_API_KEY'], // This is the default and can be omitted
-  environment: 'sandbox', // defaults to 'production'
-});
+const client = new Sam();
 
 async function main() {
-  const params: Increase.AccountCreateParams = { name: 'My First Increase Account' };
-  const account: Increase.Account = await increase.accounts.create(params);
+  const order: Sam.Order = await sam.stores.createOrder();
 }
 
 main();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
-
-## File uploads
-
-Request parameters that correspond to file uploads can be passed in many different forms:
-
-- `File` (or an object with the same structure)
-- a `fetch` `Response` (or an object with the same structure)
-- an `fs.ReadStream`
-- the return value of our `toFile` helper
-
-```ts
-import fs from 'fs';
-import fetch from 'node-fetch';
-import Increase, { toFile } from 'sam-node';
-
-const client = new Increase();
-
-// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
-await increase.files.create({ file: fs.createReadStream('my/file.txt'), purpose: 'other' });
-
-// Or if you have the web `File` API you can pass a `File` instance:
-await increase.files.create({ file: new File(['my bytes'], 'file.txt'), purpose: 'other' });
-
-// You can also pass a `fetch` `Response`:
-await increase.files.create({ file: await fetch('https://somesite/file.txt'), purpose: 'other' });
-
-// Finally, if none of the above are convenient, you can use our `toFile` helper:
-await increase.files.create({ file: await toFile(Buffer.from('my bytes'), 'file.txt'), purpose: 'other' });
-await increase.files.create({ file: await toFile(new Uint8Array([0, 1, 2]), 'file.txt'), purpose: 'other' });
-```
 
 ## Handling errors
 
@@ -96,14 +64,10 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const account = await increase.accounts.create({ name: 'New Account!' }).catch(async (err) => {
-    if (err instanceof Increase.APIError) {
+  const order = await sam.stores.createOrder().catch(async (err) => {
+    if (err instanceof Sam.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
-      console.log(err.error?.type); // missing_param
-      console.log(err.error?.title); // Missing param "name"
-      console.log(err.error?.detail); // Looks like "naem" may have been a typo?
-      console.log(err.error?.status); // 400
       console.log(err.headers); // {server: 'nginx', ...}
     } else {
       throw err;
@@ -138,12 +102,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new Increase({
+const client = new Sam({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await increase.accounts.create({ name: 'Jack' }, {
+await sam.stores.createOrder({
   maxRetries: 5,
 });
 ```
@@ -155,12 +119,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new Increase({
+const client = new Sam({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await increase.accounts.list({ status: 'open' }, {
+await sam.stores.createOrder({
   timeout: 5 * 1000,
 });
 ```
@@ -168,37 +132,6 @@ await increase.accounts.list({ status: 'open' }, {
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
-
-## Auto-pagination
-
-List methods in the Increase API are paginated.
-You can use `for await … of` syntax to iterate through items across all pages:
-
-```ts
-async function fetchAllAccounts(params) {
-  const allAccounts = [];
-  // Automatically fetches more pages as needed.
-  for await (const account of increase.accounts.list()) {
-    allAccounts.push(account);
-  }
-  return allAccounts;
-}
-```
-
-Alternatively, you can make request a single page at a time:
-
-```ts
-let page = await increase.accounts.list();
-for (const account of page.data) {
-  console.log(account);
-}
-
-// Convenience methods are provided for manually paginating:
-while (page.hasNextPage()) {
-  page = page.getNextPage();
-  // ...
-}
-```
 
 ## Advanced Usage
 
@@ -210,17 +143,15 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 
 <!-- prettier-ignore -->
 ```ts
-const client = new Increase();
+const client = new Sam();
 
-const response = await increase.accounts.create({ name: 'My First Increase Account' }).asResponse();
+const response = await sam.stores.createOrder().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: account, response: raw } = await increase.accounts
-  .create({ name: 'My First Increase Account' })
-  .withResponse();
+const { data: order, response: raw } = await sam.stores.createOrder().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(account.id);
+console.log(order.id);
 ```
 
 ### Making custom/undocumented requests
@@ -273,13 +204,13 @@ By default, this library uses `node-fetch` in Node, and expects a global `fetch`
 
 If you would prefer to use a global, web-standards-compliant `fetch` function even in a Node environment,
 (for example, if you are running Node with `--experimental-fetch` or using NextJS which polyfills with `undici`),
-add the following import before your first import `from "Increase"`:
+add the following import before your first import `from "Sam"`:
 
 ```ts
 // Tell TypeScript and the package to use the global web fetch instead of node-fetch.
 // Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
 import 'sam-node/shims/web';
-import Increase from 'sam-node';
+import Sam from 'sam-node';
 ```
 
 To do the inverse, add `import "sam-node/shims/node"` (which does import polyfills).
@@ -292,9 +223,9 @@ which can be used to inspect or alter the `Request` or `Response` before/after e
 
 ```ts
 import { fetch } from 'undici'; // as one example
-import Increase from 'sam-node';
+import Sam from 'sam-node';
 
-const client = new Increase({
+const client = new Sam({
   fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     console.log('About to make a request', url, init);
     const response = await fetch(url, init);
@@ -319,17 +250,14 @@ import http from 'http';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
-const client = new Increase({
+const client = new Sam({
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 
 // Override per-request:
-await increase.accounts.list(
-  { status: 'open' },
-  {
-    httpAgent: new http.Agent({ keepAlive: false }),
-  },
-);
+await sam.stores.createOrder({
+  httpAgent: new http.Agent({ keepAlive: false }),
+});
 ```
 
 ## Semantic versioning
