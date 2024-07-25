@@ -31,19 +31,12 @@ Types:
 
 Methods:
 
+- <code title="get /store/order/{orderId}">client.stores.<a href="./src/resources/stores/stores.ts">retrieve</a>(orderId) -> Order</code>
+- <code title="delete /store/order/{orderId}">client.stores.<a href="./src/resources/stores/stores.ts">delete</a>(orderId) -> void</code>
 - <code title="post /store/order">client.stores.<a href="./src/resources/stores/stores.ts">createOrder</a>({ ...params }) -> Order</code>
 - <code title="get /store/inventory">client.stores.<a href="./src/resources/stores/stores.ts">inventory</a>() -> StoreInventoryResponse</code>
 
 ## Orders
-
-# Store
-
-## Orders
-
-Methods:
-
-- <code title="get /store/order/{orderId}">client.store.orders.<a href="./src/resources/store/orders.ts">retrieve</a>(orderId) -> Order</code>
-- <code title="delete /store/order/{orderId}">client.store.orders.<a href="./src/resources/store/orders.ts">delete</a>(orderId) -> void</code>
 
 # Users
 

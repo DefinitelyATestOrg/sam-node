@@ -11,6 +11,25 @@ export class Stores extends APIResource {
   orders: OrdersAPI.Orders = new OrdersAPI.Orders(this._client);
 
   /**
+   * For valid response try integer IDs with value <= 5 or > 10. Other values will
+   * generate exceptions.
+   */
+  retrieve(orderId: number, options?: Core.RequestOptions): Core.APIPromise<Shared.Order> {
+    return this._client.get(`/store/order/${orderId}`, options);
+  }
+
+  /**
+   * For valid response try integer IDs with value < 1000. Anything above 1000 or
+   * nonintegers will generate API errors
+   */
+  delete(orderId: number, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.delete(`/store/order/${orderId}`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
+
+  /**
    * Place a new order in the store
    */
   createOrder(body?: StoreCreateOrderParams, options?: Core.RequestOptions): Core.APIPromise<Shared.Order>;
