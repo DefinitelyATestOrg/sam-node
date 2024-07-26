@@ -28,7 +28,7 @@ import Sam from 'sam-node';
 const client = new Sam();
 
 async function main() {
-  const order = await sam.stores.createOrder();
+  const order = await client.stores.createOrder();
 
   console.log(order.id);
 }
@@ -47,7 +47,7 @@ import Sam from 'sam-node';
 const client = new Sam();
 
 async function main() {
-  const order: Sam.Order = await sam.stores.createOrder();
+  const order: Sam.Order = await client.stores.createOrder();
 }
 
 main();
@@ -64,7 +64,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const order = await sam.stores.createOrder().catch(async (err) => {
+  const order = await client.stores.createOrder().catch(async (err) => {
     if (err instanceof Sam.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -107,7 +107,7 @@ const client = new Sam({
 });
 
 // Or, configure per-request:
-await sam.stores.createOrder({
+await client.stores.createOrder({
   maxRetries: 5,
 });
 ```
@@ -124,7 +124,7 @@ const client = new Sam({
 });
 
 // Override per-request:
-await sam.stores.createOrder({
+await client.stores.createOrder({
   timeout: 5 * 1000,
 });
 ```
@@ -145,11 +145,11 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Sam();
 
-const response = await sam.stores.createOrder().asResponse();
+const response = await client.stores.createOrder().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: order, response: raw } = await sam.stores.createOrder().withResponse();
+const { data: order, response: raw } = await client.stores.createOrder().withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(order.id);
 ```
@@ -255,7 +255,7 @@ const client = new Sam({
 });
 
 // Override per-request:
-await sam.stores.createOrder({
+await client.stores.createOrder({
   httpAgent: new http.Agent({ keepAlive: false }),
 });
 ```
