@@ -3,11 +3,11 @@
 import Sam from 'sam-node';
 import { Response } from 'node-fetch';
 
-const sam = new Sam({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
+const client = new Sam({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource stores', () => {
   test('retrieve', async () => {
-    const responsePromise = sam.stores.retrieve(0);
+    const responsePromise = client.stores.retrieve(0);
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -19,13 +19,13 @@ describe('resource stores', () => {
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.stores.retrieve(0, { path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.stores.retrieve(0, { path: '/_stainless_unknown_path' })).rejects.toThrow(
       Sam.NotFoundError,
     );
   });
 
   test('delete', async () => {
-    const responsePromise = sam.stores.delete(0);
+    const responsePromise = client.stores.delete(0);
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -37,13 +37,13 @@ describe('resource stores', () => {
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.stores.delete(0, { path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.stores.delete(0, { path: '/_stainless_unknown_path' })).rejects.toThrow(
       Sam.NotFoundError,
     );
   });
 
   test('createOrder', async () => {
-    const responsePromise = sam.stores.createOrder();
+    const responsePromise = client.stores.createOrder();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -55,7 +55,7 @@ describe('resource stores', () => {
 
   test('createOrder: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.stores.createOrder({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.stores.createOrder({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Sam.NotFoundError,
     );
   });
@@ -63,7 +63,7 @@ describe('resource stores', () => {
   test('createOrder: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      sam.stores.createOrder(
+      client.stores.createOrder(
         {
           id: 10,
           complete: true,
@@ -78,7 +78,7 @@ describe('resource stores', () => {
   });
 
   test('inventory', async () => {
-    const responsePromise = sam.stores.inventory();
+    const responsePromise = client.stores.inventory();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -90,7 +90,7 @@ describe('resource stores', () => {
 
   test('inventory: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.stores.inventory({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.stores.inventory({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Sam.NotFoundError,
     );
   });

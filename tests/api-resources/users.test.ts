@@ -3,11 +3,11 @@
 import Sam from 'sam-node';
 import { Response } from 'node-fetch';
 
-const sam = new Sam({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
+const client = new Sam({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource users', () => {
   test('create', async () => {
-    const responsePromise = sam.users.create();
+    const responsePromise = client.users.create();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -19,13 +19,15 @@ describe('resource users', () => {
 
   test('create: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.users.create({ path: '/_stainless_unknown_path' })).rejects.toThrow(Sam.NotFoundError);
+    await expect(client.users.create({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Sam.NotFoundError,
+    );
   });
 
   test('create: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      sam.users.create(
+      client.users.create(
         {
           id: 10,
           email: 'john@email.com',
@@ -42,7 +44,7 @@ describe('resource users', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = sam.users.retrieve('username');
+    const responsePromise = client.users.retrieve('username');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -54,13 +56,13 @@ describe('resource users', () => {
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.users.retrieve('username', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.users.retrieve('username', { path: '/_stainless_unknown_path' })).rejects.toThrow(
       Sam.NotFoundError,
     );
   });
 
   test('update: only required params', async () => {
-    const responsePromise = sam.users.update({ path_username: 'username' });
+    const responsePromise = client.users.update({ path_username: 'username' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -71,7 +73,7 @@ describe('resource users', () => {
   });
 
   test('update: required and optional params', async () => {
-    const response = await sam.users.update({
+    const response = await client.users.update({
       path_username: 'username',
       id: 10,
       email: 'john@email.com',
@@ -85,7 +87,7 @@ describe('resource users', () => {
   });
 
   test('delete', async () => {
-    const responsePromise = sam.users.delete('username');
+    const responsePromise = client.users.delete('username');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -97,13 +99,13 @@ describe('resource users', () => {
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.users.delete('username', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.users.delete('username', { path: '/_stainless_unknown_path' })).rejects.toThrow(
       Sam.NotFoundError,
     );
   });
 
   test('createWithList: only required params', async () => {
-    const responsePromise = sam.users.createWithList([{}, {}, {}]);
+    const responsePromise = client.users.createWithList([{}, {}, {}]);
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -114,7 +116,7 @@ describe('resource users', () => {
   });
 
   test('createWithList: required and optional params', async () => {
-    const response = await sam.users.createWithList([
+    const response = await client.users.createWithList([
       {
         id: 10,
         username: 'theUser',
@@ -149,7 +151,7 @@ describe('resource users', () => {
   });
 
   test('login', async () => {
-    const responsePromise = sam.users.login();
+    const responsePromise = client.users.login();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -161,18 +163,21 @@ describe('resource users', () => {
 
   test('login: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.users.login({ path: '/_stainless_unknown_path' })).rejects.toThrow(Sam.NotFoundError);
+    await expect(client.users.login({ path: '/_stainless_unknown_path' })).rejects.toThrow(Sam.NotFoundError);
   });
 
   test('login: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      sam.users.login({ password: 'password', username: 'username' }, { path: '/_stainless_unknown_path' }),
+      client.users.login(
+        { password: 'password', username: 'username' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Sam.NotFoundError);
   });
 
   test('logout', async () => {
-    const responsePromise = sam.users.logout();
+    const responsePromise = client.users.logout();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -184,6 +189,8 @@ describe('resource users', () => {
 
   test('logout: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(sam.users.logout({ path: '/_stainless_unknown_path' })).rejects.toThrow(Sam.NotFoundError);
+    await expect(client.users.logout({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Sam.NotFoundError,
+    );
   });
 });
