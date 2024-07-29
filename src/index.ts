@@ -119,6 +119,7 @@ export class Sam extends Core.APIClient {
   }
 
   static Sam = this;
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
 
   static SamError = Errors.SamError;
   static APIError = Errors.APIError;
