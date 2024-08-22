@@ -2,7 +2,7 @@
   "name": "sam-node",
   "version": "0.1.0-alpha.2",
   "description": "The official TypeScript library for the Sam API",
-  "author": "Sam <apiteam@swagger.io.>",
+  "author": "Sam <apiteam@swagger.io>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
