@@ -72,7 +72,7 @@ export interface StoreCreateOrderParams {
 }
 
 export namespace Stores {
-  export import StoreInventoryResponse = StoresAPI.StoreInventoryResponse;
-  export import StoreCreateOrderParams = StoresAPI.StoreCreateOrderParams;
+  export type StoreInventoryResponse = StoresAPI.StoreInventoryResponse;
+  export type StoreCreateOrderParams = StoresAPI.StoreCreateOrderParams;
   export import Orders = OrdersAPI.Orders;
 }

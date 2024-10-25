@@ -239,14 +239,14 @@ export interface PetUploadImageParams {
 }
 
 export namespace Pets {
-  export import APIResponse = PetsAPI.APIResponse;
-  export import Pet = PetsAPI.Pet;
-  export import PetFindByStatusResponse = PetsAPI.PetFindByStatusResponse;
-  export import PetFindByTagsResponse = PetsAPI.PetFindByTagsResponse;
-  export import PetCreateParams = PetsAPI.PetCreateParams;
-  export import PetUpdateParams = PetsAPI.PetUpdateParams;
-  export import PetDeleteParams = PetsAPI.PetDeleteParams;
-  export import PetFindByStatusParams = PetsAPI.PetFindByStatusParams;
-  export import PetFindByTagsParams = PetsAPI.PetFindByTagsParams;
-  export import PetUploadImageParams = PetsAPI.PetUploadImageParams;
+  export type APIResponse = PetsAPI.APIResponse;
+  export type Pet = PetsAPI.Pet;
+  export type PetFindByStatusResponse = PetsAPI.PetFindByStatusResponse;
+  export type PetFindByTagsResponse = PetsAPI.PetFindByTagsResponse;
+  export type PetCreateParams = PetsAPI.PetCreateParams;
+  export type PetUpdateParams = PetsAPI.PetUpdateParams;
+  export type PetDeleteParams = PetsAPI.PetDeleteParams;
+  export type PetFindByStatusParams = PetsAPI.PetFindByStatusParams;
+  export type PetFindByTagsParams = PetsAPI.PetFindByTagsParams;
+  export type PetUploadImageParams = PetsAPI.PetUploadImageParams;
 }
