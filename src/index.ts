@@ -159,33 +159,33 @@ export import toFile = Uploads.toFile;
 export import fileFromPath = Uploads.fileFromPath;
 
 export namespace Sam {
-  export type RequestOptions = Core.RequestOptions;
+  export import RequestOptions = Core.RequestOptions;
 
   export import Pets = API.Pets;
-  export type APIResponse = API.APIResponse;
-  export type Pet = API.Pet;
-  export type PetFindByStatusResponse = API.PetFindByStatusResponse;
-  export type PetFindByTagsResponse = API.PetFindByTagsResponse;
-  export type PetCreateParams = API.PetCreateParams;
-  export type PetUpdateParams = API.PetUpdateParams;
-  export type PetDeleteParams = API.PetDeleteParams;
-  export type PetFindByStatusParams = API.PetFindByStatusParams;
-  export type PetFindByTagsParams = API.PetFindByTagsParams;
-  export type PetUploadImageParams = API.PetUploadImageParams;
+  export import APIResponse = API.APIResponse;
+  export import Pet = API.Pet;
+  export import PetFindByStatusResponse = API.PetFindByStatusResponse;
+  export import PetFindByTagsResponse = API.PetFindByTagsResponse;
+  export import PetCreateParams = API.PetCreateParams;
+  export import PetUpdateParams = API.PetUpdateParams;
+  export import PetDeleteParams = API.PetDeleteParams;
+  export import PetFindByStatusParams = API.PetFindByStatusParams;
+  export import PetFindByTagsParams = API.PetFindByTagsParams;
+  export import PetUploadImageParams = API.PetUploadImageParams;
 
   export import Stores = API.Stores;
-  export type StoreInventoryResponse = API.StoreInventoryResponse;
-  export type StoreCreateOrderParams = API.StoreCreateOrderParams;
+  export import StoreInventoryResponse = API.StoreInventoryResponse;
+  export import StoreCreateOrderParams = API.StoreCreateOrderParams;
 
   export import Users = API.Users;
-  export type User = API.User;
-  export type UserLoginResponse = API.UserLoginResponse;
-  export type UserCreateParams = API.UserCreateParams;
-  export type UserUpdateParams = API.UserUpdateParams;
-  export type UserCreateWithListParams = API.UserCreateWithListParams;
-  export type UserLoginParams = API.UserLoginParams;
+  export import User = API.User;
+  export import UserLoginResponse = API.UserLoginResponse;
+  export import UserCreateParams = API.UserCreateParams;
+  export import UserUpdateParams = API.UserUpdateParams;
+  export import UserCreateWithListParams = API.UserCreateWithListParams;
+  export import UserLoginParams = API.UserLoginParams;
 
-  export type Order = API.Order;
+  export import Order = API.Order;
 }
 
 export default Sam;
