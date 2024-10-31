@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as UsersAPI from './users';
 
 export class Users extends APIResource {
   /**
@@ -189,11 +188,13 @@ export interface UserLoginParams {
   username?: string;
 }
 
-export namespace Users {
-  export import User = UsersAPI.User;
-  export import UserLoginResponse = UsersAPI.UserLoginResponse;
-  export import UserCreateParams = UsersAPI.UserCreateParams;
-  export import UserUpdateParams = UsersAPI.UserUpdateParams;
-  export import UserCreateWithListParams = UsersAPI.UserCreateWithListParams;
-  export import UserLoginParams = UsersAPI.UserLoginParams;
+export declare namespace Users {
+  export {
+    type User as User,
+    type UserLoginResponse as UserLoginResponse,
+    type UserCreateParams as UserCreateParams,
+    type UserUpdateParams as UserUpdateParams,
+    type UserCreateWithListParams as UserCreateWithListParams,
+    type UserLoginParams as UserLoginParams,
+  };
 }

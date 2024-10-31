@@ -3,9 +3,9 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
-import * as StoresAPI from './stores';
 import * as Shared from '../shared';
 import * as OrdersAPI from './orders';
+import { Orders } from './orders';
 
 export class Stores extends APIResource {
   orders: OrdersAPI.Orders = new OrdersAPI.Orders(this._client);
@@ -71,8 +71,13 @@ export interface StoreCreateOrderParams {
   status?: 'placed' | 'approved' | 'delivered';
 }
 
-export namespace Stores {
-  export import StoreInventoryResponse = StoresAPI.StoreInventoryResponse;
-  export import StoreCreateOrderParams = StoresAPI.StoreCreateOrderParams;
-  export import Orders = OrdersAPI.Orders;
+Stores.Orders = Orders;
+
+export declare namespace Stores {
+  export {
+    type StoreInventoryResponse as StoreInventoryResponse,
+    type StoreCreateOrderParams as StoreCreateOrderParams,
+  };
+
+  export { Orders as Orders };
 }

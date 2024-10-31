@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as PetsAPI from './pets';
 import { type BlobLike } from '../uploads';
 
 export class Pets extends APIResource {
@@ -238,15 +237,17 @@ export interface PetUploadImageParams {
   additionalMetadata?: string;
 }
 
-export namespace Pets {
-  export import APIResponse = PetsAPI.APIResponse;
-  export import Pet = PetsAPI.Pet;
-  export import PetFindByStatusResponse = PetsAPI.PetFindByStatusResponse;
-  export import PetFindByTagsResponse = PetsAPI.PetFindByTagsResponse;
-  export import PetCreateParams = PetsAPI.PetCreateParams;
-  export import PetUpdateParams = PetsAPI.PetUpdateParams;
-  export import PetDeleteParams = PetsAPI.PetDeleteParams;
-  export import PetFindByStatusParams = PetsAPI.PetFindByStatusParams;
-  export import PetFindByTagsParams = PetsAPI.PetFindByTagsParams;
-  export import PetUploadImageParams = PetsAPI.PetUploadImageParams;
+export declare namespace Pets {
+  export {
+    type APIResponse as APIResponse,
+    type Pet as Pet,
+    type PetFindByStatusResponse as PetFindByStatusResponse,
+    type PetFindByTagsResponse as PetFindByTagsResponse,
+    type PetCreateParams as PetCreateParams,
+    type PetUpdateParams as PetUpdateParams,
+    type PetDeleteParams as PetDeleteParams,
+    type PetFindByStatusParams as PetFindByStatusParams,
+    type PetFindByTagsParams as PetFindByTagsParams,
+    type PetUploadImageParams as PetUploadImageParams,
+  };
 }

@@ -1,11 +1,34 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Errors from './error';
-import * as Uploads from './uploads';
 import { type Agent } from './_shims/index';
 import * as qs from './internal/qs';
 import * as Core from './core';
+import * as Errors from './error';
+import * as Uploads from './uploads';
 import * as API from './resources/index';
+import {
+  APIResponse,
+  Pet,
+  PetCreateParams,
+  PetDeleteParams,
+  PetFindByStatusParams,
+  PetFindByStatusResponse,
+  PetFindByTagsParams,
+  PetFindByTagsResponse,
+  PetUpdateParams,
+  PetUploadImageParams,
+  Pets,
+} from './resources/pets';
+import {
+  User,
+  UserCreateParams,
+  UserCreateWithListParams,
+  UserLoginParams,
+  UserLoginResponse,
+  UserUpdateParams,
+  Users,
+} from './resources/users';
+import { StoreCreateOrderParams, StoreInventoryResponse, Stores } from './resources/stores/stores';
 
 export interface ClientOptions {
   /**
@@ -139,53 +162,61 @@ export class Sam extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-export const {
-  SamError,
-  APIError,
-  APIConnectionError,
-  APIConnectionTimeoutError,
-  APIUserAbortError,
-  NotFoundError,
-  ConflictError,
-  RateLimitError,
-  BadRequestError,
-  AuthenticationError,
-  InternalServerError,
-  PermissionDeniedError,
-  UnprocessableEntityError,
-} = Errors;
+export const SamError = Errors.SamError;
+export const APIError = Errors.APIError;
+export const APIConnectionError = Errors.APIConnectionError;
+export const APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
+export const APIUserAbortError = Errors.APIUserAbortError;
+export const NotFoundError = Errors.NotFoundError;
+export const ConflictError = Errors.ConflictError;
+export const RateLimitError = Errors.RateLimitError;
+export const BadRequestError = Errors.BadRequestError;
+export const AuthenticationError = Errors.AuthenticationError;
+export const InternalServerError = Errors.InternalServerError;
+export const PermissionDeniedError = Errors.PermissionDeniedError;
+export const UnprocessableEntityError = Errors.UnprocessableEntityError;
 
 export import toFile = Uploads.toFile;
 export import fileFromPath = Uploads.fileFromPath;
 
-export namespace Sam {
-  export import RequestOptions = Core.RequestOptions;
+Sam.Pets = Pets;
+Sam.Stores = Stores;
+Sam.Users = Users;
 
-  export import Pets = API.Pets;
-  export import APIResponse = API.APIResponse;
-  export import Pet = API.Pet;
-  export import PetFindByStatusResponse = API.PetFindByStatusResponse;
-  export import PetFindByTagsResponse = API.PetFindByTagsResponse;
-  export import PetCreateParams = API.PetCreateParams;
-  export import PetUpdateParams = API.PetUpdateParams;
-  export import PetDeleteParams = API.PetDeleteParams;
-  export import PetFindByStatusParams = API.PetFindByStatusParams;
-  export import PetFindByTagsParams = API.PetFindByTagsParams;
-  export import PetUploadImageParams = API.PetUploadImageParams;
+export declare namespace Sam {
+  export type RequestOptions = Core.RequestOptions;
 
-  export import Stores = API.Stores;
-  export import StoreInventoryResponse = API.StoreInventoryResponse;
-  export import StoreCreateOrderParams = API.StoreCreateOrderParams;
+  export {
+    Pets as Pets,
+    type APIResponse as APIResponse,
+    type Pet as Pet,
+    type PetFindByStatusResponse as PetFindByStatusResponse,
+    type PetFindByTagsResponse as PetFindByTagsResponse,
+    type PetCreateParams as PetCreateParams,
+    type PetUpdateParams as PetUpdateParams,
+    type PetDeleteParams as PetDeleteParams,
+    type PetFindByStatusParams as PetFindByStatusParams,
+    type PetFindByTagsParams as PetFindByTagsParams,
+    type PetUploadImageParams as PetUploadImageParams,
+  };
 
-  export import Users = API.Users;
-  export import User = API.User;
-  export import UserLoginResponse = API.UserLoginResponse;
-  export import UserCreateParams = API.UserCreateParams;
-  export import UserUpdateParams = API.UserUpdateParams;
-  export import UserCreateWithListParams = API.UserCreateWithListParams;
-  export import UserLoginParams = API.UserLoginParams;
+  export {
+    Stores as Stores,
+    type StoreInventoryResponse as StoreInventoryResponse,
+    type StoreCreateOrderParams as StoreCreateOrderParams,
+  };
 
-  export import Order = API.Order;
+  export {
+    Users as Users,
+    type User as User,
+    type UserLoginResponse as UserLoginResponse,
+    type UserCreateParams as UserCreateParams,
+    type UserUpdateParams as UserUpdateParams,
+    type UserCreateWithListParams as UserCreateWithListParams,
+    type UserLoginParams as UserLoginParams,
+  };
+
+  export type Order = API.Order;
 }
 
 export default Sam;

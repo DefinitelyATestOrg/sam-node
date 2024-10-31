@@ -11,7 +11,7 @@
     "paths": {
       "sam-node/_shims/auto/*": ["src/_shims/auto/*-node"],
       "sam-node/*": ["src/*"],
-      "sam-node": ["src/index.ts"],
+      "sam-node": ["src/index.ts"]
     },
     "noEmit": true,
 
