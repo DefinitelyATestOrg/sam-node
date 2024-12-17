@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/sam-go/v2"
-	"github.com/stainless-sdks/sam-go/v2/internal/testutil"
-	"github.com/stainless-sdks/sam-go/v2/option"
+	"github.com/DefinitelyATestOrg/sam-node/v2"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/testutil"
+	"github.com/DefinitelyATestOrg/sam-node/v2/option"
 )
 
 func TestStoreOrderGet(t *testing.T) {

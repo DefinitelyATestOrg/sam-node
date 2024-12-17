@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/sam-go/v2/internal/param"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/param"
 )
 
 type Struct struct {

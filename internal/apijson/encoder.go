@@ -13,7 +13,7 @@ import (
 
 	"github.com/tidwall/sjson"
 
-	"github.com/stainless-sdks/sam-go/v2/internal/param"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/param"
 )
 
 var encoders sync.Map // map[encoderEntry]encoderFunc
