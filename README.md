@@ -1,253 +1,157 @@
-# Sam Go API Library
+# Sam Node API Library
 
-<a href="https://pkg.go.dev/github.com/DefinitelyATestOrg/sam-node"><img src="https://pkg.go.dev/badge/github.com/DefinitelyATestOrg/sam-node.svg" alt="Go Reference"></a>
+[![NPM version](https://img.shields.io/npm/v/sam.svg)](https://npmjs.org/package/sam) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/sam)
 
-The Sam Go library provides convenient access to [the Sam REST
-API](https://docs.sam.com) from applications written in Go. The full API of this library can be found in [api.md](api.md).
+This library provides convenient access to the Sam REST API from server-side TypeScript or JavaScript.
+
+The REST API documentation can be found on [docs.sam.com](https://docs.sam.com). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Installation
 
-<!-- x-release-please-start-version -->
-
-```go
-import (
-	"github.com/DefinitelyATestOrg/sam-node" // imported as sam
-)
-```
-
-<!-- x-release-please-end -->
-
-Or to pin the version:
-
-<!-- x-release-please-start-version -->
-
 ```sh
-go get -u 'github.com/DefinitelyATestOrg/sam-node@v0.0.1-alpha.0'
+npm install git+ssh://git@github.com:DefinitelyATestOrg/sam-node.git
 ```
 
-<!-- x-release-please-end -->
-
-## Requirements
-
-This library requires Go 1.18+.
+> [!NOTE]
+> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install sam`
 
 ## Usage
 
 The full API of this library can be found in [api.md](api.md).
 
-```go
-package main
+<!-- prettier-ignore -->
+```js
+import Sam from 'sam';
 
-import (
-	"context"
-	"fmt"
+const client = new Sam();
 
-	"github.com/DefinitelyATestOrg/sam-node"
-	"github.com/DefinitelyATestOrg/sam-node/option"
-)
+async function main() {
+  const user = await client.users.create();
 
-func main() {
-	client := sam.NewClient(
-		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("API_KEY")
-	)
-	user, err := client.Users.New(context.TODO(), sam.UserNewParams{
-		User: sam.UserParam{},
-	})
-	if err != nil {
-		panic(err.Error())
-	}
-	fmt.Printf("%+v\n", user.ID)
+  console.log(user.id);
 }
 
+main();
 ```
 
-### Request fields
+### Request & Response types
 
-All request parameters are wrapped in a generic `Field` type,
-which we use to distinguish zero values from null or omitted fields.
+This library includes TypeScript definitions for all request params and response fields. You may import and use them like so:
 
-This prevents accidentally sending a zero value if you forget a required parameter,
-and enables explicitly sending `null`, `false`, `''`, or `0` on optional parameters.
-Any field not specified is not sent.
+<!-- prettier-ignore -->
+```ts
+import Sam from 'sam';
 
-To construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.
-To send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:
+const client = new Sam();
 
-```go
-params := FooParams{
-	Name: sam.F("hello"),
-
-	// Explicitly send `"description": null`
-	Description: sam.Null[string](),
-
-	Point: sam.F(sam.Point{
-		X: sam.Int(0),
-		Y: sam.Int(1),
-
-		// In cases where the API specifies a given type,
-		// but you want to send something else, use `Raw`:
-		Z: sam.Raw[int64](0.01), // sends a float
-	}),
+async function main() {
+  const user: Sam.User = await client.users.create();
 }
+
+main();
 ```
 
-### Response objects
+Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
-All fields in response structs are value types (not pointers or wrappers).
+## Handling errors
 
-If a given field is `null`, not present, or invalid, the corresponding field
-will simply be its zero value.
+When the library is unable to connect to the API,
+or if the API returns a non-success status code (i.e., 4xx or 5xx response),
+a subclass of `APIError` will be thrown:
 
-All response structs also include a special `JSON` field, containing more detailed
-information about each property, which you can use like so:
-
-```go
-if res.Name == "" {
-	// true if `"name"` is either not present or explicitly null
-	res.JSON.Name.IsNull()
-
-	// true if the `"name"` key was not present in the repsonse JSON at all
-	res.JSON.Name.IsMissing()
-
-	// When the API returns data that cannot be coerced to the expected type:
-	if res.JSON.Name.IsInvalid() {
-		raw := res.JSON.Name.Raw()
-
-		legacyName := struct{
-			First string `json:"first"`
-			Last  string `json:"last"`
-		}{}
-		json.Unmarshal([]byte(raw), &legacyName)
-		name = legacyName.First + " " + legacyName.Last
-	}
+<!-- prettier-ignore -->
+```ts
+async function main() {
+  const user = await client.users.create().catch(async (err) => {
+    if (err instanceof Sam.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
+
+main();
 ```
 
-These `.JSON` structs also include an `Extras` map containing
-any properties in the json response that were not specified
-in the struct. This can be useful for API features not yet
-present in the SDK.
+Error codes are as followed:
 
-```go
-body := res.JSON.ExtraFields["my_unexpected_field"].Raw()
-```
-
-### RequestOptions
-
-This library uses the functional options pattern. Functions defined in the
-`option` package return a `RequestOption`, which is a closure that mutates a
-`RequestConfig`. These options can be supplied to the client or at individual
-requests. For example:
-
-```go
-client := sam.NewClient(
-	// Adds a header to every request made by the client
-	option.WithHeader("X-Some-Header", "custom_header_info"),
-)
-
-client.Users.New(context.TODO(), ...,
-	// Override the header
-	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
-	// Add an undocumented field to the request body, using sjson syntax
-	option.WithJSONSet("some.json.path", map[string]string{"my": "object"}),
-)
-```
-
-See the [full list of request options](https://pkg.go.dev/github.com/DefinitelyATestOrg/sam-node/option).
-
-### Pagination
-
-This library provides some conveniences for working with paginated list endpoints.
-
-You can use `.ListAutoPaging()` methods to iterate through items across all pages:
-
-Or you can use simple `.List()` methods to fetch a single page and receive a standard response object
-with additional helper methods like `.GetNextPage()`, e.g.:
-
-### Errors
-
-When the API returns a non-success status code, we return an error with type
-`*sam.Error`. This contains the `StatusCode`, `*http.Request`, and
-`*http.Response` values of the request, as well as the JSON of the error body
-(much like other response objects in the SDK).
-
-To handle errors, we recommend that you use the `errors.As` pattern:
-
-```go
-_, err := client.Users.New(context.TODO(), sam.UserNewParams{
-	User: sam.UserParam{},
-})
-if err != nil {
-	var apierr *sam.Error
-	if errors.As(err, &apierr) {
-		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
-		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
-	}
-	panic(err.Error()) // GET "/user": 400 Bad Request { ... }
-}
-```
-
-When other errors occur, they are returned unwrapped; for example,
-if HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.
-
-### Timeouts
-
-Requests do not time out by default; use context to configure a timeout for a request lifecycle.
-
-Note that if a request is [retried](#retries), the context timeout does not start over.
-To set a per-retry timeout, use `option.WithRequestTimeout()`.
-
-```go
-// This sets the timeout for the request, including all the retries.
-ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
-defer cancel()
-client.Users.New(
-	ctx,
-	sam.UserNewParams{
-		User: sam.UserParam{},
-	},
-	// This sets the per-retry timeout
-	option.WithRequestTimeout(20*time.Second),
-)
-```
-
-### File uploads
-
-Request parameters that correspond to file uploads in multipart requests are typed as
-`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form
-part with the file name of "anonymous_file" and content-type of "application/octet-stream".
-
-The file name and content-type can be customized by implementing `Name() string` or `ContentType()
-string` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a
-file returned by `os.Open` will be sent with the file name on disk.
-
-We also provide a helper `sam.FileParam(reader io.Reader, filename string, contentType string)`
-which can be used to wrap any `io.Reader` with the appropriate file name and content type.
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 400         | `BadRequestError`          |
+| 401         | `AuthenticationError`      |
+| 403         | `PermissionDeniedError`    |
+| 404         | `NotFoundError`            |
+| 422         | `UnprocessableEntityError` |
+| 429         | `RateLimitError`           |
+| >=500       | `InternalServerError`      |
+| N/A         | `APIConnectionError`       |
 
 ### Retries
 
 Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
-We retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,
-and >=500 Internal errors.
+Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
+429 Rate Limit, and >=500 Internal errors will all be retried by default.
 
-You can use the `WithMaxRetries` option to configure or disable this:
+You can use the `maxRetries` option to configure or disable this:
 
-```go
+<!-- prettier-ignore -->
+```js
 // Configure the default for all requests:
-client := sam.NewClient(
-	option.WithMaxRetries(0), // default is 2
-)
+const client = new Sam({
+  maxRetries: 0, // default is 2
+});
+
+// Or, configure per-request:
+await client.users.create({
+  maxRetries: 5,
+});
+```
+
+### Timeouts
+
+Requests time out after 1 minute by default. You can configure this with a `timeout` option:
+
+<!-- prettier-ignore -->
+```ts
+// Configure the default for all requests:
+const client = new Sam({
+  timeout: 20 * 1000, // 20 seconds (default is 1 minute)
+});
 
 // Override per-request:
-client.Users.New(
-	context.TODO(),
-	sam.UserNewParams{
-		User: sam.UserParam{},
-	},
-	option.WithMaxRetries(5),
-)
+await client.users.create({
+  timeout: 5 * 1000,
+});
+```
+
+On timeout, an `APIConnectionTimeoutError` is thrown.
+
+Note that requests which time out will be [retried twice by default](#retries).
+
+## Advanced Usage
+
+### Accessing raw Response data (e.g., headers)
+
+The "raw" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.
+
+You can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.
+
+<!-- prettier-ignore -->
+```ts
+const client = new Sam();
+
+const response = await client.users.create().asResponse();
+console.log(response.headers.get('X-My-Header'));
+console.log(response.statusText); // access the underlying Response object
+
+const { data: user, response: raw } = await client.users.create().withResponse();
+console.log(raw.headers.get('X-My-Header'));
+console.log(user.id);
 ```
 
 ### Making custom/undocumented requests
@@ -257,95 +161,135 @@ endpoints, params, or response properties, the library can still be used.
 
 #### Undocumented endpoints
 
-To make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.
-`RequestOptions` on the client, such as retries, will be respected when making these requests.
+To make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.
+Options on the client, such as retries, will be respected when making these requests.
 
-```go
-var (
-    // params can be an io.Reader, a []byte, an encoding/json serializable object,
-    // or a "…Params" struct defined in this library.
-    params map[string]interface{}
-
-    // result can be an []byte, *http.Response, a encoding/json deserializable object,
-    // or a model defined in this library.
-    result *http.Response
-)
-err := client.Post(context.Background(), "/unspecified", params, &result)
-if err != nil {
-    …
-}
+```ts
+await client.post('/some/path', {
+  body: { some_prop: 'foo' },
+  query: { some_query_arg: 'bar' },
+});
 ```
 
 #### Undocumented request params
 
-To make requests using undocumented parameters, you may use either the `option.WithQuerySet()`
-or the `option.WithJSONSet()` methods.
+To make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented
+parameter. This library doesn't validate at runtime that the request matches the type, so any extra values you
+send will be sent as-is.
 
-```go
-params := FooNewParams{
-    ID:   sam.F("id_xxxx"),
-    Data: sam.F(FooNewParamsData{
-        FirstName: sam.F("John"),
-    }),
-}
-client.Foo.New(context.Background(), params, option.WithJSONSet("data.last_name", "Doe"))
+```ts
+client.foo.create({
+  foo: 'my_param',
+  bar: 12,
+  // @ts-expect-error baz is not yet public
+  baz: 'undocumented option',
+});
 ```
+
+For requests with the `GET` verb, any extra params will be in the query, all other requests will send the
+extra param in the body.
+
+If you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request
+options.
 
 #### Undocumented response properties
 
-To access undocumented response properties, you may either access the raw JSON of the response as a string
-with `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with
-`result.JSON.Foo.Raw()`.
+To access undocumented response properties, you may access the response object with `// @ts-expect-error` on
+the response object, or cast the response object to the requisite type. Like the request params, we do not
+validate or strip extra properties from the response from the API.
 
-Any fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.
+### Customizing the fetch client
 
-### Middleware
+By default, this library uses `node-fetch` in Node, and expects a global `fetch` function in other environments.
 
-We provide `option.WithMiddleware` which applies the given
-middleware to requests.
+If you would prefer to use a global, web-standards-compliant `fetch` function even in a Node environment,
+(for example, if you are running Node with `--experimental-fetch` or using NextJS which polyfills with `undici`),
+add the following import before your first import `from "Sam"`:
 
-```go
-func Logger(req *http.Request, next option.MiddlewareNext) (res *http.Response, err error) {
-	// Before the request
-	start := time.Now()
-	LogReq(req)
-
-	// Forward the request to the next handler
-	res, err = next(req)
-
-	// Handle stuff after the request
-	end := time.Now()
-	LogRes(res, err, start - end)
-
-    return res, err
-}
-
-client := sam.NewClient(
-	option.WithMiddleware(Logger),
-)
+```ts
+// Tell TypeScript and the package to use the global web fetch instead of node-fetch.
+// Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
+import 'sam/shims/web';
+import Sam from 'sam';
 ```
 
-When multiple middlewares are provided as variadic arguments, the middlewares
-are applied left to right. If `option.WithMiddleware` is given
-multiple times, for example first in the client then the method, the
-middleware in the client will run first and the middleware given in the method
-will run next.
+To do the inverse, add `import "sam/shims/node"` (which does import polyfills).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/DefinitelyATestOrg/sam-node/tree/main/src/_shims#readme)).
 
-You may also replace the default `http.Client` with
-`option.WithHTTPClient(client)`. Only one http client is
-accepted (this overwrites any previous client) and receives requests after any
-middleware has been applied.
+### Logging and middleware
+
+You may also provide a custom `fetch` function when instantiating the client,
+which can be used to inspect or alter the `Request` or `Response` before/after each request:
+
+```ts
+import { fetch } from 'undici'; // as one example
+import Sam from 'sam';
+
+const client = new Sam({
+  fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
+    console.log('About to make a request', url, init);
+    const response = await fetch(url, init);
+    console.log('Got response', response);
+    return response;
+  },
+});
+```
+
+Note that if given a `DEBUG=true` environment variable, this library will log all requests and responses automatically.
+This is intended for debugging purposes only and may change in the future without notice.
+
+### Configuring an HTTP(S) Agent (e.g., for proxies)
+
+By default, this library uses a stable agent for all http/https requests to reuse TCP connections, eliminating many TCP & TLS handshakes and shaving around 100ms off most requests.
+
+If you would like to disable or customize this behavior, for example to use the API behind a proxy, you can pass an `httpAgent` which is used for all requests (be they http or https), for example:
+
+<!-- prettier-ignore -->
+```ts
+import http from 'http';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+
+// Configure the default for all requests:
+const client = new Sam({
+  httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
+});
+
+// Override per-request:
+await client.users.create({
+  httpAgent: new http.Agent({ keepAlive: false }),
+});
+```
 
 ## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
-1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals)_.
-2. Changes that we do not expect to impact the vast majority of users in practice.
+1. Changes that only affect static types, without breaking runtime behavior.
+2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals)_.
+3. Changes that we do not expect to impact the vast majority of users in practice.
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
 We are keen for your feedback; please open an [issue](https://www.github.com/DefinitelyATestOrg/sam-node/issues) with questions, bugs, or suggestions.
+
+## Requirements
+
+TypeScript >= 4.5 is supported.
+
+The following runtimes are supported:
+
+- Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)
+- Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
+- Deno v1.28.0 or higher.
+- Bun 1.0 or later.
+- Cloudflare Workers.
+- Vercel Edge Runtime.
+- Jest 28 or greater with the `"node"` environment (`"jsdom"` is not supported at this time).
+- Nitro v2.6 or greater.
+
+Note that React Native is not supported at this time.
+
+If you are interested in other runtime environments, please open or upvote an issue on GitHub.
 
 ## Contributing
 

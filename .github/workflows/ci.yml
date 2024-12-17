@@ -17,13 +17,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup go
-        uses: actions/setup-go@v5
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          go-version-file: ./go.mod
+          node-version: '18'
 
-      - name: Run lints
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Check types
         run: ./scripts/lint
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Check build
+        run: ./scripts/build
   test:
     name: test
     runs-on: ubuntu-latest
@@ -31,10 +53,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup go
-        uses: actions/setup-go@v5
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          go-version-file: ./go.mod
+          node-version: '18'
 
       - name: Bootstrap
         run: ./scripts/bootstrap
