@@ -1,47 +1,66 @@
 ## Setting up the environment
 
+This repository uses [`yarn@v1`](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable).
+Other package managers may work but are not officially supported for development.
+
 To set up the repository, run:
 
 ```sh
-$ ./scripts/bootstrap
-$ ./scripts/build
+$ yarn
+$ yarn build
 ```
 
-This will install all the required dependencies and build the SDK.
-
-You can also [install go 1.18+ manually](https://go.dev/doc/install).
+This will install all the required dependencies and build output files to `dist/`.
 
 ## Modifying/Adding code
 
 Most of the SDK is generated code. Modifications to code will be persisted between generations, but may
 result in merge conflicts between manual patches and changes from the generator. The generator will never
-modify the contents of the `lib/` and `examples/` directories.
+modify the contents of the `src/lib/` and `examples/` directories.
 
 ## Adding and running examples
 
 All files in the `examples/` directory are not modified by the generator and can be freely edited or added to.
 
-```go
-# add an example to examples/<your-example>/main.go
+```ts
+// add an example to examples/<your-example>.ts
 
-package main
-
-func main() {
-  // ...
-}
+#!/usr/bin/env -S npm run tsn -T
+…
 ```
 
-```sh
-$ go run ./examples/<your-example>
+```
+chmod +x examples/<your-example>.ts
+# run the example against your api
+yarn tsn -T examples/<your-example>.ts
 ```
 
 ## Using the repository from source
 
-To use a local version of this library from source in another project, edit the `go.mod` with a replace
-directive. This can be done through the CLI with the following:
+If you’d like to use the repository from source, you can either install from git or link to a cloned repository:
+
+To install via git:
 
 ```sh
-$ go mod edit -replace github.com/DefinitelyATestOrg/sam-node/v2=/path/to/sam-node
+$ npm install git+ssh://git@github.com:DefinitelyATestOrg/sam-node.git
+```
+
+Alternatively, to link a local copy of the repo:
+
+```sh
+# Clone
+$ git clone https://www.github.com/DefinitelyATestOrg/sam-node
+$ cd sam-node
+
+# With yarn
+$ yarn link
+$ cd ../my-package
+$ yarn link sam
+
+# With pnpm
+$ pnpm link --global
+$ cd ../my-package
+$ pnpm link -—global sam
 ```
 
 ## Running tests
@@ -49,18 +68,26 @@ $ go mod edit -replace github.com/DefinitelyATestOrg/sam-node/v2=/path/to/sam-no
 Most tests require you to [set up a mock server](https://github.com/stoplightio/prism) against the OpenAPI spec to run the tests.
 
 ```sh
-# you will need npm installed
 $ npx prism mock path/to/your/openapi.yml
 ```
 
 ```sh
-$ ./scripts/test
+$ yarn run test
 ```
 
-## Formatting
+## Linting and formatting
 
-This library uses the standard gofmt code formatter:
+This repository uses [prettier](https://www.npmjs.com/package/prettier) and
+[eslint](https://www.npmjs.com/package/eslint) to format the code in the repository.
+
+To lint:
 
 ```sh
-$ ./scripts/format
+$ yarn lint
+```
+
+To format and fix all lint issues automatically:
+
+```sh
+$ yarn fix
 ```
