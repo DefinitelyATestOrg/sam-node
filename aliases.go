@@ -3,7 +3,7 @@
 package sam
 
 import (
-	"github.com/stainless-sdks/sam-go/v2/internal/apierror"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/apierror"
 )
 
 type Error = apierror.Error

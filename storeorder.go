@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/stainless-sdks/sam-go/v2/internal/apijson"
-	"github.com/stainless-sdks/sam-go/v2/internal/requestconfig"
-	"github.com/stainless-sdks/sam-go/v2/option"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/apijson"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/requestconfig"
+	"github.com/DefinitelyATestOrg/sam-node/v2/option"
 )
 
 // StoreOrderService contains methods and other services that help with interacting

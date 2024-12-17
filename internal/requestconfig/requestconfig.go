@@ -17,10 +17,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stainless-sdks/sam-go/v2/internal"
-	"github.com/stainless-sdks/sam-go/v2/internal/apierror"
-	"github.com/stainless-sdks/sam-go/v2/internal/apiform"
-	"github.com/stainless-sdks/sam-go/v2/internal/apiquery"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/apierror"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/apiform"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/apiquery"
 )
 
 func getDefaultHeaders() map[string]string {
