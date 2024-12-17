@@ -4,5 +4,8 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-echo "==> Running Go build"
-go build ./...
+echo "==> Running eslint"
+ESLINT_USE_FLAT_CONFIG="false" ./node_modules/.bin/eslint --ext ts,js .
+
+echo "==> Running tsc"
+./node_modules/.bin/tsc --noEmit
