@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/sam-go/v2"
-	"github.com/stainless-sdks/sam-go/v2/internal"
-	"github.com/stainless-sdks/sam-go/v2/option"
+	"github.com/DefinitelyATestOrg/sam-node/v2"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal"
+	"github.com/DefinitelyATestOrg/sam-node/v2/option"
 )
 
 type closureTransport struct {

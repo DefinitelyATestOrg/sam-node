@@ -9,11 +9,11 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/stainless-sdks/sam-go/v2/internal/apijson"
-	"github.com/stainless-sdks/sam-go/v2/internal/apiquery"
-	"github.com/stainless-sdks/sam-go/v2/internal/param"
-	"github.com/stainless-sdks/sam-go/v2/internal/requestconfig"
-	"github.com/stainless-sdks/sam-go/v2/option"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/apijson"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/apiquery"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/param"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/requestconfig"
+	"github.com/DefinitelyATestOrg/sam-node/v2/option"
 )
 
 // UserService contains methods and other services that help with interacting with

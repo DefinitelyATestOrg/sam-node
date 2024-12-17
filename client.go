@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/stainless-sdks/sam-go/v2/internal/requestconfig"
-	"github.com/stainless-sdks/sam-go/v2/option"
+	"github.com/DefinitelyATestOrg/sam-node/v2/internal/requestconfig"
+	"github.com/DefinitelyATestOrg/sam-node/v2/option"
 )
 
 // Client creates a struct with services and top level methods that help with
