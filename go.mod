@@ -1,4 +1,4 @@
-module github.com/DefinitelyATestOrg/sam-go/v2
+module github.com/stainless-sdks/sam-go/v2
 
 go 1.21
 
