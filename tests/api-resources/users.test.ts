@@ -64,8 +64,8 @@ describe('resource users', () => {
     );
   });
 
-  test('update: only required params', async () => {
-    const responsePromise = client.users.update({ path_username: 'username' });
+  test('update', async () => {
+    const responsePromise = client.users.update('username');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -75,18 +75,31 @@ describe('resource users', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('update: required and optional params', async () => {
-    const response = await client.users.update({
-      path_username: 'username',
-      id: 10,
-      email: 'john@email.com',
-      firstName: 'John',
-      lastName: 'James',
-      password: '12345',
-      phone: '12345',
-      body_username: 'theUser',
-      userStatus: 1,
-    });
+  test('update: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.users.update('username', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Sam.NotFoundError,
+    );
+  });
+
+  test('update: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.users.update(
+        'username',
+        {
+          id: 10,
+          email: 'john@email.com',
+          firstName: 'John',
+          lastName: 'James',
+          password: '12345',
+          phone: '12345',
+          username: 'theUser',
+          userStatus: 1,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Sam.NotFoundError);
   });
 
   test('delete', async () => {
