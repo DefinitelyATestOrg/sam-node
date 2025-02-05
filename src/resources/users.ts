@@ -30,17 +30,17 @@ export class Users extends APIResource {
   /**
    * This can only be done by the logged in user.
    */
-  update(username1: string, body?: UserUpdateParams, options?: Core.RequestOptions): Core.APIPromise<void>;
-  update(username1: string, options?: Core.RequestOptions): Core.APIPromise<void>;
+  update(pathUsername: string, body?: UserUpdateParams, options?: Core.RequestOptions): Core.APIPromise<void>;
+  update(pathUsername: string, options?: Core.RequestOptions): Core.APIPromise<void>;
   update(
-    username1: string,
+    pathUsername: string,
     body: UserUpdateParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
     if (isRequestOptions(body)) {
-      return this.update(username1, {}, body);
+      return this.update(pathUsername, {}, body);
     }
-    return this._client.put(`/user/${username1}`, {
+    return this._client.put(`/user/${pathUsername}`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -144,7 +144,7 @@ export interface UserUpdateParams {
 
   phone?: string;
 
-  username?: string;
+  body_username?: string;
 
   /**
    * User Status
