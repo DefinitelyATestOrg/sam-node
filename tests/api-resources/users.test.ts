@@ -94,7 +94,7 @@ describe('resource users', () => {
           lastName: 'James',
           password: '12345',
           phone: '12345',
-          username: 'theUser',
+          body_username: 'theUser',
           userStatus: 1,
         },
         { path: '/_stainless_unknown_path' },
