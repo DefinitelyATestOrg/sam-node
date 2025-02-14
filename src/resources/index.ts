@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Store } from './store/store';
+export { Store, type Order } from './store/store';
 export {
-  Users,
+  UserResource,
   type User,
   type UserLoginResponse,
   type UserCreateParams,
   type UserUpdateParams,
-  type UserCreateWithListParams,
+  type UserCreateListParams,
   type UserLoginParams,
-} from './users';
+} from './user';

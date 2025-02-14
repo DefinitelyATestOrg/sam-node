@@ -7,14 +7,14 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
   User,
+  UserCreateListParams,
   UserCreateParams,
-  UserCreateWithListParams,
   UserLoginParams,
   UserLoginResponse,
+  UserResource,
   UserUpdateParams,
-  Users,
-} from './resources/users';
-import { Store } from './resources/store/store';
+} from './resources/user';
+import { Order, Store } from './resources/store/store';
 
 export interface ClientOptions {
   /**
@@ -130,7 +130,7 @@ export class Sam extends Core.APIClient {
   }
 
   store: API.Store = new API.Store(this);
-  users: API.Users = new API.Users(this);
+  user: API.UserResource = new API.UserResource(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -169,19 +169,19 @@ export class Sam extends Core.APIClient {
 }
 
 Sam.Store = Store;
-Sam.Users = Users;
+Sam.UserResource = UserResource;
 export declare namespace Sam {
   export type RequestOptions = Core.RequestOptions;
 
-  export { Store as Store };
+  export { Store as Store, type Order as Order };
 
   export {
-    Users as Users,
+    UserResource as UserResource,
     type User as User,
     type UserLoginResponse as UserLoginResponse,
     type UserCreateParams as UserCreateParams,
     type UserUpdateParams as UserUpdateParams,
-    type UserCreateWithListParams as UserCreateWithListParams,
+    type UserCreateListParams as UserCreateListParams,
     type UserLoginParams as UserLoginParams,
   };
 }
