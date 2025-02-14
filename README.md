@@ -28,7 +28,7 @@ import Sam from 'sam';
 const client = new Sam();
 
 async function main() {
-  const user = await client.users.create();
+  const user = await client.user.create();
 
   console.log(user.id);
 }
@@ -47,7 +47,7 @@ import Sam from 'sam';
 const client = new Sam();
 
 async function main() {
-  const user: Sam.User = await client.users.create();
+  const user: Sam.User = await client.user.create();
 }
 
 main();
@@ -64,7 +64,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const user = await client.users.create().catch(async (err) => {
+  const user = await client.user.create().catch(async (err) => {
     if (err instanceof Sam.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -107,7 +107,7 @@ const client = new Sam({
 });
 
 // Or, configure per-request:
-await client.users.create({
+await client.user.create({
   maxRetries: 5,
 });
 ```
@@ -124,7 +124,7 @@ const client = new Sam({
 });
 
 // Override per-request:
-await client.users.create({
+await client.user.create({
   timeout: 5 * 1000,
 });
 ```
@@ -145,11 +145,11 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Sam();
 
-const response = await client.users.create().asResponse();
+const response = await client.user.create().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: user, response: raw } = await client.users.create().withResponse();
+const { data: user, response: raw } = await client.user.create().withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(user.id);
 ```
@@ -255,7 +255,7 @@ const client = new Sam({
 });
 
 // Override per-request:
-await client.users.create({
+await client.user.create({
   httpAgent: new http.Agent({ keepAlive: false }),
 });
 ```

@@ -4,7 +4,7 @@ import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
 
-export class Users extends APIResource {
+export class UserResource extends APIResource {
   /**
    * This can only be done by the logged in user.
    */
@@ -60,7 +60,7 @@ export class Users extends APIResource {
   /**
    * Creates list of users with given input array
    */
-  createWithList(body: UserCreateWithListParams, options?: Core.RequestOptions): Core.APIPromise<User> {
+  createList(body: UserCreateListParams, options?: Core.RequestOptions): Core.APIPromise<User> {
     return this._client.post('/user/createWithList', { body, ...options });
   }
 
@@ -152,7 +152,7 @@ export interface UserUpdateParams {
   userStatus?: number;
 }
 
-export type UserCreateWithListParams = Array<User>;
+export type UserCreateListParams = Array<User>;
 
 export interface UserLoginParams {
   /**
@@ -166,13 +166,13 @@ export interface UserLoginParams {
   username?: string;
 }
 
-export declare namespace Users {
+export declare namespace UserResource {
   export {
     type User as User,
     type UserLoginResponse as UserLoginResponse,
     type UserCreateParams as UserCreateParams,
     type UserUpdateParams as UserUpdateParams,
-    type UserCreateWithListParams as UserCreateWithListParams,
+    type UserCreateListParams as UserCreateListParams,
     type UserLoginParams as UserLoginParams,
   };
 }

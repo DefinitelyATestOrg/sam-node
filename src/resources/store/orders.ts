@@ -2,13 +2,14 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
+import * as StoreAPI from './store';
 
 export class Orders extends APIResource {
   /**
    * For valid response try integer IDs with value <= 5 or > 10. Other values will
    * generate exceptions.
    */
-  retrieve(orderId: number, options?: Core.RequestOptions): Core.APIPromise<CoolOrder> {
+  retrieve(orderId: number, options?: Core.RequestOptions): Core.APIPromise<StoreAPI.Order> {
     return this._client.get(`/store/order/${orderId}`, options);
   }
 
@@ -22,25 +23,4 @@ export class Orders extends APIResource {
       headers: { Accept: '*/*', ...options?.headers },
     });
   }
-}
-
-export interface CoolOrder {
-  id?: number;
-
-  complete?: boolean;
-
-  petId?: number;
-
-  quantity?: number;
-
-  shipDate?: string;
-
-  /**
-   * Order Status
-   */
-  status?: 'placed' | 'approved' | 'delivered';
-}
-
-export declare namespace Orders {
-  export { type CoolOrder as CoolOrder };
 }
