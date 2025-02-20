@@ -118,8 +118,8 @@ describe('resource user', () => {
     );
   });
 
-  test('createList: only required params', async () => {
-    const responsePromise = client.user.createList([{}]);
+  test('createList', async () => {
+    const responsePromise = client.user.createList();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -129,19 +129,32 @@ describe('resource user', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('createList: required and optional params', async () => {
-    const response = await client.user.createList([
-      {
-        id: 10,
-        email: 'john@email.com',
-        firstName: 'John',
-        lastName: 'James',
-        password: '12345',
-        phone: '12345',
-        username: 'theUser',
-        userStatus: 1,
-      },
-    ]);
+  test('createList: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.user.createList({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Sam.NotFoundError,
+    );
+  });
+
+  test('createList: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.user.createList(
+        [
+          {
+            id: 10,
+            email: 'john@email.com',
+            firstName: 'John',
+            lastName: 'James',
+            password: '12345',
+            phone: '12345',
+            username: 'theUser',
+            userStatus: 1,
+          },
+        ],
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Sam.NotFoundError);
   });
 
   test('login', async () => {
