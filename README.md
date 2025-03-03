@@ -6,7 +6,7 @@ This library provides convenient access to the Sam REST API from server-side Typ
 
 The REST API documentation can be found on [docs.sam.com](https://docs.sam.com). The full API of this library can be found in [api.md](api.md).
 
-It is generated with [Stainless](https://www.stainlessapi.com/).
+It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
@@ -15,7 +15,7 @@ npm install git+ssh://git@github.com:DefinitelyATestOrg/sam-node.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install sam`
+> Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npm install sam`
 
 ## Usage
 
