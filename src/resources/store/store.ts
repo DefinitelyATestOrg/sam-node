@@ -8,27 +8,8 @@ export class Store extends APIResource {
   orders: OrdersAPI.Orders = new OrdersAPI.Orders(this._client);
 }
 
-export interface Order {
-  id?: number;
-
-  complete?: boolean;
-
-  petId?: number;
-
-  quantity?: number;
-
-  shipDate?: string;
-
-  /**
-   * Order Status
-   */
-  status?: 'placed' | 'approved' | 'delivered';
-}
-
 Store.Orders = Orders;
 
 export declare namespace Store {
-  export { type Order as Order };
-
   export { Orders as Orders };
 }

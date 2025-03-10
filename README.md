@@ -28,9 +28,13 @@ import Sam from 'sam';
 const client = new Sam();
 
 async function main() {
-  const user = await client.user.create();
+  const message = await client.messages.create({
+    max_tokens: 1024,
+    messages: [{ content: 'Hello, world', role: 'user' }],
+    model: 'claude-3-7-sonnet-20250219',
+  });
 
-  console.log(user.id);
+  console.log(message.id);
 }
 
 main();
@@ -47,7 +51,12 @@ import Sam from 'sam';
 const client = new Sam();
 
 async function main() {
-  const user: Sam.User = await client.user.create();
+  const params: Sam.MessageCreateParams = {
+    max_tokens: 1024,
+    messages: [{ content: 'Hello, world', role: 'user' }],
+    model: 'claude-3-7-sonnet-20250219',
+  };
+  const message: Sam.MessageCreateResponse = await client.messages.create(params);
 }
 
 main();
@@ -64,15 +73,21 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const user = await client.user.create().catch(async (err) => {
-    if (err instanceof Sam.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+  const message = await client.messages
+    .create({
+      max_tokens: 1024,
+      messages: [{ content: 'Hello, world', role: 'user' }],
+      model: 'claude-3-7-sonnet-20250219',
+    })
+    .catch(async (err) => {
+      if (err instanceof Sam.APIError) {
+        console.log(err.status); // 400
+        console.log(err.name); // BadRequestError
+        console.log(err.headers); // {server: 'nginx', ...}
+      } else {
+        throw err;
+      }
+    });
 }
 
 main();
@@ -104,10 +119,11 @@ You can use the `maxRetries` option to configure or disable this:
 // Configure the default for all requests:
 const client = new Sam({
   maxRetries: 0, // default is 2
+  apiKey: 'My API Key',
 });
 
 // Or, configure per-request:
-await client.user.create({
+await client.messages.create({ max_tokens: 1024, messages: [{ content: 'Hello, world', role: 'user' }], model: 'claude-3-7-sonnet-20250219' }, {
   maxRetries: 5,
 });
 ```
@@ -121,10 +137,11 @@ Requests time out after 1 minute by default. You can configure this with a `time
 // Configure the default for all requests:
 const client = new Sam({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
+  apiKey: 'My API Key',
 });
 
 // Override per-request:
-await client.user.create({
+await client.messages.create({ max_tokens: 1024, messages: [{ content: 'Hello, world', role: 'user' }], model: 'claude-3-7-sonnet-20250219' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -145,13 +162,25 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Sam();
 
-const response = await client.user.create().asResponse();
+const response = await client.messages
+  .create({
+    max_tokens: 1024,
+    messages: [{ content: 'Hello, world', role: 'user' }],
+    model: 'claude-3-7-sonnet-20250219',
+  })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: user, response: raw } = await client.user.create().withResponse();
+const { data: message, response: raw } = await client.messages
+  .create({
+    max_tokens: 1024,
+    messages: [{ content: 'Hello, world', role: 'user' }],
+    model: 'claude-3-7-sonnet-20250219',
+  })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(user.id);
+console.log(message.id);
 ```
 
 ### Making custom/undocumented requests
@@ -252,12 +281,20 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 // Configure the default for all requests:
 const client = new Sam({
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
+  apiKey: 'My API Key',
 });
 
 // Override per-request:
-await client.user.create({
-  httpAgent: new http.Agent({ keepAlive: false }),
-});
+await client.messages.create(
+  {
+    max_tokens: 1024,
+    messages: [{ content: 'Hello, world', role: 'user' }],
+    model: 'claude-3-7-sonnet-20250219',
+  },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
 ## Semantic versioning
