@@ -5,16 +5,37 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
+import { Complete, CompleteCreateParams, CompleteCreateResponse } from './resources/complete';
 import {
-  User,
-  UserCreateListParams,
-  UserCreateParams,
-  UserLoginParams,
-  UserLoginResponse,
-  UserResource,
-  UserUpdateParams,
-} from './resources/user';
-import { Order, Store } from './resources/store/store';
+  MessagesBetaTrue,
+  MessagesBetaTrueCreateParams,
+  MessagesBetaTrueCreateResponse,
+} from './resources/messages-beta-true';
+import {
+  ModelListParams,
+  ModelListResponse,
+  ModelRetrieveBetaParams,
+  ModelRetrieveBetaResponse,
+  ModelRetrieveParams,
+  ModelRetrieveResponse,
+  Models,
+} from './resources/models';
+import {
+  ModelsBetaTrue,
+  ModelsBetaTrueListParams,
+  ModelsBetaTrueListResponse,
+} from './resources/models-beta-true';
+import { User } from './resources/user';
+import {
+  MessageCountTokensBetaParams,
+  MessageCountTokensBetaResponse,
+  MessageCountTokensParams,
+  MessageCountTokensResponse,
+  MessageCreateParams,
+  MessageCreateResponse,
+  Messages,
+} from './resources/messages/messages';
+import { Store } from './resources/store/store';
 
 export interface ClientOptions {
   /**
@@ -130,7 +151,12 @@ export class Sam extends Core.APIClient {
   }
 
   store: API.Store = new API.Store(this);
-  user: API.UserResource = new API.UserResource(this);
+  user: API.User = new API.User(this);
+  messages: API.Messages = new API.Messages(this);
+  complete: API.Complete = new API.Complete(this);
+  models: API.Models = new API.Models(this);
+  messagesBetaTrue: API.MessagesBetaTrue = new API.MessagesBetaTrue(this);
+  modelsBetaTrue: API.ModelsBetaTrue = new API.ModelsBetaTrue(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -141,10 +167,6 @@ export class Sam extends Core.APIClient {
       ...super.defaultHeaders(opts),
       ...this._options.defaultHeaders,
     };
-  }
-
-  protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { api_key: this.apiKey };
   }
 
   static Sam = this;
@@ -169,20 +191,55 @@ export class Sam extends Core.APIClient {
 }
 
 Sam.Store = Store;
-Sam.UserResource = UserResource;
+Sam.User = User;
+Sam.Messages = Messages;
+Sam.Complete = Complete;
+Sam.Models = Models;
+Sam.MessagesBetaTrue = MessagesBetaTrue;
+Sam.ModelsBetaTrue = ModelsBetaTrue;
 export declare namespace Sam {
   export type RequestOptions = Core.RequestOptions;
 
-  export { Store as Store, type Order as Order };
+  export { Store as Store };
+
+  export { User as User };
 
   export {
-    UserResource as UserResource,
-    type User as User,
-    type UserLoginResponse as UserLoginResponse,
-    type UserCreateParams as UserCreateParams,
-    type UserUpdateParams as UserUpdateParams,
-    type UserCreateListParams as UserCreateListParams,
-    type UserLoginParams as UserLoginParams,
+    Messages as Messages,
+    type MessageCreateResponse as MessageCreateResponse,
+    type MessageCountTokensResponse as MessageCountTokensResponse,
+    type MessageCountTokensBetaResponse as MessageCountTokensBetaResponse,
+    type MessageCreateParams as MessageCreateParams,
+    type MessageCountTokensParams as MessageCountTokensParams,
+    type MessageCountTokensBetaParams as MessageCountTokensBetaParams,
+  };
+
+  export {
+    Complete as Complete,
+    type CompleteCreateResponse as CompleteCreateResponse,
+    type CompleteCreateParams as CompleteCreateParams,
+  };
+
+  export {
+    Models as Models,
+    type ModelRetrieveResponse as ModelRetrieveResponse,
+    type ModelListResponse as ModelListResponse,
+    type ModelRetrieveBetaResponse as ModelRetrieveBetaResponse,
+    type ModelRetrieveParams as ModelRetrieveParams,
+    type ModelListParams as ModelListParams,
+    type ModelRetrieveBetaParams as ModelRetrieveBetaParams,
+  };
+
+  export {
+    MessagesBetaTrue as MessagesBetaTrue,
+    type MessagesBetaTrueCreateResponse as MessagesBetaTrueCreateResponse,
+    type MessagesBetaTrueCreateParams as MessagesBetaTrueCreateParams,
+  };
+
+  export {
+    ModelsBetaTrue as ModelsBetaTrue,
+    type ModelsBetaTrueListResponse as ModelsBetaTrueListResponse,
+    type ModelsBetaTrueListParams as ModelsBetaTrueListParams,
   };
 }
 
