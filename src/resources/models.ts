@@ -1,8 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Models extends APIResource {
   /**
@@ -12,27 +14,20 @@ export class Models extends APIResource {
    * model or resolve a model alias to a model ID.
    */
   retrieve(
-    modelId: string,
-    params?: ModelRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ModelRetrieveResponse>;
-  retrieve(modelId: string, options?: Core.RequestOptions): Core.APIPromise<ModelRetrieveResponse>;
-  retrieve(
-    modelId: string,
-    params: ModelRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ModelRetrieveResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(modelId, {}, params);
-    }
-    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey } = params;
-    return this._client.get(`/v1/models/${modelId}`, {
+    modelID: string,
+    params: ModelRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelRetrieveResponse> {
+    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey } = params ?? {};
+    return this._client.get(path`/v1/models/${modelID}`, {
       ...options,
-      headers: {
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -42,24 +37,21 @@ export class Models extends APIResource {
    * The Models API response can be used to determine which models are available for
    * use in the API. More recently released models are listed first.
    */
-  list(params?: ModelListParams, options?: Core.RequestOptions): Core.APIPromise<ModelListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse>;
   list(
-    params: ModelListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ModelListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey, ...query } = params;
+    params: ModelListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelListResponse> {
+    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey, ...query } = params ?? {};
     return this._client.get('/v1/models', {
       query,
       ...options,
-      headers: {
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -70,27 +62,20 @@ export class Models extends APIResource {
    * model or resolve a model alias to a model ID.
    */
   retrieveBeta(
-    modelId: string,
-    params?: ModelRetrieveBetaParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ModelRetrieveBetaResponse>;
-  retrieveBeta(modelId: string, options?: Core.RequestOptions): Core.APIPromise<ModelRetrieveBetaResponse>;
-  retrieveBeta(
-    modelId: string,
-    params: ModelRetrieveBetaParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ModelRetrieveBetaResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieveBeta(modelId, {}, params);
-    }
-    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey } = params;
-    return this._client.get(`/v1/models/${modelId}?beta=true`, {
+    modelID: string,
+    params: ModelRetrieveBetaParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelRetrieveBetaResponse> {
+    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey } = params ?? {};
+    return this._client.get(path`/v1/models/${modelID}?beta=true`, {
       ...options,
-      headers: {
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }

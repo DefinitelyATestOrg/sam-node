@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Sam from 'sam';
-import { Response } from 'node-fetch';
 
 const client = new Sam({
   apiKey: 'My API Key',
@@ -18,13 +17,6 @@ describe('resource models', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.models.retrieve('model_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Sam.NotFoundError,
-    );
   });
 
   test('retrieve: request options and params are passed correctly', async () => {
@@ -47,11 +39,6 @@ describe('resource models', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.models.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(Sam.NotFoundError);
   });
 
   test('list: request options and params are passed correctly', async () => {
@@ -79,13 +66,6 @@ describe('resource models', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieveBeta: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.models.retrieveBeta('model_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Sam.NotFoundError);
   });
 
   test('retrieveBeta: request options and params are passed correctly', async () => {

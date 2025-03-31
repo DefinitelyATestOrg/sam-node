@@ -1,8 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
 
 export class BatchesBetaTrue extends APIResource {
   /**
@@ -17,8 +18,8 @@ export class BatchesBetaTrue extends APIResource {
    */
   create(
     params: BatchesBetaTrueCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchesBetaTrueCreateResponse> {
+    options?: RequestOptions,
+  ): APIPromise<BatchesBetaTrueCreateResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
@@ -28,12 +29,16 @@ export class BatchesBetaTrue extends APIResource {
     return this._client.post('/v1/messages/batches?beta=true', {
       body,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -45,32 +50,28 @@ export class BatchesBetaTrue extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   list(
-    params?: BatchesBetaTrueListParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchesBetaTrueListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<BatchesBetaTrueListResponse>;
-  list(
-    params: BatchesBetaTrueListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchesBetaTrueListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
+    params: BatchesBetaTrueListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BatchesBetaTrueListResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
       ...query
-    } = params;
+    } = params ?? {};
     return this._client.get('/v1/messages/batches?beta=true', {
       query,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }

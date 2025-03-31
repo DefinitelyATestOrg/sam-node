@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Sam from 'sam';
-import { Response } from 'node-fetch';
 
 const client = new Sam({
   apiKey: 'My API Key',
