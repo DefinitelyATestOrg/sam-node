@@ -1,7 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
 
 export class Complete extends APIResource {
   /**
@@ -14,19 +16,18 @@ export class Complete extends APIResource {
    * [migration guide](https://docs.anthropic.com/en/api/migrating-from-text-completions-to-messages)
    * for guidance in migrating from Text Completions to Messages.
    */
-  create(
-    params: CompleteCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CompleteCreateResponse> {
+  create(params: CompleteCreateParams, options?: RequestOptions): APIPromise<CompleteCreateResponse> {
     const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey, ...body } = params;
     return this._client.post('/v1/complete', {
       body,
       ...options,
-      headers: {
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }

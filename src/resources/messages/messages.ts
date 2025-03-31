@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as BatchesBetaTrueAPI from './batches-beta-true';
 import {
   BatchesBetaTrue,
@@ -30,6 +29,9 @@ import {
   BatchRetrieveResponse,
   Batches,
 } from './batches/batches';
+import { APIPromise } from '../../core/api-promise';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Messages extends APIResource {
   batches: BatchesAPI.Batches = new BatchesAPI.Batches(this._client);
@@ -44,7 +46,7 @@ export class Messages extends APIResource {
    *
    * Learn more about the Messages API in our [user guide](/en/docs/initial-setup)
    */
-  create(params: MessageCreateParams, options?: Core.RequestOptions): Core.APIPromise<MessageCreateResponse> {
+  create(params: MessageCreateParams, options?: RequestOptions): APIPromise<MessageCreateResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
@@ -54,12 +56,16 @@ export class Messages extends APIResource {
     return this._client.post('/v1/messages', {
       body,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -74,8 +80,8 @@ export class Messages extends APIResource {
    */
   countTokens(
     params: MessageCountTokensParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MessageCountTokensResponse> {
+    options?: RequestOptions,
+  ): APIPromise<MessageCountTokensResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
@@ -85,12 +91,16 @@ export class Messages extends APIResource {
     return this._client.post('/v1/messages/count_tokens', {
       body,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -105,8 +115,8 @@ export class Messages extends APIResource {
    */
   countTokensBeta(
     params: MessageCountTokensBetaParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MessageCountTokensBetaResponse> {
+    options?: RequestOptions,
+  ): APIPromise<MessageCountTokensBetaResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
@@ -116,12 +126,16 @@ export class Messages extends APIResource {
     return this._client.post('/v1/messages/count_tokens?beta=true', {
       body,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }

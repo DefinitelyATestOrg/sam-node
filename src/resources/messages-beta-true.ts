@@ -1,7 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
 
 export class MessagesBetaTrue extends APIResource {
   /**
@@ -15,8 +17,8 @@ export class MessagesBetaTrue extends APIResource {
    */
   create(
     params: MessagesBetaTrueCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MessagesBetaTrueCreateResponse> {
+    options?: RequestOptions,
+  ): APIPromise<MessagesBetaTrueCreateResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
@@ -26,12 +28,16 @@ export class MessagesBetaTrue extends APIResource {
     return this._client.post('/v1/messages?beta=true', {
       body,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }

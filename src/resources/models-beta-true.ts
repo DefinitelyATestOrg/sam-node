@@ -1,8 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
+import { RequestOptions } from '../internal/request-options';
 
 export class ModelsBetaTrue extends APIResource {
   /**
@@ -12,26 +13,20 @@ export class ModelsBetaTrue extends APIResource {
    * use in the API. More recently released models are listed first.
    */
   list(
-    params?: ModelsBetaTrueListParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ModelsBetaTrueListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<ModelsBetaTrueListResponse>;
-  list(
-    params: ModelsBetaTrueListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ModelsBetaTrueListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey, ...query } = params;
+    params: ModelsBetaTrueListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ModelsBetaTrueListResponse> {
+    const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey, ...query } = params ?? {};
     return this._client.get('/v1/models?beta=true', {
       query,
       ...options,
-      headers: {
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }
