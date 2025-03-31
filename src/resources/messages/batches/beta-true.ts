@@ -1,8 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import { isRequestOptions } from '../../../core';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class BetaTrue extends APIResource {
   /**
@@ -14,32 +16,27 @@ export class BetaTrue extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   retrieve(
-    messageBatchId: string,
-    params?: BetaTrueRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BetaTrueRetrieveResponse>;
-  retrieve(messageBatchId: string, options?: Core.RequestOptions): Core.APIPromise<BetaTrueRetrieveResponse>;
-  retrieve(
-    messageBatchId: string,
-    params: BetaTrueRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BetaTrueRetrieveResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BetaTrueRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BetaTrueRetrieveResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
-    return this._client.get(`/v1/messages/batches/${messageBatchId}?beta=true`, {
+    } = params ?? {};
+    return this._client.get(path`/v1/messages/batches/${messageBatchID}?beta=true`, {
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -53,32 +50,27 @@ export class BetaTrue extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   delete(
-    messageBatchId: string,
-    params?: BetaTrueDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BetaTrueDeleteResponse>;
-  delete(messageBatchId: string, options?: Core.RequestOptions): Core.APIPromise<BetaTrueDeleteResponse>;
-  delete(
-    messageBatchId: string,
-    params: BetaTrueDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BetaTrueDeleteResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BetaTrueDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BetaTrueDeleteResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
-    return this._client.delete(`/v1/messages/batches/${messageBatchId}?beta=true`, {
+    } = params ?? {};
+    return this._client.delete(path`/v1/messages/batches/${messageBatchID}?beta=true`, {
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 }

@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import { isRequestOptions } from '../../../core';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
 import * as BetaTrueAPI from './beta-true';
 import {
   BetaTrue,
@@ -11,7 +9,11 @@ import {
   BetaTrueRetrieveParams,
   BetaTrueRetrieveResponse,
 } from './beta-true';
+import { APIPromise } from '../../../core/api-promise';
+import { buildHeaders } from '../../../internal/headers';
+import { RequestOptions } from '../../../internal/request-options';
 import { JSONLDecoder } from '../../../internal/decoders/jsonl';
+import { path } from '../../../internal/utils/path';
 
 export class Batches extends APIResource {
   betaTrue: BetaTrueAPI.BetaTrue = new BetaTrueAPI.BetaTrue(this._client);
@@ -26,7 +28,7 @@ export class Batches extends APIResource {
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
-  create(params: BatchCreateParams, options?: Core.RequestOptions): Core.APIPromise<BatchCreateResponse> {
+  create(params: BatchCreateParams, options?: RequestOptions): APIPromise<BatchCreateResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
@@ -36,12 +38,16 @@ export class Batches extends APIResource {
     return this._client.post('/v1/messages/batches', {
       body,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -54,32 +60,27 @@ export class Batches extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   retrieve(
-    messageBatchId: string,
-    params?: BatchRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchRetrieveResponse>;
-  retrieve(messageBatchId: string, options?: Core.RequestOptions): Core.APIPromise<BatchRetrieveResponse>;
-  retrieve(
-    messageBatchId: string,
-    params: BatchRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchRetrieveResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BatchRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BatchRetrieveResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
-    return this._client.get(`/v1/messages/batches/${messageBatchId}`, {
+    } = params ?? {};
+    return this._client.get(path`/v1/messages/batches/${messageBatchID}`, {
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -90,30 +91,29 @@ export class Batches extends APIResource {
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
-  list(params?: BatchListParams, options?: Core.RequestOptions): Core.APIPromise<BatchListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<BatchListResponse>;
   list(
-    params: BatchListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
+    params: BatchListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BatchListResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
       ...query
-    } = params;
+    } = params ?? {};
     return this._client.get('/v1/messages/batches', {
       query,
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -127,32 +127,27 @@ export class Batches extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   delete(
-    messageBatchId: string,
-    params?: BatchDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchDeleteResponse>;
-  delete(messageBatchId: string, options?: Core.RequestOptions): Core.APIPromise<BatchDeleteResponse>;
-  delete(
-    messageBatchId: string,
-    params: BatchDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchDeleteResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BatchDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BatchDeleteResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
-    return this._client.delete(`/v1/messages/batches/${messageBatchId}`, {
+    } = params ?? {};
+    return this._client.delete(path`/v1/messages/batches/${messageBatchID}`, {
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -171,32 +166,27 @@ export class Batches extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   cancel(
-    messageBatchId: string,
-    params?: BatchCancelParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchCancelResponse>;
-  cancel(messageBatchId: string, options?: Core.RequestOptions): Core.APIPromise<BatchCancelResponse>;
-  cancel(
-    messageBatchId: string,
-    params: BatchCancelParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchCancelResponse> {
-    if (isRequestOptions(params)) {
-      return this.cancel(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BatchCancelParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BatchCancelResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
-    return this._client.post(`/v1/messages/batches/${messageBatchId}/cancel`, {
+    } = params ?? {};
+    return this._client.post(path`/v1/messages/batches/${messageBatchID}/cancel`, {
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -215,32 +205,27 @@ export class Batches extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   cancelBeta(
-    messageBatchId: string,
-    params?: BatchCancelBetaParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchCancelBetaResponse>;
-  cancelBeta(messageBatchId: string, options?: Core.RequestOptions): Core.APIPromise<BatchCancelBetaResponse>;
-  cancelBeta(
-    messageBatchId: string,
-    params: BatchCancelBetaParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BatchCancelBetaResponse> {
-    if (isRequestOptions(params)) {
-      return this.cancelBeta(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BatchCancelBetaParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BatchCancelBetaResponse> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
-    return this._client.post(`/v1/messages/batches/${messageBatchId}/cancel?beta=true`, {
+    } = params ?? {};
+    return this._client.post(path`/v1/messages/batches/${messageBatchID}/cancel?beta=true`, {
       ...options,
-      headers: {
-        ...(anthropicBeta?.toString() != null ? { 'anthropic-beta': anthropicBeta?.toString() } : undefined),
-        ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-        ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-        ...options?.headers,
-      },
+      headers: buildHeaders([
+        {
+          ...(anthropicBeta?.toString() != null ?
+            { 'anthropic-beta': anthropicBeta?.toString() }
+          : undefined),
+          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+        },
+        options?.headers,
+      ]),
     });
   }
 
@@ -255,39 +240,29 @@ export class Batches extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   results(
-    messageBatchId: string,
-    params?: BatchResultsParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JSONLDecoder<BatchResultsResponse>>;
-  results(
-    messageBatchId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JSONLDecoder<BatchResultsResponse>>;
-  results(
-    messageBatchId: string,
-    params: BatchResultsParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JSONLDecoder<BatchResultsResponse>> {
-    if (isRequestOptions(params)) {
-      return this.results(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BatchResultsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<JSONLDecoder<BatchResultsResponse>> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
+    } = params ?? {};
     return this._client
-      .get(`/v1/messages/batches/${messageBatchId}/results`, {
+      .get(path`/v1/messages/batches/${messageBatchID}/results`, {
         ...options,
-        headers: {
-          Accept: 'application/x-jsonl',
-          ...(anthropicBeta?.toString() != null ?
-            { 'anthropic-beta': anthropicBeta?.toString() }
-          : undefined),
-          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-          ...options?.headers,
-        },
+        headers: buildHeaders([
+          {
+            Accept: 'application/x-jsonl',
+            ...(anthropicBeta?.toString() != null ?
+              { 'anthropic-beta': anthropicBeta?.toString() }
+            : undefined),
+            ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+            ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+          },
+          options?.headers,
+        ]),
         __binaryResponse: true,
       })
       ._thenUnwrap((_, props) => JSONLDecoder.fromResponse(props.response, props.controller));
@@ -304,39 +279,29 @@ export class Batches extends APIResource {
    * [user guide](/en/docs/build-with-claude/batch-processing)
    */
   resultsBeta(
-    messageBatchId: string,
-    params?: BatchResultsBetaParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JSONLDecoder<BatchResultsBetaResponse>>;
-  resultsBeta(
-    messageBatchId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JSONLDecoder<BatchResultsBetaResponse>>;
-  resultsBeta(
-    messageBatchId: string,
-    params: BatchResultsBetaParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JSONLDecoder<BatchResultsBetaResponse>> {
-    if (isRequestOptions(params)) {
-      return this.resultsBeta(messageBatchId, {}, params);
-    }
+    messageBatchID: string,
+    params: BatchResultsBetaParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<JSONLDecoder<BatchResultsBetaResponse>> {
     const {
       'anthropic-beta': anthropicBeta,
       'anthropic-version': anthropicVersion,
       'x-api-key': xAPIKey,
-    } = params;
+    } = params ?? {};
     return this._client
-      .get(`/v1/messages/batches/${messageBatchId}/results?beta=true`, {
+      .get(path`/v1/messages/batches/${messageBatchID}/results?beta=true`, {
         ...options,
-        headers: {
-          Accept: 'application/x-jsonl',
-          ...(anthropicBeta?.toString() != null ?
-            { 'anthropic-beta': anthropicBeta?.toString() }
-          : undefined),
-          ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
-          ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
-          ...options?.headers,
-        },
+        headers: buildHeaders([
+          {
+            Accept: 'application/x-jsonl',
+            ...(anthropicBeta?.toString() != null ?
+              { 'anthropic-beta': anthropicBeta?.toString() }
+            : undefined),
+            ...(anthropicVersion != null ? { 'anthropic-version': anthropicVersion } : undefined),
+            ...(xAPIKey != null ? { 'x-api-key': xAPIKey } : undefined),
+          },
+          options?.headers,
+        ]),
         __binaryResponse: true,
       })
       ._thenUnwrap((_, props) => JSONLDecoder.fromResponse(props.response, props.controller));
