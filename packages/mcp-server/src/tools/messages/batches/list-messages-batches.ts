@@ -1,7 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { Metadata } from '../../';
 import Sam from 'sam';
+
+export const metadata: Metadata = {
+  resource: 'messages.batches',
+  operation: 'read',
+  tags: [],
+};
 
 export const tool: Tool = {
   name: 'list_messages_batches',
@@ -57,4 +64,4 @@ export const handler = (client: Sam, args: any) => {
   return client.messages.batches.list(body);
 };
 
-export default { tool, handler };
+export default { metadata, tool, handler };
