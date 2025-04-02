@@ -1,7 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import type { Metadata } from '../';
 import Sam from 'sam';
+
+export const metadata: Metadata = {
+  resource: 'messages',
+  operation: 'write',
+  tags: [],
+};
 
 export const tool: Tool = {
   name: 'create_messages',
@@ -1457,4 +1464,4 @@ export const handler = (client: Sam, args: any) => {
   return client.messages.create(body);
 };
 
-export default { tool, handler };
+export default { metadata, tool, handler };
