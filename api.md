@@ -39,8 +39,8 @@ Methods:
 - <code title="delete /v1/messages/batches/{message_batch_id}">client.messages.batches.<a href="./src/resources/messages/batches/batches.ts">delete</a>(messageBatchID, { ...params }) -> BatchDeleteResponse</code>
 - <code title="post /v1/messages/batches/{message_batch_id}/cancel">client.messages.batches.<a href="./src/resources/messages/batches/batches.ts">cancel</a>(messageBatchID, { ...params }) -> BatchCancelResponse</code>
 - <code title="post /v1/messages/batches/{message_batch_id}/cancel?beta=true">client.messages.batches.<a href="./src/resources/messages/batches/batches.ts">cancelBeta</a>(messageBatchID, { ...params }) -> BatchCancelBetaResponse</code>
-- <code title="get /v1/messages/batches/{message_batch_id}/results">client.messages.batches.<a href="./src/resources/messages/batches/batches.ts">results</a>(messageBatchID, { ...params }) -> JSONLDecoder&lt;BatchResultsResponse&gt;</code>
-- <code title="get /v1/messages/batches/{message_batch_id}/results?beta=true">client.messages.batches.<a href="./src/resources/messages/batches/batches.ts">resultsBeta</a>(messageBatchID, { ...params }) -> JSONLDecoder&lt;BatchResultsBetaResponse&gt;</code>
+- <code title="get /v1/messages/batches/{message_batch_id}/results">client.messages.batches.<a href="./src/resources/messages/batches/batches.ts">results</a>(messageBatchID, { ...params }) -> BatchResultsResponse</code>
+- <code title="get /v1/messages/batches/{message_batch_id}/results?beta=true">client.messages.batches.<a href="./src/resources/messages/batches/batches.ts">resultsBeta</a>(messageBatchID, { ...params }) -> BatchResultsBetaResponse</code>
 
 ### BetaTrue
 

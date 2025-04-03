@@ -241,7 +241,7 @@ export class Batches extends APIResource {
    */
   results(
     messageBatchID: string,
-    params: BatchResultsParams | null | undefined = {},
+    params: BatchResultsParams | undefined = {},
     options?: RequestOptions,
   ): APIPromise<JSONLDecoder<BatchResultsResponse>> {
     const {
@@ -263,9 +263,12 @@ export class Batches extends APIResource {
           },
           options?.headers,
         ]),
+        stream: true,
         __binaryResponse: true,
       })
-      ._thenUnwrap((_, props) => JSONLDecoder.fromResponse(props.response, props.controller));
+      ._thenUnwrap((_, props) => JSONLDecoder.fromResponse(props.response, props.controller)) as APIPromise<
+      JSONLDecoder<BatchResultsResponse>
+    >;
   }
 
   /**
@@ -280,7 +283,7 @@ export class Batches extends APIResource {
    */
   resultsBeta(
     messageBatchID: string,
-    params: BatchResultsBetaParams | null | undefined = {},
+    params: BatchResultsBetaParams | undefined = {},
     options?: RequestOptions,
   ): APIPromise<JSONLDecoder<BatchResultsBetaResponse>> {
     const {
@@ -302,9 +305,12 @@ export class Batches extends APIResource {
           },
           options?.headers,
         ]),
+        stream: true,
         __binaryResponse: true,
       })
-      ._thenUnwrap((_, props) => JSONLDecoder.fromResponse(props.response, props.controller));
+      ._thenUnwrap((_, props) => JSONLDecoder.fromResponse(props.response, props.controller)) as APIPromise<
+      JSONLDecoder<BatchResultsBetaResponse>
+    >;
   }
 }
 
