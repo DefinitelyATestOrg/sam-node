@@ -103,10 +103,40 @@ For example:
 
 ```diff
 - client.example.retrieve(encodeURIComponent('string/with/slash'))
-+ client.example.retrieve('string/with/slash') // renders example/string%2Fwith%2Fslash
++ client.example.retrieve('string/with/slash') // retrieves /example/string%2Fwith%2Fslash
 ```
 
 Previously without the `encodeURIComponent()` call we would have used the path `/example/string/with/slash`; now we'll use `/example/string%2Fwith%2Fslash`.
+
+### Removed request options overloads
+
+When making requests with no required body, query or header parameters, you must now explicitly pass `null`, `undefined` or an empty object `{}` to the params argument in order to customise request options.
+
+```diff
+client.example.list();
+client.example.list({}, { headers: { ... } });
+client.example.list(null, { headers: { ... } });
+client.example.list(undefined, { headers: { ... } });
+- client.example.list({ headers: { ... } });
++ client.example.list({}, { headers: { ... } });
+```
+
+This affects the following methods:
+
+- `client.messages.batches.retrieve()`
+- `client.messages.batches.list()`
+- `client.messages.batches.delete()`
+- `client.messages.batches.cancel()`
+- `client.messages.batches.cancelBeta()`
+- `client.messages.batches.results()`
+- `client.messages.batches.resultsBeta()`
+- `client.messages.batches.betaTrue.retrieve()`
+- `client.messages.batches.betaTrue.delete()`
+- `client.messages.batchesBetaTrue.list()`
+- `client.models.retrieve()`
+- `client.models.list()`
+- `client.models.retrieveBeta()`
+- `client.modelsBetaTrue.list()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
 
@@ -143,97 +173,7 @@ const client = new Sam({
 });
 ```
 
-### Removed request options overloads
-
-When making requests with no required body, query or header parameters, you must now explicitly pass `null`, `undefined` or an empty object `{}` to the params argument in order to customise request options.
-
-```diff
-client.example.list();
-client.example.list({}, { headers: { ... } });
-client.example.list(null, { headers: { ... } });
-client.example.list(undefined, { headers: { ... } });
-- client.example.list({ headers: { ... } });
-+ client.example.list({}, { headers: { ... } });
-```
-
-This affects the following methods:
-
-- `client.messages.batches.retrieve()`
-- `client.messages.batches.list()`
-- `client.messages.batches.delete()`
-- `client.messages.batches.cancel()`
-- `client.messages.batches.cancelBeta()`
-- `client.messages.batches.results()`
-- `client.messages.batches.resultsBeta()`
-- `client.messages.batches.betaTrue.retrieve()`
-- `client.messages.batches.betaTrue.delete()`
-- `client.messages.batchesBetaTrue.list()`
-- `client.models.retrieve()`
-- `client.models.list()`
-- `client.models.retrieveBeta()`
-- `client.modelsBetaTrue.list()`
-
-### File handling
-
-The deprecated `fileFromPath` helper has been removed in favor of native Node.js streams:
-
-```ts
-// Before
-Sam.fileFromPath('path/to/file');
-
-// After
-import fs from 'fs';
-fs.createReadStream('path/to/file');
-```
-
-Note that this function previously only worked on Node.js. If you're using Bun, you can use [`Bun.file`](https://bun.sh/docs/api/file-io) instead.
-
-### Shims removal
-
-Previously you could configure the types that the SDK used like this:
-
-```ts
-// Tell TypeScript and the package to use the global Web fetch instead of node-fetch.
-import 'sam/shims/web';
-import Sam from 'sam';
-```
-
-The `sam/shims` imports have been removed. Your global types must now be [correctly configured](#minimum-types-requirements).
-
-### `sam/src` directory removed
-
-Previously IDEs may have auto-completed imports from the `sam/src` directory, however this
-directory was only included for an improved go-to-definition experience and should not have been used at runtime.
-
-If you have any `sam/src` imports, you must replace it with `sam`.
-
-```ts
-// Before
-import Sam from 'sam/src';
-
-// After
-import Sam from 'sam';
-```
-
-### Headers
-
-The `headers` property on `APIError` objects is now an instance of the Web [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) class. It was previously just `Record<string, string | null | undefined>`.
-
-### Removed exports
-
-#### Resource classes
-
-If you were importing resource classes from the root package then you must now import them from the file they are defined in.
-This was never valid at the type level and only worked in CommonJS files.
-
-```typescript
-// Before
-const { Store } = require('sam');
-
-// After
-const { Sam } = require('sam');
-Sam.Store; // or import directly from sam/resources/store/store
-```
+### Changed exports
 
 #### Refactor of `sam/core`, `error`, `pagination`, `resource` and `uploads`
 
@@ -256,6 +196,20 @@ import 'sam/core/uploads';
 ```
 
 If you were relying on anything that was only exported from `sam/core` and is also not accessible anywhere else, please open an issue and we'll consider adding it to the public API.
+
+#### Resource classes
+
+Previously under certain circumstances it was possible to import resource classes like `Store` directly from the root of the package. This was never valid at the type level and only worked in CommonJS files.
+Now you must always either reference them as static class properties or import them directly from the files in which they are defined.
+
+```typescript
+// Before
+const { Store } = require('sam');
+
+// After
+const { Sam } = require('sam');
+Sam.Store; // or import directly from sam/resources/store/store
+```
 
 #### Cleaned up `uploads` exports
 
@@ -293,3 +247,49 @@ import { APIClient } from 'sam/core';
 // After
 import { Sam } from 'sam';
 ```
+
+### File handling
+
+The deprecated `fileFromPath` helper has been removed in favor of native Node.js streams:
+
+```ts
+// Before
+Sam.fileFromPath('path/to/file');
+
+// After
+import fs from 'fs';
+fs.createReadStream('path/to/file');
+```
+
+Note that this function previously only worked on Node.js. If you're using Bun, you can use [`Bun.file`](https://bun.sh/docs/api/file-io) instead.
+
+### Shims removal
+
+Previously you could configure the types that the SDK used like this:
+
+```ts
+// Tell TypeScript and the package to use the global Web fetch instead of node-fetch.
+import 'sam/shims/web';
+import Sam from 'sam';
+```
+
+The `sam/shims` imports have been removed. Your global types must now be [correctly configured](#minimum-types-requirements).
+
+### `sam/src` directory removed
+
+Previously IDEs may have auto-completed imports from the `sam/src` directory, however this
+directory was only included for an improved go-to-definition experience and should not have been used at runtime.
+
+If you have any `sam/src/*` imports, you will need to replace them with `sam/*`.
+
+```ts
+// Before
+import Sam from 'sam/src';
+
+// After
+import Sam from 'sam';
+```
+
+### Headers
+
+The `headers` property on `APIError` objects is now an instance of the Web [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) class. It was previously just `Record<string, string | null | undefined>`.
