@@ -4,23 +4,42 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
-### Via Claude Desktop
+### Building
 
-See [the user guide](https://modelcontextprotocol.io/quickstart/user) for setup.
+Because it's not published yet, clone the repo and build it:
 
-Once it's set up, find your `claude_desktop_config.json` file:
+```sh
+git clone git@github.com:DefinitelyATestOrg/sam-node.git
+cd sam-node
+yarn && ./scripts/build-all
+```
 
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+### Running
 
-Add the following value to your `mcpServers` section. Make sure to provide any necessary environment variables (like API keys) as well.
+```sh
+# set env vars as needed
+export API_KEY = "My API Key"
+npx ./packages/mcp-server
+```
+
+> [!NOTE]
+> Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npx -y sam-mcp`
+
+### Via MCP Client
+
+[Build the project](#building) as mentioned above.
+
+There is a partial list of existing clients at [modelcontextprotocol.io](https://modelcontextprotocol.io/clients). If you already
+have a client, consult their documentation to install the MCP server.
+
+For clients with a configuration JSON, it might look something like this:
 
 ```json
 {
   "mcpServers": {
     "sam_api": {
       "command": "npx",
-      "args": ["-y", "git+ssh://git@github.com:DefinitelyATestOrg/sam-node.git:packages/mcp-server"],
+      "args": ["-y", "/path/to/local/sam-node/packages/mcp-server"],
       "env": {
         "API_KEY": "My API Key"
       }
@@ -41,15 +60,46 @@ You can filter by multiple aspects:
 - `--resource` includes all tools under a specific resource, and can have wildcards, e.g. `my.resource*`
 - `--operation` includes just read (get/list) or just write operations
 
-See more information with `--help`:
-
-```sh
-$ npx -y git+ssh://git@github.com:DefinitelyATestOrg/sam-node.git:packages/mcp-server --help
-```
+See more information with `--help`.
 
 All of these command-line options can be repeated, combined together, and have corresponding exclusion versions (e.g. `--no-tool`).
 
 Use `--list` to see the list of available tools, or see below.
+
+## Importing the tools and server individually
+
+```js
+// Import the server, generated endpoints, or the init function
+import { server, endpoints, init } from "sam-mcp/server";
+
+// import a specific tool
+import createMessages from "sam-mcp/tools/messages/create-messages";
+
+// initialize the server and all endpoints
+init({ server, endpoints });
+
+// manually start server
+const transport = new StdioServerTransport();
+await server.connect(transport);
+
+// or initialize your own server with specific tools
+const myServer = new McpServer(...);
+
+// define your own endpoint
+const myCustomEndpoint = {
+  tool: {
+    name: 'my_custom_tool',
+    description: 'My custom tool',
+    inputSchema: zodToJsonSchema(z.object({ a_property: z.string() })),
+  },
+  handler: async (client: client, args: any) => {
+    return { myResponse: 'Hello world!' };
+  })
+};
+
+// initialize the server with your custom endpoints
+init({ server: myServer, endpoints: [createMessages, myCustomEndpoint] });
+```
 
 ## Available Tools
 
