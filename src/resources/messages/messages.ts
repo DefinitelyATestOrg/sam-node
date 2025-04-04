@@ -1295,6 +1295,7 @@ export namespace MessageCreateParams {
       type: 'object';
 
       properties?: unknown | null;
+
       [k: string]: unknown;
     }
 
@@ -2156,6 +2157,7 @@ export namespace MessageCountTokensParams {
       type: 'object';
 
       properties?: unknown | null;
+
       [k: string]: unknown;
     }
 
@@ -3029,6 +3031,7 @@ export namespace MessageCountTokensBetaParams {
       type: 'object';
 
       properties?: unknown | null;
+
       [k: string]: unknown;
     }
 

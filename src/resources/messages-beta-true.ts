@@ -1195,6 +1195,7 @@ export namespace MessagesBetaTrueCreateParams {
       type: 'object';
 
       properties?: unknown | null;
+
       [k: string]: unknown;
     }
 

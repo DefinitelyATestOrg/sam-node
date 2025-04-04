@@ -2589,6 +2589,7 @@ export namespace BatchCreateParams {
           type: 'object';
 
           properties?: unknown | null;
+
           [k: string]: unknown;
         }
 
