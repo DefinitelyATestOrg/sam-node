@@ -1278,6 +1278,7 @@ export namespace BatchesBetaTrueCreateParams {
           type: 'object';
 
           properties?: unknown | null;
+
           [k: string]: unknown;
         }
 
