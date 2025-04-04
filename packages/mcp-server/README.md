@@ -18,7 +18,7 @@ yarn && ./scripts/build-all
 
 ```sh
 # set env vars as needed
-export API_KEY = "My API Key"
+export API_KEY="My API Key"
 npx ./packages/mcp-server
 ```
 
