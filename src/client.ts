@@ -40,11 +40,7 @@ import {
   ModelsBetaTrueListParams,
   ModelsBetaTrueListResponse,
 } from './resources/models-beta-true';
-import {
-  SamPlopPlop,
-  SamPlopPlopCreateMessageParams,
-  SamPlopPlopCreateMessageResponse,
-} from './resources/sam-plop-plop';
+import { SamPlopPlop } from './resources/sam-plop-plop';
 import { User } from './resources/user';
 import { readEnv } from './internal/utils/env';
 import { formatRequestDetails, loggerFor } from './internal/utils/log';
@@ -766,9 +762,5 @@ export declare namespace Sam {
     type ModelsBetaTrueListParams as ModelsBetaTrueListParams,
   };
 
-  export {
-    SamPlopPlop as SamPlopPlop,
-    type SamPlopPlopCreateMessageResponse as SamPlopPlopCreateMessageResponse,
-    type SamPlopPlopCreateMessageParams as SamPlopPlopCreateMessageParams,
-  };
+  export { SamPlopPlop as SamPlopPlop };
 }
