@@ -230,11 +230,3 @@ Learn more about the Messages API in our [user guide](/en/docs/initial-setup)
 - `list_models_beta_true` (`read`): List available models.
 
 The Models API response can be used to determine which models are available for use in the API. More recently released models are listed first.
-
-### Resource `sam_plop_plop`:
-
-- `create_message_sam_plop_plop` (`write`): Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
-
-The Messages API can be used for either single queries or stateless multi-turn conversations.
-
-Learn more about the Messages API in our [user guide](/en/docs/initial-setup)
