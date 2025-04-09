@@ -29,5 +29,10 @@ export {
   type ModelsBetaTrueListResponse,
   type ModelsBetaTrueListParams,
 } from './models-beta-true';
+export {
+  SamPlopPlop,
+  type SamPlopPlopCreateMessageResponse,
+  type SamPlopPlopCreateMessageParams,
+} from './sam-plop-plop';
 export { Store } from './store/store';
 export { User } from './user';

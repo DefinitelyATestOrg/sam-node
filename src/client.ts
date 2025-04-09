@@ -40,6 +40,11 @@ import {
   ModelsBetaTrueListParams,
   ModelsBetaTrueListResponse,
 } from './resources/models-beta-true';
+import {
+  SamPlopPlop,
+  SamPlopPlopCreateMessageParams,
+  SamPlopPlopCreateMessageResponse,
+} from './resources/sam-plop-plop';
 import { User } from './resources/user';
 import { readEnv } from './internal/utils/env';
 import { formatRequestDetails, loggerFor } from './internal/utils/log';
@@ -706,6 +711,7 @@ export class Sam {
   models: API.Models = new API.Models(this);
   messagesBetaTrue: API.MessagesBetaTrue = new API.MessagesBetaTrue(this);
   modelsBetaTrue: API.ModelsBetaTrue = new API.ModelsBetaTrue(this);
+  samPlopPlop: API.SamPlopPlop = new API.SamPlopPlop(this);
 }
 Sam.Store = Store;
 Sam.User = User;
@@ -714,6 +720,7 @@ Sam.Complete = Complete;
 Sam.Models = Models;
 Sam.MessagesBetaTrue = MessagesBetaTrue;
 Sam.ModelsBetaTrue = ModelsBetaTrue;
+Sam.SamPlopPlop = SamPlopPlop;
 export declare namespace Sam {
   export type RequestOptions = Opts.RequestOptions;
 
@@ -757,5 +764,11 @@ export declare namespace Sam {
     ModelsBetaTrue as ModelsBetaTrue,
     type ModelsBetaTrueListResponse as ModelsBetaTrueListResponse,
     type ModelsBetaTrueListParams as ModelsBetaTrueListParams,
+  };
+
+  export {
+    SamPlopPlop as SamPlopPlop,
+    type SamPlopPlopCreateMessageResponse as SamPlopPlopCreateMessageResponse,
+    type SamPlopPlopCreateMessageParams as SamPlopPlopCreateMessageParams,
   };
 }
