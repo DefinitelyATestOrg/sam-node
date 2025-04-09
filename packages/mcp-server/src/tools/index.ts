@@ -24,6 +24,7 @@ import list_models from './models/list-models';
 import retrieve_beta_models from './models/retrieve-beta-models';
 import create_messages_beta_true from './messages-beta-true/create-messages-beta-true';
 import list_models_beta_true from './models-beta-true/list-models-beta-true';
+import create_message_sam_plop_plop from './sam-plop-plop/create-message-sam-plop-plop';
 
 export type HandlerFunction = (client: Sam, args: any) => Promise<any>;
 
@@ -66,6 +67,7 @@ addEndpoint(list_models);
 addEndpoint(retrieve_beta_models);
 addEndpoint(create_messages_beta_true);
 addEndpoint(list_models_beta_true);
+addEndpoint(create_message_sam_plop_plop);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

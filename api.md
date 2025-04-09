@@ -109,3 +109,13 @@ Types:
 Methods:
 
 - <code title="get /v1/models?beta=true">client.modelsBetaTrue.<a href="./src/resources/models-beta-true.ts">list</a>({ ...params }) -> ModelsBetaTrueListResponse</code>
+
+# SamPlopPlop
+
+Types:
+
+- <code><a href="./src/resources/sam-plop-plop.ts">SamPlopPlopCreateMessageResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/sam-plop-plop">client.samPlopPlop.<a href="./src/resources/sam-plop-plop.ts">createMessage</a>({ ...params }) -> SamPlopPlopCreateMessageResponse</code>
