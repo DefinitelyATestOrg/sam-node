@@ -154,8 +154,8 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
 const client = new Sam({
-  httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
   apiKey: 'My API Key',
+  httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 ```
 
