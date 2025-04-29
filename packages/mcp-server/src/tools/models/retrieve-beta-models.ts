@@ -38,8 +38,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: Sam, args: any) => {
-  const { model_id, ...body } = args;
+export const handler = (client: Sam, args: Record<string, unknown> | undefined) => {
+  const { model_id, ...body } = args as any;
   return client.models.retrieveBeta(model_id, body);
 };
 
