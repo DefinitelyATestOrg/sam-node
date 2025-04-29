@@ -47,8 +47,8 @@ export const tool: Tool = {
   },
 };
 
-export const handler = (client: Sam, args: any) => {
-  const { message_batch_id, ...body } = args;
+export const handler = (client: Sam, args: Record<string, unknown> | undefined) => {
+  const { message_batch_id, ...body } = args as any;
   return client.messages.batches.delete(message_batch_id, body);
 };
 
