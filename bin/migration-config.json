@@ -1,0 +1,6 @@
+{
+  "pkg": "sam",
+  "githubRepo": "https://github.com/DefinitelyATestOrg/sam-node",
+  "clientClass": "Sam",
+  "methods": []
+}
