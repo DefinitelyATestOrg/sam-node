@@ -15,6 +15,25 @@ export class BatchesBetaTrue extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const batchesBetaTrue =
+   *   await client.messages.batchesBetaTrue.create({
+   *     requests: [
+   *       {
+   *         custom_id: 'my-custom-id-1',
+   *         params: {
+   *           max_tokens: 1024,
+   *           messages: [
+   *             { content: 'Hello, world', role: 'user' },
+   *           ],
+   *           model: 'claude-3-7-sonnet-20250219',
+   *         },
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   create(
     params: BatchesBetaTrueCreateParams,
@@ -48,6 +67,12 @@ export class BatchesBetaTrue extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const batchesBetaTrues =
+   *   await client.messages.batchesBetaTrue.list();
+   * ```
    */
   list(
     params: BatchesBetaTrueListParams | null | undefined = {},

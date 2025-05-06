@@ -15,6 +15,15 @@ export class Complete extends APIResource {
    * Future models and features will not be compatible with Text Completions. See our
    * [migration guide](https://docs.anthropic.com/en/api/migrating-from-text-completions-to-messages)
    * for guidance in migrating from Text Completions to Messages.
+   *
+   * @example
+   * ```ts
+   * const complete = await client.complete.create({
+   *   max_tokens_to_sample: 256,
+   *   model: 'claude-2.1',
+   *   prompt: '\n\nHuman: Hello, world!\n\nAssistant:',
+   * });
+   * ```
    */
   create(params: CompleteCreateParams, options?: RequestOptions): APIPromise<CompleteCreateResponse> {
     const { 'anthropic-version': anthropicVersion, 'x-api-key': xAPIKey, ...body } = params;

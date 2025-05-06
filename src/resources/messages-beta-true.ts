@@ -14,6 +14,16 @@ export class MessagesBetaTrue extends APIResource {
    * conversations.
    *
    * Learn more about the Messages API in our [user guide](/en/docs/initial-setup)
+   *
+   * @example
+   * ```ts
+   * const messagesBetaTrue =
+   *   await client.messagesBetaTrue.create({
+   *     max_tokens: 1024,
+   *     messages: [{ content: 'Hello, world', role: 'user' }],
+   *     model: 'claude-3-7-sonnet-20250219',
+   *   });
+   * ```
    */
   create(
     params: MessagesBetaTrueCreateParams,
