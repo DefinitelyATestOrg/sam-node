@@ -14,6 +14,14 @@ export class BetaTrue extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const betaTrue =
+   *   await client.messages.batches.betaTrue.retrieve(
+   *     'message_batch_id',
+   *   );
+   * ```
    */
   retrieve(
     messageBatchID: string,
@@ -48,6 +56,14 @@ export class BetaTrue extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const betaTrue =
+   *   await client.messages.batches.betaTrue.delete(
+   *     'message_batch_id',
+   *   );
+   * ```
    */
   delete(
     messageBatchID: string,

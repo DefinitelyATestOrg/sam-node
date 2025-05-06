@@ -27,6 +27,24 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const batch = await client.messages.batches.create({
+   *   requests: [
+   *     {
+   *       custom_id: 'my-custom-id-1',
+   *       params: {
+   *         max_tokens: 1024,
+   *         messages: [
+   *           { content: 'Hello, world', role: 'user' },
+   *         ],
+   *         model: 'claude-3-7-sonnet-20250219',
+   *       },
+   *     },
+   *   ],
+   * });
+   * ```
    */
   create(params: BatchCreateParams, options?: RequestOptions): APIPromise<BatchCreateResponse> {
     const {
@@ -58,6 +76,13 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const batch = await client.messages.batches.retrieve(
+   *   'message_batch_id',
+   * );
+   * ```
    */
   retrieve(
     messageBatchID: string,
@@ -90,6 +115,11 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const batches = await client.messages.batches.list();
+   * ```
    */
   list(
     params: BatchListParams | null | undefined = {},
@@ -125,6 +155,13 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const batch = await client.messages.batches.delete(
+   *   'message_batch_id',
+   * );
+   * ```
    */
   delete(
     messageBatchID: string,
@@ -164,6 +201,13 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const response = await client.messages.batches.cancel(
+   *   'message_batch_id',
+   * );
+   * ```
    */
   cancel(
     messageBatchID: string,
@@ -203,6 +247,13 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const response = await client.messages.batches.cancelBeta(
+   *   'message_batch_id',
+   * );
+   * ```
    */
   cancelBeta(
     messageBatchID: string,
@@ -238,6 +289,13 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const response = await client.messages.batches.results(
+   *   'message_batch_id',
+   * );
+   * ```
    */
   results(
     messageBatchID: string,
@@ -280,6 +338,13 @@ export class Batches extends APIResource {
    *
    * Learn more about the Message Batches API in our
    * [user guide](/en/docs/build-with-claude/batch-processing)
+   *
+   * @example
+   * ```ts
+   * const response = await client.messages.batches.resultsBeta(
+   *   'message_batch_id',
+   * );
+   * ```
    */
   resultsBeta(
     messageBatchID: string,
