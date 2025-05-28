@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'messages.batches',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/messages/batches/{message_batch_id}/cancel',
+  operationId: 'message_batches_cancel',
 };
 
 export const tool: Tool = {

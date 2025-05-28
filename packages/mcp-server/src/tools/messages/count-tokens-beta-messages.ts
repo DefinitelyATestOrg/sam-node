@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'messages',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/messages/count_tokens?beta=true',
+  operationId: 'beta_messages_count_tokens_post',
 };
 
 export const tool: Tool = {

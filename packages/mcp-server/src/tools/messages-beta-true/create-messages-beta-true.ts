@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'messages_beta_true',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/messages?beta=true',
+  operationId: 'beta_messages_post',
 };
 
 export const tool: Tool = {

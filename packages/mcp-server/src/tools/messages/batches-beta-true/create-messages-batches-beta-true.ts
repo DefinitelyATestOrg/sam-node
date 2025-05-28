@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'messages.batches_beta_true',
   operation: 'write',
   tags: [],
+  httpMethod: 'post',
+  httpPath: '/v1/messages/batches?beta=true',
+  operationId: 'beta_message_batches_post',
 };
 
 export const tool: Tool = {
