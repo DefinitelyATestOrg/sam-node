@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   resource: 'messages.batches',
   operation: 'read',
   tags: [],
+  httpMethod: 'get',
+  httpPath: '/v1/messages/batches/{message_batch_id}/results?beta=true',
+  operationId: 'beta_message_batches_results',
 };
 
 export const tool: Tool = {
