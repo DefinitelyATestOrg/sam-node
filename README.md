@@ -27,17 +27,13 @@ import Sam from 'sam';
 
 const client = new Sam();
 
-async function main() {
-  const message = await client.messages.create({
-    max_tokens: 1024,
-    messages: [{ content: 'Hello, world', role: 'user' }],
-    model: 'claude-3-7-sonnet-20250219',
-  });
+const message = await client.messages.create({
+  max_tokens: 1024,
+  messages: [{ content: 'Hello, world', role: 'user' }],
+  model: 'claude-3-7-sonnet-20250219',
+});
 
-  console.log(message.id);
-}
-
-main();
+console.log(message.id);
 ```
 
 ### Request & Response types
@@ -50,16 +46,12 @@ import Sam from 'sam';
 
 const client = new Sam();
 
-async function main() {
-  const params: Sam.MessageCreateParams = {
-    max_tokens: 1024,
-    messages: [{ content: 'Hello, world', role: 'user' }],
-    model: 'claude-3-7-sonnet-20250219',
-  };
-  const message: Sam.MessageCreateResponse = await client.messages.create(params);
-}
-
-main();
+const params: Sam.MessageCreateParams = {
+  max_tokens: 1024,
+  messages: [{ content: 'Hello, world', role: 'user' }],
+  model: 'claude-3-7-sonnet-20250219',
+};
+const message: Sam.MessageCreateResponse = await client.messages.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -72,25 +64,21 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const message = await client.messages
-    .create({
-      max_tokens: 1024,
-      messages: [{ content: 'Hello, world', role: 'user' }],
-      model: 'claude-3-7-sonnet-20250219',
-    })
-    .catch(async (err) => {
-      if (err instanceof Sam.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const message = await client.messages
+  .create({
+    max_tokens: 1024,
+    messages: [{ content: 'Hello, world', role: 'user' }],
+    model: 'claude-3-7-sonnet-20250219',
+  })
+  .catch(async (err) => {
+    if (err instanceof Sam.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
