@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Sam from 'sam';
-import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import { Metadata, Endpoint, HandlerFunction } from './types';
+
+export { Metadata, Endpoint, HandlerFunction };
 
 import create_messages from './messages/create-messages';
 import count_tokens_messages from './messages/count-tokens-messages';
@@ -24,24 +25,6 @@ import list_models from './models/list-models';
 import retrieve_beta_models from './models/retrieve-beta-models';
 import create_messages_beta_true from './messages-beta-true/create-messages-beta-true';
 import list_models_beta_true from './models-beta-true/list-models-beta-true';
-
-export type HandlerFunction = (client: Sam, args: Record<string, unknown> | undefined) => Promise<any>;
-
-export type Metadata = {
-  resource: string;
-  operation: 'read' | 'write';
-  tags: string[];
-
-  httpMethod?: string;
-  httpPath?: string;
-  operationId?: string;
-};
-
-export type Endpoint = {
-  metadata: Metadata;
-  tool: Tool;
-  handler: HandlerFunction;
-};
 
 export const endpoints: Endpoint[] = [];
 
