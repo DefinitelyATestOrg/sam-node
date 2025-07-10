@@ -1,5 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { maybeFilter } from 'sam-mcp/filtering';
 import { asTextContentResult } from 'sam-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'create_complete',
   description:
-    '[Legacy] Create a Text Completion.\n\nThe Text Completions API is a legacy API. We recommend using the [Messages API](https://docs.anthropic.com/en/api/messages) going forward.\n\nFuture models and features will not be compatible with Text Completions. See our [migration guide](https://docs.anthropic.com/en/api/migrating-from-text-completions-to-messages) for guidance in migrating from Text Completions to Messages.',
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\n[Legacy] Create a Text Completion.\n\nThe Text Completions API is a legacy API. We recommend using the [Messages API](https://docs.anthropic.com/en/api/messages) going forward.\n\nFuture models and features will not be compatible with Text Completions. See our [migration guide](https://docs.anthropic.com/en/api/migrating-from-text-completions-to-messages) for guidance in migrating from Text Completions to Messages.\n\n# Response Schema\n```json\n{\n  type: 'object',\n  title: 'CompletionResponse',\n  properties: {\n    id: {\n      type: 'string',\n      title: 'Id',\n      description: 'Unique object identifier.\\n\\nThe format and length of IDs may change over time.'\n    },\n    completion: {\n      type: 'string',\n      title: 'Completion',\n      description: 'The resulting completion up to and excluding the stop sequences.'\n    },\n    model: {\n      type: 'string',\n      title: 'Model',\n      description: 'The model that handled the request.'\n    },\n    stop_reason: {\n      type: 'string',\n      title: 'Stop Reason',\n      description: 'The reason that we stopped.\\n\\nThis may be one the following values:\\n* `\"stop_sequence\"`: we reached a stop sequence — either provided by you via the `stop_sequences` parameter, or a stop sequence built into the model\\n* `\"max_tokens\"`: we exceeded `max_tokens_to_sample` or the model\\'s maximum'\n    },\n    type: {\n      type: 'string',\n      title: 'Type',\n      description: 'Object type.\\n\\nFor Text Completions, this is always `\"completion\"`.',\n      enum: [        'completion'\n      ]\n    }\n  },\n  required: [    'id',\n    'completion',\n    'model',\n    'stop_reason',\n    'type'\n  ]\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -99,13 +100,19 @@ export const tool: Tool = {
         description:
           "Your unique API key for authentication.\n\nThis key is required in the header of all API requests, to authenticate your account and access Anthropic's services. Get your API key through the [Console](https://console.anthropic.com/settings/keys). Each key is scoped to a Workspace.",
       },
+      jq_filter: {
+        type: 'string',
+        title: 'jq Filter',
+        description:
+          'A jq filter to apply to the response to include certain fields. Consult the output schema in the tool description to see the fields that are available.\n\nFor example: to include only the `name` field in every object of a results array, you can provide ".results[].name".\n\nFor more information, see the [jq documentation](https://jqlang.org/manual/).',
+      },
     },
   },
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.complete.create(body));
+  return asTextContentResult(await maybeFilter(args, await client.complete.create(body)));
 };
 
 export default { metadata, tool, handler };
