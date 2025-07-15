@@ -1,10 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { maybeFilter } from 'sam-mcp/filtering';
-import { asTextContentResult } from 'sam-mcp/tools/types';
+import { Metadata, asTextContentResult } from 'sam-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../';
 import Sam from 'sam';
 
 export const metadata: Metadata = {
