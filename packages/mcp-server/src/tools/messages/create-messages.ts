@@ -915,7 +915,6 @@ export const tool: Tool = {
                                 title: 'Enabled',
                               },
                             },
-                            required: [],
                           },
                           context: {
                             type: 'string',
@@ -997,7 +996,6 @@ export const tool: Tool = {
               'An external identifier for the user who is associated with the request.\n\nThis should be a uuid, hash value, or other opaque identifier. Anthropic may use this id to help detect abuse. Do not include any identifying information such as name, email address, or phone number.',
           },
         },
-        required: [],
       },
       stop_sequences: {
         type: 'array',
@@ -1460,6 +1458,7 @@ export const tool: Tool = {
           "Your unique API key for authentication.\n\nThis key is required in the header of all API requests, to authenticate your account and access Anthropic's services. Get your API key through the [Console](https://console.anthropic.com/settings/keys). Each key is scoped to a Workspace.",
       },
     },
+    required: ['max_tokens', 'messages', 'model'],
   },
 };
 

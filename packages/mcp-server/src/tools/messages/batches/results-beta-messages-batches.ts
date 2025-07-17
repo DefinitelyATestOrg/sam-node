@@ -48,6 +48,7 @@ export const tool: Tool = {
           "Your unique API key for authentication.\n\nThis key is required in the header of all API requests, to authenticate your account and access Anthropic's services. Get your API key through the [Console](https://console.anthropic.com/settings/keys). Each key is scoped to a Workspace.",
       },
     },
+    required: ['message_batch_id'],
   },
 };
 
