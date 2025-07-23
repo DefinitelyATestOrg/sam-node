@@ -57,6 +57,7 @@ export const tool: Tool = {
     },
     required: ['message_batch_id'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {

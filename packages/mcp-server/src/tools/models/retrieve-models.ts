@@ -48,6 +48,9 @@ export const tool: Tool = {
     },
     required: ['model_id'],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {

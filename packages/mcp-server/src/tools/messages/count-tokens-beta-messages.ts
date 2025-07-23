@@ -1567,6 +1567,7 @@ export const tool: Tool = {
     },
     required: ['messages', 'model'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {
