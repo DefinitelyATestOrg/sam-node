@@ -107,6 +107,7 @@ export const tool: Tool = {
     },
     required: ['max_tokens_to_sample', 'model', 'prompt'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {

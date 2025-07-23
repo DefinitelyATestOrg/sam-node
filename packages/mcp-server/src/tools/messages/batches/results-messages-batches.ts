@@ -50,6 +50,9 @@ export const tool: Tool = {
     },
     required: ['message_batch_id'],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {

@@ -1489,6 +1489,7 @@ export const tool: Tool = {
     },
     required: ['requests'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {

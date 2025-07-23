@@ -1619,6 +1619,7 @@ export const tool: Tool = {
     },
     required: ['max_tokens', 'messages', 'model'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {
