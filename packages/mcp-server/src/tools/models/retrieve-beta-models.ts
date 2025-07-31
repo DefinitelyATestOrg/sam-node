@@ -54,8 +54,8 @@ export const tool: Tool = {
 };
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {
-  const { model_id, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(args, await client.models.retrieveBeta(model_id, body)));
+  const { model_id, jq_filter, ...body } = args as any;
+  return asTextContentResult(await maybeFilter(jq_filter, await client.models.retrieveBeta(model_id, body)));
 };
 
 export default { metadata, tool, handler };
