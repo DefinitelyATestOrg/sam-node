@@ -206,7 +206,7 @@ describe('resource batches', () => {
     ).rejects.toThrow(Sam.NotFoundError);
   });
 
-  // Prism doesn't support JSONL responses yet
+  // Prism doesn't support application/x-jsonl responses
   test.skip('results', async () => {
     const responsePromise = client.messages.batches.results('message_batch_id');
     const rawResponse = await responsePromise.asResponse();
@@ -218,7 +218,7 @@ describe('resource batches', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support JSONL responses yet
+  // Prism doesn't support application/x-jsonl responses
   test.skip('results: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -230,7 +230,7 @@ describe('resource batches', () => {
     ).rejects.toThrow(Sam.NotFoundError);
   });
 
-  // Prism doesn't support JSONL responses yet
+  // Prism doesn't support application/x-jsonl responses
   test.skip('resultsBeta', async () => {
     const responsePromise = client.messages.batches.resultsBeta('message_batch_id');
     const rawResponse = await responsePromise.asResponse();
@@ -242,7 +242,7 @@ describe('resource batches', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support JSONL responses yet
+  // Prism doesn't support application/x-jsonl responses
   test.skip('resultsBeta: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
