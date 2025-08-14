@@ -296,6 +296,7 @@ export const tool: Tool = {
                                     input: {
                                       type: 'object',
                                       title: 'Input',
+                                      additionalProperties: true,
                                     },
                                     name: {
                                       type: 'string',
@@ -1350,6 +1351,7 @@ export const tool: Tool = {
                               properties: {
                                 type: 'object',
                                 title: 'Properties',
+                                additionalProperties: true,
                               },
                             },
                             required: ['type'],
