@@ -145,13 +145,13 @@ over time, you can manually enable or disable certain capabilities:
 
 Launching the client with `--transport=http` launches the server as a remote server using Streamable HTTP transport. The `--port` setting can choose the port it will run on, and the `--socket` setting allows it to run on a Unix socket.
 
-A configuration JSON for this server might look like this:
+A configuration JSON for this server might look like this, assuming the server is hosted at `http://localhost:3000`:
 
 ```json
 {
   "mcpServers": {
     "sam_api": {
-      "url": "http://localhost:3000" # or wherever the server is hosted
+      "url": "http://localhost:3000"
     }
   }
 }
