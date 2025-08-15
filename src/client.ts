@@ -749,6 +749,7 @@ export class Sam {
   modelsBetaTrue: API.ModelsBetaTrue = new API.ModelsBetaTrue(this);
   samPlopPlop: API.SamPlopPlop = new API.SamPlopPlop(this);
 }
+
 Sam.Store = Store;
 Sam.User = User;
 Sam.Messages = Messages;
@@ -757,6 +758,7 @@ Sam.Models = Models;
 Sam.MessagesBetaTrue = MessagesBetaTrue;
 Sam.ModelsBetaTrue = ModelsBetaTrue;
 Sam.SamPlopPlop = SamPlopPlop;
+
 export declare namespace Sam {
   export type RequestOptions = Opts.RequestOptions;
 
