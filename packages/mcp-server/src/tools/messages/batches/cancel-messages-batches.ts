@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from 'sam-mcp/filtering';
-import { Metadata, asTextContentResult } from 'sam-mcp/tools/types';
+import { isJqError, maybeFilter } from 'sam-mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from 'sam-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Sam from 'sam';
@@ -62,9 +62,16 @@ export const tool: Tool = {
 
 export const handler = async (client: Sam, args: Record<string, unknown> | undefined) => {
   const { message_batch_id, jq_filter, ...body } = args as any;
-  return asTextContentResult(
-    await maybeFilter(jq_filter, await client.messages.batches.cancel(message_batch_id, body)),
-  );
+  try {
+    return asTextContentResult(
+      await maybeFilter(jq_filter, await client.messages.batches.cancel(message_batch_id, body)),
+    );
+  } catch (error) {
+    if (isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };
