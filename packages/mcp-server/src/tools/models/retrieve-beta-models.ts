@@ -60,7 +60,7 @@ export const handler = async (client: Sam, args: Record<string, unknown> | undef
       await maybeFilter(jq_filter, await client.models.retrieveBeta(model_id, body)),
     );
   } catch (error) {
-    if (isJqError(error)) {
+    if (error instanceof Sam.APIError || isJqError(error)) {
       return asErrorResult(error.message);
     }
     throw error;

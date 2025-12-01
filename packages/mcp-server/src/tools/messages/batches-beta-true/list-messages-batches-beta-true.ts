@@ -81,7 +81,7 @@ export const handler = async (client: Sam, args: Record<string, unknown> | undef
       await maybeFilter(jq_filter, await client.messages.batchesBetaTrue.list(body)),
     );
   } catch (error) {
-    if (isJqError(error)) {
+    if (error instanceof Sam.APIError || isJqError(error)) {
       return asErrorResult(error.message);
     }
     throw error;
