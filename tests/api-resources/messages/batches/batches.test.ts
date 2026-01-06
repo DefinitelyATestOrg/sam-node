@@ -106,7 +106,11 @@ describe('resource batches', () => {
     await expect(
       client.messages.batches.retrieve(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);
@@ -156,7 +160,11 @@ describe('resource batches', () => {
     await expect(
       client.messages.batches.delete(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);
@@ -178,7 +186,11 @@ describe('resource batches', () => {
     await expect(
       client.messages.batches.cancel(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);
@@ -200,7 +212,11 @@ describe('resource batches', () => {
     await expect(
       client.messages.batches.cancelBeta(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);
@@ -224,7 +240,11 @@ describe('resource batches', () => {
     await expect(
       client.messages.batches.results(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);
@@ -248,7 +268,11 @@ describe('resource batches', () => {
     await expect(
       client.messages.batches.resultsBeta(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);

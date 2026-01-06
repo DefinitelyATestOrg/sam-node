@@ -120,7 +120,11 @@ const client = new Sam({
 });
 
 // Or, configure per-request:
-await client.messages.create({ max_tokens: 1024, messages: [{ content: 'Hello, world', role: 'user' }], model: 'claude-3-7-sonnet-20250219' }, {
+await client.messages.create({
+  max_tokens: 1024,
+  messages: [{ content: 'Hello, world', role: 'user' }],
+  model: 'claude-3-7-sonnet-20250219',
+}, {
   maxRetries: 5,
 });
 ```
@@ -138,7 +142,11 @@ const client = new Sam({
 });
 
 // Override per-request:
-await client.messages.create({ max_tokens: 1024, messages: [{ content: 'Hello, world', role: 'user' }], model: 'claude-3-7-sonnet-20250219' }, {
+await client.messages.create({
+  max_tokens: 1024,
+  messages: [{ content: 'Hello, world', role: 'user' }],
+  model: 'claude-3-7-sonnet-20250219',
+}, {
   timeout: 5 * 1000,
 });
 ```

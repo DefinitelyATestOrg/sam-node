@@ -24,7 +24,11 @@ describe('resource betaTrue', () => {
     await expect(
       client.messages.batches.betaTrue.retrieve(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);
@@ -46,7 +50,11 @@ describe('resource betaTrue', () => {
     await expect(
       client.messages.batches.betaTrue.delete(
         'message_batch_id',
-        { 'anthropic-beta': ['string'], 'anthropic-version': 'anthropic-version', 'x-api-key': 'x-api-key' },
+        {
+          'anthropic-beta': ['string'],
+          'anthropic-version': 'anthropic-version',
+          'x-api-key': 'x-api-key',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Sam.NotFoundError);
