@@ -2,7 +2,7 @@
 
 import { McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult } from './types';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import { readEnv, readEnvOrError } from './server';
+import { readEnv, requireValue } from './server';
 import { WorkerInput, WorkerOutput } from './code-tool-types';
 import { Sam } from 'sam';
 
@@ -75,7 +75,10 @@ export function codeTool(): McpTool {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          API_KEY: readEnvOrError('API_KEY') ?? client.apiKey ?? undefined,
+          API_KEY: requireValue(
+            readEnv('API_KEY') ?? client.apiKey,
+            'set API_KEY environment variable or provide apiKey client option',
+          ),
           SAM_BASE_URL: readEnv('SAM_BASE_URL') ?? client.baseURL ?? undefined,
         }),
       },
