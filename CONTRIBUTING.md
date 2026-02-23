@@ -60,7 +60,7 @@ $ yarn link sam
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global sam
+$ pnpm link --global sam
 ```
 
 ## Running tests
